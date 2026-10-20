@@ -14,10 +14,11 @@
   --color-bone: #d9ccb4;
   --color-parchment: #a69576;
 
-  --font-display: var(--font-cormorant), "Cormorant", Garamond, Georgia, serif;
+  --font-display: var(--font-fell), "IM FELL English", var(--font-cormorant), Georgia, serif;
+  --font-body: var(--font-cormorant), "Cormorant", Garamond, Georgia, serif;
   --font-label: var(--font-cinzel), "Trajan Pro", Georgia, serif;
   --font-blackletter: var(--font-fraktur), "Old English Text MT", serif;
-  --font-sans: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-body);
 }
 
 html {
@@ -33,9 +34,10 @@ body {
 body {
   background: var(--color-void);
   color: var(--color-bone);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 1.0625rem;
 }
+
 
 ::selection {
   background: var(--color-blood);

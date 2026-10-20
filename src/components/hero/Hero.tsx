@@ -56,7 +56,7 @@ export function Hero() {
             text="Halloween"
             mode="intro"
             intensity={1.4}
-            className="block font-display text-[21vw] font-light italic text-bone md:text-[11.5vw]"
+            className="block font-display text-[19vw] italic text-bone md:text-[10.5vw]"
           />
           <ChaosText
             text="Party"

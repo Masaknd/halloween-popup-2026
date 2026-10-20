@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cinzel, Cormorant_Garamond, UnifrakturMaguntia } from "next/font/google";
+import { Cinzel, Cormorant_Garamond, IM_Fell_English, UnifrakturMaguntia } from "next/font/google";
 import { OrganicDefs } from "@/components/ui/OrganicDefs";
 import "./globals.css";
 
@@ -11,6 +11,8 @@ const cormorant = Cormorant_Garamond({
 });
 const cinzel = Cinzel({ variable: "--font-cinzel", weight: ["400", "600"], subsets: ["latin"] });
 const fraktur = UnifrakturMaguntia({ variable: "--font-fraktur", weight: "400", subsets: ["latin"] });
+// Headings and titles: IM Fell English (Igino Marini, SIL OFL), a revival of 17th-century Fell types
+const fell = IM_Fell_English({ variable: "--font-fell", weight: "400", style: ["normal", "italic"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Halloween Party — Oct 31, 2026 · 100 Queen St W, Toronto",
@@ -29,7 +31,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${cinzel.variable} ${fraktur.variable} antialiased`}>
+    <html lang="en" className={`${fell.variable} ${cormorant.variable} ${cinzel.variable} ${fraktur.variable} antialiased`}>
       <body>
         <OrganicDefs />
         {children}
