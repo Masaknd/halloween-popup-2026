@@ -57,9 +57,10 @@ function SceneContents({ scrollRef }: SceneProps) {
 
   return (
     <>
-      <ambientLight intensity={0.9} />
-      <directionalLight position={[-5, 6, 5]} intensity={2.4} color="#ffe2bd" />
-      <directionalLight position={[5, 1, -4]} intensity={1.2} color="#f07d1a" />
+      <ambientLight intensity={0.55} color="#8a7a9a" />
+      <directionalLight position={[-5, 6, 5]} intensity={1.6} color="#c9c0e0" />
+      <directionalLight position={[4, 1, 4]} intensity={1.4} color="#d6a45c" />
+      <directionalLight position={[5, 1, -4]} intensity={1.4} color="#8c1d27" />
       <CameraRig scrollRef={scrollRef} />
       <group ref={group} scale={fit} position={[0, LOOK_AT_Y - 2.5 * fit, 0]}>
         <group

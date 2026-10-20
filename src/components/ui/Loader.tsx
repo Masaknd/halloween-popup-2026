@@ -43,16 +43,16 @@ export function Loader() {
   if (isGone) return null;
 
   return (
-    <div ref={rootRef} className="ink-wash fixed inset-0 z-[80] flex items-center justify-center text-bone" role="status">
+    <div ref={rootRef} className="fixed inset-0 z-[80] flex items-center justify-center bg-void text-bone" role="status">
       <div className="loader-content flex flex-col items-center gap-6">
         <div className="w-40 sm:w-56" aria-hidden>
           <Lottie src={batAnimation} loop autoplay className="aspect-[5/3] w-full" />
         </div>
-        <p className="font-display text-6xl italic sm:text-8xl">
+        <p className="font-display text-6xl font-light italic sm:text-8xl">
           <span ref={countRef}>000</span>
-          <span className="text-pumpkin">%</span>
+          <span className="text-blood">%</span>
         </p>
-        <p className="text-xs uppercase tracking-[0.4em] text-bone/60">Summoning the night</p>
+        <p className="label flicker text-candle/70">Summoning the night</p>
       </div>
     </div>
   );

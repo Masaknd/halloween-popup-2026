@@ -38,6 +38,3 @@ export const FULL_ADDRESS = `${EVENT.venue.street}, ${EVENT.venue.area}, ${EVENT
 export const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(FULL_ADDRESS)}`;
 
 export const MAPS_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent(FULL_ADDRESS)}&output=embed`;
-
-/** Replace 0 with a slashed zero, matching the poster's monospace numerals. */
-export const slashZero = (text: string): string => text.replace(/0/g, "Ø");

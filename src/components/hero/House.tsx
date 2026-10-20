@@ -5,16 +5,16 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { createShingleTexture, createWoodcutTexture } from "./textures";
 
-// Orange-on-black engraving, like the printed spire in the witch collage
+// Gothic engraving: plum-ash clapboard, soot shingles veined with wine, candlelit windows
 const COLORS = {
-  wall: "#e8761c",
-  wallInk: "#1b1a18",
-  roof: "#2d2c29",
-  roofInk: "#c9621a",
-  ink: "#1b1a18",
-  shutter: "#8f3d12",
-  glowDim: new THREE.Color("#9a4a10"),
-  glowHot: new THREE.Color("#ffd58a"),
+  wall: "#5a4250",
+  wallInk: "#120b10",
+  roof: "#1a1217",
+  roofInk: "#6b2433",
+  ink: "#0b090a",
+  shutter: "#561220",
+  glowDim: new THREE.Color("#6a2410"),
+  glowHot: new THREE.Color("#ffcf87"),
 } as const;
 
 interface Materials {

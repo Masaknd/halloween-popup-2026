@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { getCountdown, pad2 } from "./countdown";
-import { EVENT, slashZero } from "./event";
+import { EVENT } from "./event";
 
 const start = Date.parse(EVENT.startsAt);
 const end = Date.parse(EVENT.endsAt);
@@ -52,8 +52,8 @@ describe("event data", () => {
     expect((end - start) / 3_600_000).toBe(8);
   });
 
-  test("pad2 and slashZero format numerals like the poster", () => {
+  test("pad2 zero-pads single digits", () => {
     expect(pad2(7)).toBe("07");
-    expect(slashZero("22:00")).toBe("22:ØØ");
+    expect(pad2(12)).toBe("12");
   });
 });

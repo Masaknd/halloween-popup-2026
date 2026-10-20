@@ -1,24 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  /* Palette sampled from the retro witch collage */
-  --color-bone: #ebe0c8;
-  --color-parchment: #dccba6;
-  --color-ink: #1b1a18;
-  --color-charcoal: #2d2c29;
-  --color-pumpkin: #f07d1a;
-  --color-ember: #f59a3c;
-  --color-glow: #ffc56b;
-  --color-rust: #8f3d12;
+  /* Gothic palette: soot and plum shadows, wine and ember accents, candle highlights */
+  --color-void: #0b090a;
+  --color-soot: #141015;
+  --color-ash: #231c23;
+  --color-plum: #3b2140;
+  --color-amethyst: #7a5479;
+  --color-wine: #561220;
+  --color-blood: #8c1d27;
+  --color-ember: #a5531f;
+  --color-candle: #d6a45c;
+  --color-bone: #d9ccb4;
+  --color-parchment: #a69576;
 
-  --font-display: var(--font-bodoni), "Didot", "Bodoni 72", Georgia, serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
-  --font-type: var(--font-elite), var(--font-jetbrains), monospace;
+  --font-display: var(--font-cormorant), "Cormorant", Garamond, Georgia, serif;
+  --font-label: var(--font-cinzel), "Trajan Pro", Georgia, serif;
+  --font-blackletter: var(--font-fraktur), "Old English Text MT", serif;
+  --font-sans: var(--font-cormorant), Georgia, serif;
 }
 
 html {
-  background: var(--color-ink);
-  scrollbar-color: var(--color-pumpkin) var(--color-ink);
+  background: var(--color-void);
+  scrollbar-color: var(--color-blood) var(--color-void);
 }
 
 html,
@@ -27,15 +31,14 @@ body {
 }
 
 body {
-  background: var(--color-ink);
+  background: var(--color-void);
   color: var(--color-bone);
-  font-family: var(--font-mono);
-  font-feature-settings: "zero" 1;
-  overflow-x: clip;
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
 }
 
 ::selection {
-  background: var(--color-pumpkin);
+  background: var(--color-blood);
   color: var(--color-bone);
 }
 
@@ -51,21 +54,37 @@ html.lenis body {
   overflow: clip;
 }
 
-/* Custom cursor hides the native one only on fine pointers */
 html.has-custom-cursor,
 html.has-custom-cursor * {
   cursor: none !important;
 }
 
-/* Film grain over everything, like the risograph references */
+/* Small engraved capitals */
+.label {
+  font-family: var(--font-label);
+  font-size: 0.68rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+/* Film grain + vignette over everything */
 .grain {
   position: fixed;
   inset: 0;
   z-index: 60;
   pointer-events: none;
-  opacity: 0.16;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.4 -0.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.6 -0.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation: grain 0.9s steps(6) infinite;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 59;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgb(0 0 0 / 0.55) 100%);
 }
 
 @keyframes grain {
@@ -77,36 +96,24 @@ html.has-custom-cursor * {
   100% { background-position: 0 0; }
 }
 
-/* Newsprint texture for the collage */
-.newsprint {
-  background-color: var(--color-parchment);
+/* Aged paper, darkened by candle smoke */
+.old-paper {
+  background-color: #2a2126;
   background-image:
-    radial-gradient(ellipse at 20% 10%, rgb(143 61 18 / 0.18), transparent 55%),
-    radial-gradient(ellipse at 80% 90%, rgb(27 26 24 / 0.22), transparent 60%),
-    repeating-linear-gradient(0deg, rgb(27 26 24 / 0.07) 0 1px, transparent 1px 8px);
+    radial-gradient(ellipse at 25% 15%, rgb(214 164 92 / 0.12), transparent 55%),
+    radial-gradient(ellipse at 80% 90%, rgb(86 18 32 / 0.35), transparent 60%),
+    radial-gradient(ellipse at 50% 50%, transparent 40%, rgb(0 0 0 / 0.45) 100%);
 }
 
-/* Charcoal print texture, like the witch's ink-washed dress */
-.ink-wash {
-  background-color: var(--color-charcoal);
-  background-image:
-    radial-gradient(ellipse at 30% 20%, rgb(255 255 255 / 0.05), transparent 50%),
-    radial-gradient(ellipse at 70% 80%, rgb(0 0 0 / 0.35), transparent 60%);
+/* Organic frames — clip paths are defined once in <OrganicDefs /> */
+.arch {
+  clip-path: url(#clip-arch);
 }
-
-/* Torn paper edge for clippings */
-.torn {
-  clip-path: polygon(0% 2%, 6% 0%, 14% 1.5%, 22% 0%, 31% 1%, 40% 0%, 52% 1.8%, 63% 0.3%, 72% 1.5%, 84% 0%, 93% 1.2%, 100% 0%, 99% 30%, 100% 62%, 99.3% 100%, 88% 98.6%, 76% 100%, 64% 98.8%, 51% 100%, 39% 98.5%, 27% 100%, 15% 98.7%, 5% 100%, 0% 99%, 0.8% 66%, 0% 33%);
+.tombstone {
+  clip-path: url(#clip-tomb);
 }
-
-.serif-italic {
-  font-family: var(--font-display);
-  font-style: italic;
-}
-
-.halftone {
-  background-image: radial-gradient(circle, rgb(27 26 24 / 0.55) 1px, transparent 1.5px);
-  background-size: 6px 6px;
+.blot {
+  clip-path: url(#clip-blot);
 }
 
 .vertical-text {
@@ -115,17 +122,32 @@ html.has-custom-cursor * {
 }
 
 .digit-in {
-  animation: digit-in 0.45s cubic-bezier(0.2, 0.9, 0.2, 1);
+  animation: digit-in 0.6s cubic-bezier(0.2, 0.9, 0.2, 1);
 }
 
 @keyframes digit-in {
-  from { transform: translateY(-30%) rotateX(70deg); }
-  to { transform: none; }
+  from { transform: translateY(-25%); filter: blur(6px); }
+  to { transform: none; filter: none; }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  41% { opacity: 1; }
+  42% { opacity: 0.55; }
+  43% { opacity: 0.95; }
+  67% { opacity: 0.85; }
+  68% { opacity: 0.4; }
+  70% { opacity: 1; }
+}
+
+.flicker {
+  animation: flicker 4.5s infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .grain,
-  .digit-in {
+  .digit-in,
+  .flicker {
     animation: none;
   }
 }

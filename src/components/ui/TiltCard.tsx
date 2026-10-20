@@ -7,7 +7,16 @@ import { useGSAP } from "@gsap/react";
 const MAX_TILT_DEG = 12;
 
 /** 3D card that tilts toward the pointer, with a moving glare highlight. */
-export function TiltCard({ children, className = "" }: { children: ReactNode; className?: string }) {
+export function TiltCard({
+  children,
+  className = "",
+  glareClassName = "",
+}: {
+  children: ReactNode;
+  className?: string;
+  /** e.g. a clip-path class so the glare follows an organic frame */
+  glareClassName?: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -25,7 +34,7 @@ export function TiltCard({ children, className = "" }: { children: ReactNode; cl
         rotateY(x * MAX_TILT_DEG * 2);
         rotateX(-y * MAX_TILT_DEG * 2);
         if (glare) {
-          glare.style.background = `radial-gradient(circle at ${(x + 0.5) * 100}% ${(y + 0.5) * 100}%, rgb(255 197 107 / 0.3), transparent 55%)`;
+          glare.style.background = `radial-gradient(circle at ${(x + 0.5) * 100}% ${(y + 0.5) * 100}%, rgb(214 164 92 / 0.22), transparent 55%)`;
         }
       };
       const onLeave = () => {
@@ -48,7 +57,7 @@ export function TiltCard({ children, className = "" }: { children: ReactNode; cl
     <div className="[perspective:900px]">
       <div ref={ref} className={`relative [transform-style:preserve-3d] will-change-transform ${className}`}>
         {children}
-        <div aria-hidden className="tilt-glare pointer-events-none absolute inset-0 rounded-[inherit]" />
+        <div aria-hidden className={`tilt-glare pointer-events-none absolute inset-0 rounded-[inherit] ${glareClassName}`} />
       </div>
     </div>
   );

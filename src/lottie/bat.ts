@@ -80,7 +80,7 @@ export const batAnimation = {
                 ],
               },
             },
-            { ty: "fl", nm: "fill", c: { a: 0, k: [0.941, 0.49, 0.102, 1] }, o: { a: 0, k: 100 }, r: 1 },
+            { ty: "fl", nm: "fill", c: { a: 0, k: [0.549, 0.114, 0.153, 1] }, o: { a: 0, k: 100 }, r: 1 },
             {
               ty: "tr",
               p: { a: 0, k: [0, 0] },

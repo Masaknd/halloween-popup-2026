@@ -1,44 +1,51 @@
+import { ChaosText } from "@/components/ui/ChaosText";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { OrnamentRule } from "@/components/ui/Ornaments";
 import { Reveal } from "@/components/ui/Reveal";
-import { TiltCard } from "@/components/ui/TiltCard";
 import { EVENT, MAPS_EMBED_URL, MAPS_URL } from "@/lib/event";
 
 export function Location() {
   return (
-    <section id="location" className="bg-pumpkin px-4 py-20 text-ink sm:px-6 md:py-28 lg:px-10">
-      <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-        <Reveal>
-          <p className="mb-4 text-xs uppercase tracking-[0.4em]">Find the house</p>
-          <h2 className="font-display text-6xl italic leading-[0.9] sm:text-8xl xl:text-[8rem]">
-            {EVENT.venue.street}
+    <section id="location" className="relative overflow-hidden bg-ash px-4 py-24 sm:px-6 md:py-32 lg:px-10">
+      <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-16">
+        <div>
+          <p className="label mb-4 text-candle/70">Find the house</p>
+          <h2 className="font-display font-light leading-[0.88]">
+            <ChaosText text="1 Massey" className="block text-6xl italic sm:text-8xl xl:text-[8rem]" />
+            <ChaosText text="Square" className="block pl-[12%] text-6xl sm:text-8xl xl:text-[8rem]" />
           </h2>
-          <p className="mt-6 text-sm uppercase tracking-[0.25em] sm:text-lg">
-            {EVENT.venue.area}, {EVENT.venue.city}
-          </p>
-          <div className="mt-10">
-            <Magnetic>
-              <a
-                href={MAPS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block bg-ink px-8 py-4 text-sm font-bold uppercase tracking-[0.25em] text-bone transition-colors hover:bg-bone hover:text-ink"
-                data-cursor="Map"
-              >
-                Open in maps ↗
-              </a>
-            </Magnetic>
-          </div>
-        </Reveal>
+          <Reveal>
+            <OrnamentRule className="my-6 w-64 text-candle/40" />
+            <p className="text-2xl italic text-bone/75">
+              {EVENT.venue.area}, {EVENT.venue.city}
+            </p>
+            <div className="mt-10">
+              <Magnetic>
+                <a
+                  href={MAPS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="label block border border-bone/60 px-7 py-4 text-bone transition-colors hover:border-blood hover:bg-blood"
+                  data-cursor="Map"
+                >
+                  Open in maps ↗
+                </a>
+              </Magnetic>
+            </div>
+          </Reveal>
+        </div>
 
-        <TiltCard className="border-4 border-ink bg-ink shadow-[12px_12px_0_0_var(--color-ink)]">
+        {/* the map seen through a slowly breathing ink blot */}
+        <div className="relative mx-auto aspect-square w-full max-w-xl">
+          <div aria-hidden className="absolute inset-[6%] rounded-full bg-blood/30 blur-3xl" />
           <iframe
             title={`Map of ${EVENT.venue.street}`}
             src={MAPS_EMBED_URL}
-            className="aspect-[4/3] w-full grayscale contrast-125 sepia-[0.5]"
+            className="blot relative size-full grayscale invert-[0.88] sepia-[0.4] hue-rotate-[230deg] contrast-[1.1]"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
-        </TiltCard>
+        </div>
       </div>
     </section>
   );

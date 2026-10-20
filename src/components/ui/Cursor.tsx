@@ -50,11 +50,11 @@ export function Cursor() {
   const isActive = label !== null;
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[70]">
-      <div ref={dotRef} className="absolute left-0 top-0 -ml-1 -mt-1 size-2 rounded-full bg-pumpkin" />
+      <div ref={dotRef} className="absolute left-0 top-0 -ml-1 -mt-1 size-2 rounded-full bg-candle shadow-[0_0_14px_4px_rgb(214_164_92/0.55)]" />
       <div ref={ringRef} className="absolute left-0 top-0">
         <div
-          className={`flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-pumpkin text-[10px] font-bold uppercase tracking-widest text-bone transition-all duration-300 ${
-            isActive ? "size-24 bg-pumpkin/90" : "size-9 bg-transparent"
+          className={`flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-candle/50 font-label text-[9px] uppercase tracking-[0.2em] text-bone backdrop-blur-[2px] transition-all duration-500 ${
+            isActive ? "size-24 border-blood bg-wine/70" : "size-9 bg-transparent"
           }`}
         >
           {isActive && label ? <span className="px-2 text-center leading-tight">{label}</span> : null}

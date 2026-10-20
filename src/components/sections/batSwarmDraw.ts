@@ -13,7 +13,7 @@ export interface SwarmBat {
   vy: number;
 }
 
-export const COLORS = { ink: "#1b1a18", pumpkin: "#f07d1a" } as const;
+export const COLORS = { void: "#0b090a", blood: "#8c1d27", ember: "#a5531f", wine: "#561220" } as const;
 
 export function createSwarm(count: number): SwarmBat[] {
   const rand = createRandom(31);
@@ -60,7 +60,12 @@ export function drawBat(ctx: CanvasRenderingContext2D, x: number, y: number, siz
 
 /** Ragged orange rising from the bottom. */
 export function drawHorizon(ctx: CanvasRenderingContext2D, width: number, height: number, horizon: number, time: number): void {
-  ctx.fillStyle = COLORS.pumpkin;
+  // a blood moon rising: wine at the rim deepening to ember below
+  const gradient = ctx.createLinearGradient(0, horizon, 0, height);
+  gradient.addColorStop(0, COLORS.blood);
+  gradient.addColorStop(0.45, COLORS.wine);
+  gradient.addColorStop(1, "#2b0a10");
+  ctx.fillStyle = gradient;
   ctx.beginPath();
   ctx.moveTo(0, height);
   for (let x = 0; x <= width; x += 16) {

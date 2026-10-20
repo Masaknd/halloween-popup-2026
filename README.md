@@ -1,6 +1,6 @@
 # Halloween Party — Oct 31, 2026
 
-An interactive, 3D pop-up event site for a one-night Halloween party hosted by **Massh**.
+An interactive, gothic pop-up event site for a one-night Halloween party hosted by **Massh**.
 
 - **When:** Oct 31, 2026 · 22:00 – 05:00 (clocks fall back at 2AM — eight real hours of night)
 - **Where:** 1 Massey Square, East York, Toronto
@@ -11,20 +11,22 @@ An interactive, 3D pop-up event site for a one-night Halloween party hosted by *
 | Section | Interaction |
 | --- | --- |
 | Loader | Hand-authored **Lottie** bat (path morph between two wing poses) |
-| Hero | Retro witch paper collage (newsprint, orange panel, halftone SVG silhouettes, caption strips) with layered pointer + scroll parallax, and a **three.js** bat swarm (React Three Fiber) that scatters from the cursor — click anywhere to release more |
-| Marquee | **GSAP** ticker whose speed and direction follow **Lenis** scroll velocity |
-| Details | Torn newspaper clippings that tilt in 3D with a moving glare |
-| Swarm | Scroll-scrubbed canvas: orange rises from below, bats scatter away from the cursor |
-| Witching hours | Procedural **three.js** haunted house framed as a collage clipping: orange-on-black woodcut textures, flickering windows, branching trees, orbiting bats; follows the pointer, click to release a swarm |
-| Tickets | Live countdown, flip-on-click ticket stubs, magnetic CTA |
-| Footer | Letters jump on hover |
+| Hero | The witch portrait rendered in **WebGL** (React Three Fiber + custom GLSL): burns in through an ember-rimmed noise front, sits in animated plum fog, edges waver like smoke, the cursor carries a flickering candle that lights her, and the cat's eyes catch the light. 3D bats scatter from the cursor; click to release more. |
+| Chaos text | Headings arrive out of chaos — letters flash at random offsets before snapping home while an SVG goo + turbulence filter melts them into place (scroll-scrubbed) |
+| Marquee | Wine-red ticker that skews and races with **Lenis** scroll velocity; blood drips lengthen as you scroll |
+| Details | Weathered tombstones that tilt in 3D |
+| Swarm | Scroll-scrubbed canvas: a blood moon rises and bats scatter from the cursor |
+| Witching hours | Procedural **three.js** haunted house seen through a gothic arch window under a rising moon; click it to wake the bats |
+| Tickets | Live countdown, wax-sealed tickets that turn over on click |
+| Location | Map seen through a slowly breathing ink blot (animated SVG clip path) |
 
-Custom cursor (fine pointers only), film grain, `prefers-reduced-motion` support, and the 3D render loop pauses when off-screen.
+Custom candle cursor (fine pointers only), film grain + vignette, `prefers-reduced-motion` support, and WebGL loops pause when off-screen.
 
 ## Stack
 
-Next.js 16 (App Router, static export) · Tailwind CSS v4 · Bodoni Moda / JetBrains Mono / Special Elite · three.js / @react-three/fiber · GSAP + ScrollTrigger · Lenis · lottie-react · Vitest
+Next.js 16 (App Router, static export) · Tailwind CSS v4 · three.js / @react-three/fiber · GSAP + ScrollTrigger · Lenis · lottie-react · Vitest
 
+Type: Cormorant Garamond (display + body), Cinzel (labels), UnifrakturMaguntia (accents).
 Breakpoints are Tailwind's defaults: `sm 640` · `md 768` · `lg 1024` · `xl 1280` · `2xl 1536`.
 
 ## Develop

@@ -1,70 +1,61 @@
 "use client";
 
 import { useState } from "react";
+import { ChaosText } from "@/components/ui/ChaosText";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { FiligreeFrame, OrnamentRule, WaxSeal } from "@/components/ui/Ornaments";
 import { Reveal } from "@/components/ui/Reveal";
 import { TiltCard } from "@/components/ui/TiltCard";
-import { EVENT, FULL_ADDRESS, slashZero, type TicketTier } from "@/lib/event";
-import { createRandom } from "@/lib/random";
+import { EVENT, FULL_ADDRESS, type TicketTier } from "@/lib/event";
 import { Countdown } from "./Countdown";
-
-function Barcode({ seed }: { seed: number }) {
-  const rand = createRandom(seed);
-  const bars = Array.from({ length: 38 }, () => 1 + Math.floor(rand() * 4));
-  return (
-    <div className="flex h-12 items-stretch gap-[2px]" aria-hidden>
-      {bars.map((width, index) => (
-        <span key={index} className="bg-ink" style={{ width }} />
-      ))}
-    </div>
-  );
-}
 
 function Ticket({ tier, serial, featured }: { tier: TicketTier; serial: number; featured: boolean }) {
   const [isFlipped, setIsFlipped] = useState(false);
-  const face = "absolute inset-0 flex overflow-hidden rounded-md [backface-visibility:hidden]";
-  const tone = featured ? "bg-pumpkin text-ink" : "newsprint text-ink";
+  const face = "absolute inset-0 overflow-hidden [backface-visibility:hidden]";
+  const tone = featured ? "bg-wine" : "old-paper";
 
   return (
-    <TiltCard className="rounded-md">
+    <TiltCard>
       <button
         type="button"
         onClick={() => setIsFlipped((value) => !value)}
         aria-pressed={isFlipped}
         aria-label={`${tier.label} ticket, CA$${tier.price}. ${isFlipped ? "Show front" : "Show details"}`}
         className="block w-full text-left"
-        data-cursor={isFlipped ? "Flip back" : "Flip"}
+        data-cursor={isFlipped ? "Turn back" : "Turn"}
       >
         <div
-          className="relative aspect-[16/9] w-full transition-transform duration-700 [transform-style:preserve-3d] sm:aspect-[2/1]"
+          className="relative aspect-[16/10] w-full transition-transform duration-1000 ease-[cubic-bezier(0.7,0,0.2,1)] [transform-style:preserve-3d] sm:aspect-[2/1]"
           style={{ transform: isFlipped ? "rotateY(180deg)" : "none" }}
         >
           {/* front */}
-          <div className={`${face} ${tone}`}>
-            <div className="flex flex-1 flex-col justify-between p-5 sm:p-7">
-              <div className="flex items-start justify-between gap-4 text-[10px] uppercase tracking-[0.3em] sm:text-xs">
-                <span>Admit one · {EVENT.shortDate}</span>
-                <span>Nº {String(serial).padStart(4, "0")}</span>
-              </div>
+          <div className={`${face} ${tone} flex text-bone`}>
+            <FiligreeFrame className="text-candle/35" />
+            <div className="relative flex flex-1 flex-col justify-between p-6 sm:p-8">
+              <p className="label text-bone/60">
+                Admit one · Nº {serial}
+              </p>
               <div>
-                <p className="font-display text-3xl italic leading-none sm:text-5xl">{tier.label}</p>
-                <p className="mt-1 text-xs uppercase tracking-[0.2em] sm:text-sm">{tier.note}</p>
+                <p className="font-display text-4xl italic leading-none sm:text-5xl">{tier.label}</p>
+                <p className="mt-2 text-lg italic text-bone/65">{tier.note}</p>
               </div>
             </div>
-            <div className="flex w-[34%] flex-col items-center justify-center border-l-2 border-dashed border-ink/70 p-3">
-              <span className="text-[10px] uppercase tracking-[0.3em]">{EVENT.currency}</span>
-              <span className="font-display text-5xl leading-none sm:text-7xl">${tier.price}</span>
+            <div className="relative flex w-[36%] flex-col items-center justify-center gap-1 border-l border-dashed border-bone/30">
+              <WaxSeal className="absolute -top-2 right-3 w-14 rotate-12 sm:w-16" />
+              <span className="label text-bone/50">{EVENT.currency}</span>
+              <span className="font-display text-6xl font-light leading-none sm:text-7xl">${tier.price}</span>
             </div>
           </div>
           {/* back */}
-          <div className={`${face} ${tone} flex-col justify-between p-5 [transform:rotateY(180deg)] sm:p-7`}>
-            <div className="space-y-1 text-xs uppercase leading-relaxed sm:text-sm">
-              <p className="font-display text-2xl italic sm:text-3xl">{EVENT.title}</p>
-              <p>{EVENT.dateLabel} · {slashZero(EVENT.timeLabel)}</p>
-              <p>{FULL_ADDRESS}</p>
-              <p>Organizer: {EVENT.organizer}</p>
-            </div>
-            <Barcode seed={serial} />
+          <div className={`${face} ${tone} flex flex-col items-center justify-center gap-2 p-6 text-center text-bone [transform:rotateY(180deg)]`}>
+            <FiligreeFrame className="text-candle/35" />
+            <p className="font-blackletter text-3xl text-blood sm:text-4xl">{EVENT.title}</p>
+            <OrnamentRule className="w-48 text-candle/40" />
+            <p className="text-lg italic">
+              {EVENT.dateLabel} · {EVENT.timeLabel}
+            </p>
+            <p className="text-base italic text-bone/65">{FULL_ADDRESS}</p>
+            <p className="label mt-2 text-bone/50">Hosted by {EVENT.organizer}</p>
           </div>
         </div>
       </button>
@@ -74,40 +65,42 @@ function Ticket({ tier, serial, featured }: { tier: TicketTier; serial: number; 
 
 export function Tickets() {
   return (
-    <section id="tickets" className="relative overflow-hidden bg-ink px-4 py-20 sm:px-6 md:py-28 lg:px-10">
-      <Reveal className="mx-auto mb-16 max-w-4xl md:mb-24">
+    <section id="tickets" className="relative overflow-hidden bg-void px-4 py-24 sm:px-6 md:py-32 lg:px-10">
+      <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 size-[42rem] -translate-x-1/2 rounded-full bg-plum/30 blur-[140px]" />
+      <Reveal className="relative mx-auto mb-24 max-w-5xl md:mb-32">
         <Countdown />
       </Reveal>
 
-      <Reveal className="mb-10 flex flex-col gap-4 text-bone md:flex-row md:items-end md:justify-between">
-        <h2 className="font-display text-6xl leading-[0.9] sm:text-8xl lg:text-[9rem]">
-          <span className="italic text-pumpkin">Tickets</span>
-        </h2>
-        <p className="max-w-sm text-sm uppercase leading-relaxed text-bone/70 md:text-right">
-          Advance tickets save you CA${EVENT.tickets[1].price - EVENT.tickets[0].price}. Tap a ticket to flip it.
+      <div className="relative mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="label mb-4 text-candle/70">Admission</p>
+          <ChaosText as="h2" text="Tickets" className="font-display text-6xl font-light italic leading-[0.9] sm:text-8xl lg:text-[9rem]" />
+        </div>
+        <p className="max-w-sm text-lg italic leading-relaxed text-bone/70 md:text-right">
+          Advance tickets save you CA${EVENT.tickets[1].price - EVENT.tickets[0].price}. Touch a ticket to turn it over.
         </p>
-      </Reveal>
+      </div>
 
-      <Reveal className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-10">
+      <Reveal className="relative grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
         {EVENT.tickets.map((tier, index) => (
           <Ticket key={tier.id} tier={tier} serial={1031 + index} featured={index === 0} />
         ))}
       </Reveal>
 
-      <div className="mt-12 flex justify-center">
+      <div className="relative mt-16 flex justify-center">
         <Magnetic>
           {EVENT.ticketUrl ? (
             <a
               href={EVENT.ticketUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="block bg-pumpkin px-10 py-5 font-display text-2xl italic text-ink transition-colors hover:bg-bone"
-              data-cursor="Buy"
+              className="block bg-blood px-10 py-5 font-display text-2xl italic text-bone transition-colors hover:bg-wine"
+              data-cursor="Book"
             >
               Get advance tickets
             </a>
           ) : (
-            <p className="border border-pumpkin px-8 py-4 text-center text-xs uppercase tracking-[0.3em] text-pumpkin sm:text-sm" data-cursor="Soon">
+            <p className="label border border-blood/70 px-8 py-4 text-center text-bone/85" data-cursor="Soon">
               {EVENT.bookingNote}
             </p>
           )}

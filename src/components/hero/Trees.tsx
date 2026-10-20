@@ -60,7 +60,7 @@ function useTreeGeometry(seed: number): THREE.BufferGeometry {
 export function Trees() {
   const left = useTreeGeometry(3);
   const right = useTreeGeometry(19);
-  const material = useMemo(() => new THREE.MeshBasicMaterial({ color: "#0d0c0b" }), []);
+  const material = useMemo(() => new THREE.MeshBasicMaterial({ color: "#070506" }), []);
   useEffect(() => () => material.dispose(), [material]);
 
   return (
