@@ -13,7 +13,7 @@ export interface SwarmBat {
   vy: number;
 }
 
-export const COLORS = { ink: "#0d0c0b", pumpkin: "#ee6a1d" } as const;
+export const COLORS = { ink: "#1b1a18", pumpkin: "#f07d1a" } as const;
 
 export function createSwarm(count: number): SwarmBat[] {
   const rand = createRandom(31);

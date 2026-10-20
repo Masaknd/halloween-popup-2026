@@ -5,14 +5,16 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { createShingleTexture, createWoodcutTexture } from "./textures";
 
+// Orange-on-black engraving, like the printed spire in the witch collage
 const COLORS = {
-  wall: "#e4571f",
-  wallInk: "#2a0f06",
-  roof: "#b8441a",
-  ink: "#0d0c0b",
-  shutter: "#f2956a",
-  glowDim: new THREE.Color("#d99a16"),
-  glowHot: new THREE.Color("#fff27a"),
+  wall: "#e8761c",
+  wallInk: "#1b1a18",
+  roof: "#2d2c29",
+  roofInk: "#c9621a",
+  ink: "#1b1a18",
+  shutter: "#8f3d12",
+  glowDim: new THREE.Color("#9a4a10"),
+  glowHot: new THREE.Color("#ffd58a"),
 } as const;
 
 interface Materials {
@@ -33,7 +35,7 @@ function useHouseMaterials(): Materials {
         roughness: 1,
       }),
       roof: new THREE.MeshStandardMaterial({
-        map: createShingleTexture(COLORS.roof, COLORS.ink, 11),
+        map: createShingleTexture(COLORS.roof, COLORS.roofInk, 11),
         roughness: 1,
         side: THREE.DoubleSide,
       }),

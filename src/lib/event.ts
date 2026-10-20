@@ -27,6 +27,10 @@ export const EVENT = {
   ] satisfies readonly TicketTier[],
   // Set to a ticketing link (Eventbrite, Tixr, etc.) once sales open.
   ticketUrl: null as string | null,
+  bookingNote: "Booking details coming soon",
+  detailsNote: "Event details coming soon",
+  // Placeholder handle — the account does not exist yet.
+  instagram: { handle: "@massh.afterdark", url: "https://www.instagram.com/massh.afterdark/" },
 } as const;
 
 export const FULL_ADDRESS = `${EVENT.venue.street}, ${EVENT.venue.area}, ${EVENT.venue.city}`;

@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Anton, JetBrains_Mono, Special_Elite } from "next/font/google";
+import { Bodoni_Moda, JetBrains_Mono, Special_Elite } from "next/font/google";
 import "./globals.css";
 
-const anton = Anton({ variable: "--font-anton", weight: "400", subsets: ["latin"] });
+const bodoni = Bodoni_Moda({ variable: "--font-bodoni", style: ["normal", "italic"], subsets: ["latin"] });
 const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"] });
 const elite = Special_Elite({ variable: "--font-elite", weight: "400", subsets: ["latin"] });
 
@@ -18,12 +18,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0d0c0b",
+  themeColor: "#1b1a18",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${anton.variable} ${jetbrains.variable} ${elite.variable} antialiased`}>
+    <html lang="en" className={`${bodoni.variable} ${jetbrains.variable} ${elite.variable} antialiased`}>
       <body>{children}</body>
     </html>
   );

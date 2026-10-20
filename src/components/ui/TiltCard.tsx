@@ -25,7 +25,7 @@ export function TiltCard({ children, className = "" }: { children: ReactNode; cl
         rotateY(x * MAX_TILT_DEG * 2);
         rotateX(-y * MAX_TILT_DEG * 2);
         if (glare) {
-          glare.style.background = `radial-gradient(circle at ${(x + 0.5) * 100}% ${(y + 0.5) * 100}%, rgb(255 216 74 / 0.35), transparent 55%)`;
+          glare.style.background = `radial-gradient(circle at ${(x + 0.5) * 100}% ${(y + 0.5) * 100}%, rgb(255 197 107 / 0.3), transparent 55%)`;
         }
       };
       const onLeave = () => {

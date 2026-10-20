@@ -22,7 +22,7 @@ function getWing(): THREE.ShapeGeometry {
 }
 
 function getMaterial(): THREE.MeshBasicMaterial {
-  batMaterial ??= new THREE.MeshBasicMaterial({ color: "#0d0c0b", side: THREE.DoubleSide });
+  batMaterial ??= new THREE.MeshBasicMaterial({ color: "#1b1a18", side: THREE.DoubleSide });
   return batMaterial;
 }
 

@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bone: #efebe2;
-  --color-ink: #0d0c0b;
-  --color-pumpkin: #e4571f;
-  --color-ember: #f47c20;
-  --color-glow: #ffd84a;
-  --color-rust: #9e3815;
-  --color-parchment: #e6d8bb;
+  /* Palette sampled from the retro witch collage */
+  --color-bone: #ebe0c8;
+  --color-parchment: #dccba6;
+  --color-ink: #1b1a18;
+  --color-charcoal: #2d2c29;
+  --color-pumpkin: #f07d1a;
+  --color-ember: #f59a3c;
+  --color-glow: #ffc56b;
+  --color-rust: #8f3d12;
 
-  --font-display: var(--font-anton), "Impact", sans-serif;
+  --font-display: var(--font-bodoni), "Didot", "Bodoni 72", Georgia, serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
   --font-type: var(--font-elite), var(--font-jetbrains), monospace;
 }
@@ -25,8 +27,8 @@ body {
 }
 
 body {
-  background: var(--color-bone);
-  color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-bone);
   font-family: var(--font-mono);
   font-feature-settings: "zero" 1;
   overflow-x: clip;
@@ -61,7 +63,7 @@ html.has-custom-cursor * {
   inset: 0;
   z-index: 60;
   pointer-events: none;
-  opacity: 0.13;
+  opacity: 0.16;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.4 -0.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation: grain 0.9s steps(6) infinite;
 }
@@ -79,12 +81,31 @@ html.has-custom-cursor * {
 .newsprint {
   background-color: var(--color-parchment);
   background-image:
-    repeating-linear-gradient(0deg, rgb(13 12 11 / 0.09) 0 1px, transparent 1px 9px),
-    radial-gradient(circle at 30% 20%, rgb(158 56 21 / 0.18), transparent 60%);
+    radial-gradient(ellipse at 20% 10%, rgb(143 61 18 / 0.18), transparent 55%),
+    radial-gradient(ellipse at 80% 90%, rgb(27 26 24 / 0.22), transparent 60%),
+    repeating-linear-gradient(0deg, rgb(27 26 24 / 0.07) 0 1px, transparent 1px 8px);
+}
+
+/* Charcoal print texture, like the witch's ink-washed dress */
+.ink-wash {
+  background-color: var(--color-charcoal);
+  background-image:
+    radial-gradient(ellipse at 30% 20%, rgb(255 255 255 / 0.05), transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgb(0 0 0 / 0.35), transparent 60%);
+}
+
+/* Torn paper edge for clippings */
+.torn {
+  clip-path: polygon(0% 2%, 6% 0%, 14% 1.5%, 22% 0%, 31% 1%, 40% 0%, 52% 1.8%, 63% 0.3%, 72% 1.5%, 84% 0%, 93% 1.2%, 100% 0%, 99% 30%, 100% 62%, 99.3% 100%, 88% 98.6%, 76% 100%, 64% 98.8%, 51% 100%, 39% 98.5%, 27% 100%, 15% 98.7%, 5% 100%, 0% 99%, 0.8% 66%, 0% 33%);
+}
+
+.serif-italic {
+  font-family: var(--font-display);
+  font-style: italic;
 }
 
 .halftone {
-  background-image: radial-gradient(circle, var(--color-ink) 1.1px, transparent 1.6px);
+  background-image: radial-gradient(circle, rgb(27 26 24 / 0.55) 1px, transparent 1.5px);
   background-size: 6px 6px;
 }
 

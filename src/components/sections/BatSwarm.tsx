@@ -142,15 +142,15 @@ export function BatSwarm() {
         <canvas ref={canvasRef} className="absolute inset-0 size-full" data-cursor="Scatter" aria-hidden />
         <div className="pointer-events-none relative z-10 flex h-full flex-col justify-start px-4 pt-24 text-bone sm:px-6 md:pt-28 lg:px-10">
           <p className="mb-4 text-xs uppercase tracking-[0.4em] text-pumpkin">Move your cursor through the swarm</p>
-          <h2 className="font-display text-[17vw] uppercase leading-[0.85] md:text-[13vw]">
+          <h2 className="font-display text-[16vw] leading-[0.88] md:text-[11vw]">
             <span className="block overflow-hidden">
               <span className="swarm-word inline-block">The night</span>
             </span>
             <span className="block overflow-hidden">
-              <span className="swarm-word inline-block text-pumpkin">takes flight</span>
+              <span className="swarm-word inline-block italic text-pumpkin">takes flight</span>
             </span>
           </h2>
-          <p className="swarm-word mt-6 max-w-md text-sm uppercase leading-relaxed sm:text-base">
+          <p className="swarm-word mt-6 max-w-md text-xs uppercase leading-relaxed tracking-[0.2em] sm:text-sm">
             {slashZero(EVENT.timeLabel)} — doors open at ten, the swarm leaves at dawn.
           </p>
         </div>

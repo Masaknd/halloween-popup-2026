@@ -23,7 +23,7 @@ function Barcode({ seed }: { seed: number }) {
 function Ticket({ tier, serial, featured }: { tier: TicketTier; serial: number; featured: boolean }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const face = "absolute inset-0 flex overflow-hidden rounded-md [backface-visibility:hidden]";
-  const tone = featured ? "bg-pumpkin text-ink" : "bg-bone text-ink";
+  const tone = featured ? "bg-pumpkin text-ink" : "newsprint text-ink";
 
   return (
     <TiltCard className="rounded-md">
@@ -47,19 +47,19 @@ function Ticket({ tier, serial, featured }: { tier: TicketTier; serial: number; 
                 <span>Nº {String(serial).padStart(4, "0")}</span>
               </div>
               <div>
-                <p className="font-display text-3xl uppercase leading-none sm:text-5xl">{tier.label}</p>
+                <p className="font-display text-3xl italic leading-none sm:text-5xl">{tier.label}</p>
                 <p className="mt-1 text-xs uppercase tracking-[0.2em] sm:text-sm">{tier.note}</p>
               </div>
             </div>
             <div className="flex w-[34%] flex-col items-center justify-center border-l-2 border-dashed border-ink/70 p-3">
               <span className="text-[10px] uppercase tracking-[0.3em]">{EVENT.currency}</span>
-              <span className="font-display text-6xl leading-none sm:text-8xl">${tier.price}</span>
+              <span className="font-display text-5xl leading-none sm:text-7xl">${tier.price}</span>
             </div>
           </div>
           {/* back */}
           <div className={`${face} ${tone} flex-col justify-between p-5 [transform:rotateY(180deg)] sm:p-7`}>
             <div className="space-y-1 text-xs uppercase leading-relaxed sm:text-sm">
-              <p className="font-display text-2xl sm:text-3xl">{EVENT.title}</p>
+              <p className="font-display text-2xl italic sm:text-3xl">{EVENT.title}</p>
               <p>{EVENT.dateLabel} · {slashZero(EVENT.timeLabel)}</p>
               <p>{FULL_ADDRESS}</p>
               <p>Organizer: {EVENT.organizer}</p>
@@ -80,7 +80,9 @@ export function Tickets() {
       </Reveal>
 
       <Reveal className="mb-10 flex flex-col gap-4 text-bone md:flex-row md:items-end md:justify-between">
-        <h2 className="font-display text-6xl uppercase leading-[0.85] sm:text-8xl lg:text-[10rem]">Tickets</h2>
+        <h2 className="font-display text-6xl leading-[0.9] sm:text-8xl lg:text-[9rem]">
+          <span className="italic text-pumpkin">Tickets</span>
+        </h2>
         <p className="max-w-sm text-sm uppercase leading-relaxed text-bone/70 md:text-right">
           Advance tickets save you CA${EVENT.tickets[1].price - EVENT.tickets[0].price}. Tap a ticket to flip it.
         </p>
@@ -99,14 +101,14 @@ export function Tickets() {
               href={EVENT.ticketUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="block rounded-full bg-pumpkin px-10 py-5 font-display text-2xl uppercase tracking-wide text-ink transition-colors hover:bg-glow"
+              className="block bg-pumpkin px-10 py-5 font-display text-2xl italic text-ink transition-colors hover:bg-bone"
               data-cursor="Buy"
             >
               Get advance tickets
             </a>
           ) : (
-            <p className="rounded-full border-2 border-pumpkin px-8 py-4 text-center text-sm uppercase tracking-[0.25em] text-pumpkin" data-cursor="Soon">
-              Advance sales opening soon · contact {EVENT.organizer}
+            <p className="border border-pumpkin px-8 py-4 text-center text-xs uppercase tracking-[0.3em] text-pumpkin sm:text-sm" data-cursor="Soon">
+              {EVENT.bookingNote}
             </p>
           )}
         </Magnetic>

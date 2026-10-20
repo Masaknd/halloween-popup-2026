@@ -3,12 +3,12 @@
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { EVENT, slashZero } from "@/lib/event";
+import { EVENT } from "@/lib/event";
 import { onScrollVelocity } from "@/lib/scroll";
 
 const ITEMS = [
   EVENT.shortDate,
-  slashZero(EVENT.timeLabel),
+  EVENT.timeLabel,
   EVENT.venue.street,
   `Advance CA$${EVENT.tickets[0].price}`,
   `Door CA$${EVENT.tickets[1].price}`,
@@ -39,9 +39,9 @@ export function Marquee({ tone = "dark" }: { tone?: "dark" | "orange" }) {
     <div ref={rootRef} className={`${colors} overflow-hidden border-y border-ink py-3 sm:py-4`} aria-hidden>
       <div className="marquee-track flex w-max">
         {row.map((item, index) => (
-          <span key={index} className="flex items-center font-display text-3xl uppercase sm:text-5xl lg:text-6xl">
+          <span key={index} className="flex items-center font-display text-3xl italic sm:text-5xl lg:text-6xl">
             <span className="px-5 sm:px-8">{item}</span>
-            <span className="text-bone">✦</span>
+            <span className={tone === "dark" ? "text-bone/60" : "text-ink/60"}>✦</span>
           </span>
         ))}
       </div>
