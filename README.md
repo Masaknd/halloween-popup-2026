@@ -3,7 +3,7 @@
 An interactive, gothic pop-up event site for a one-night Halloween party hosted by **Massh**.
 
 - **When:** Oct 31, 2026 · 22:00 – 05:00 (clocks fall back at 2AM — eight real hours of night)
-- **Where:** 1 Massey Square, East York, Toronto
+- **Where:** 100 Queen St W, Toronto
 - **Tickets:** Advance CA$25 · Door CA$40
 
 ## Experience

@@ -13,7 +13,7 @@ export interface SwarmBat {
   vy: number;
 }
 
-export const COLORS = { void: "#0b090a", blood: "#8c1d27", ember: "#a5531f", wine: "#561220" } as const;
+export const COLORS = { void: "#0b090a", soot: "#141015", blood: "#8c1d27", ember: "#a5531f", wine: "#561220" } as const;
 
 export function createSwarm(count: number): SwarmBat[] {
   const rand = createRandom(31);
@@ -63,8 +63,10 @@ export function drawHorizon(ctx: CanvasRenderingContext2D, width: number, height
   // a blood moon rising: wine at the rim deepening to ember below
   const gradient = ctx.createLinearGradient(0, horizon, 0, height);
   gradient.addColorStop(0, COLORS.blood);
-  gradient.addColorStop(0.45, COLORS.wine);
-  gradient.addColorStop(1, "#2b0a10");
+  gradient.addColorStop(0.35, COLORS.wine);
+  gradient.addColorStop(0.7, "#2b0a10");
+  // the lowest band matches the next section so the hand-off is seamless
+  gradient.addColorStop(1, COLORS.soot);
   ctx.fillStyle = gradient;
   ctx.beginPath();
   ctx.moveTo(0, height);

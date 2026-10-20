@@ -61,6 +61,7 @@ export function WitchingHours() {
 
   return (
     <section id="awaits" ref={rootRef} className="relative overflow-hidden bg-soot px-4 py-24 sm:px-6 md:py-32 lg:px-10">
+      <div aria-hidden className="pointer-events-none absolute -left-20 -top-40 h-80 w-[120%] rounded-[50%] bg-wine/15 blur-[100px]" />
       <div aria-hidden className="pointer-events-none absolute -right-40 bottom-0 size-[40rem] rounded-full bg-wine/30 blur-[140px]" />
       <div className="relative grid grid-cols-1 items-center gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
         <div ref={stageRef} className="relative mx-auto aspect-[3/4] w-full max-w-xl">

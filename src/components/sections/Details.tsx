@@ -1,6 +1,7 @@
 import { ChaosText } from "@/components/ui/ChaosText";
 import { FrameLine, OrnamentRule } from "@/components/ui/Ornaments";
 import { Reveal } from "@/components/ui/Reveal";
+import { SectionFade } from "@/components/ui/SectionFade";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { EVENT } from "@/lib/event";
 import { TOMB_PATH } from "@/lib/shapes";
@@ -8,7 +9,7 @@ import { TOMB_PATH } from "@/lib/shapes";
 const CARDS = [
   { numeral: "I", kicker: "When", title: EVENT.dateLabel, body: "Saturday, 2026. One night only." },
   { numeral: "II", kicker: "Hours", title: EVENT.timeLabel, body: "Clocks fall back at two — eight full hours of night." },
-  { numeral: "III", kicker: "Where", title: EVENT.venue.street, body: `${EVENT.venue.area}, ${EVENT.venue.city}` },
+  { numeral: "III", kicker: "Where", title: EVENT.venue.street, body: "Downtown Toronto, Ontario." },
   {
     numeral: "IV",
     kicker: "Entry",
@@ -22,6 +23,7 @@ export function Details() {
   return (
     <section id="details" className="relative bg-soot px-4 pb-20 pt-32 sm:px-6 md:pb-28 md:pt-40 lg:px-10 lg:pb-36">
       <div aria-hidden className="pointer-events-none absolute -left-40 top-20 size-[38rem] rounded-full bg-plum/40 blur-[120px]" />
+      <SectionFade edge="bottom" color="void" />
       <div className="relative mb-14 flex flex-col gap-6 md:mb-20 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="label mb-4 text-candle/70">The Rites</p>
@@ -42,7 +44,7 @@ export function Details() {
                 <p className="label mt-2 text-bone/60">{card.kicker}</p>
               </div>
               <div style={{ transform: "translateZ(60px)" }}>
-                <p className="font-display text-4xl leading-none text-bone lg:text-[2.6rem]">{card.title}</p>
+                <p className="text-balance font-display text-4xl leading-none text-bone lg:text-[2.6rem]">{card.title}</p>
                 <OrnamentRule className="mx-auto my-4 w-40 text-candle/40" />
                 <p className="text-base italic leading-snug text-bone/65">{card.body}</p>
               </div>

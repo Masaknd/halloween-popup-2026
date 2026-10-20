@@ -2,22 +2,24 @@ import { ChaosText } from "@/components/ui/ChaosText";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { OrnamentRule } from "@/components/ui/Ornaments";
 import { Reveal } from "@/components/ui/Reveal";
+import { SectionFade } from "@/components/ui/SectionFade";
 import { EVENT, MAPS_EMBED_URL, MAPS_URL } from "@/lib/event";
 
 export function Location() {
   return (
     <section id="location" className="relative overflow-hidden bg-ash px-4 py-24 sm:px-6 md:py-32 lg:px-10">
-      <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-16">
+      <SectionFade edge="bottom" color="void" />
+      <div className="relative grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-16">
         <div>
           <p className="label mb-4 text-candle/70">Find the house</p>
           <h2 className="font-display font-light leading-[0.88]">
-            <ChaosText text="1 Massey" className="block text-6xl italic sm:text-8xl xl:text-[8rem]" />
-            <ChaosText text="Square" className="block pl-[12%] text-6xl sm:text-8xl xl:text-[8rem]" />
+            <ChaosText text="100 Queen" className="block text-6xl italic sm:text-8xl xl:text-[8rem]" />
+            <ChaosText text="Street West" className="block pl-[12%] text-6xl sm:text-8xl xl:text-[8rem]" />
           </h2>
           <Reveal>
             <OrnamentRule className="my-6 w-64 text-candle/40" />
             <p className="text-2xl italic text-bone/75">
-              {EVENT.venue.area}, {EVENT.venue.city}
+              Downtown Toronto, Ontario
             </p>
             <div className="mt-10">
               <Magnetic>

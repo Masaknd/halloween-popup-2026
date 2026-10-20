@@ -16,8 +16,7 @@ export const EVENT = {
   shortDate: "OCT 31 2026",
   timeLabel: "22:00 — 05:00",
   venue: {
-    street: "1 Massey Square",
-    area: "East York",
+    street: "100 Queen St W",
     city: "Toronto, ON",
   },
   currency: "CAD",
@@ -33,7 +32,7 @@ export const EVENT = {
   instagram: { handle: "@massh.afterdark", url: "https://www.instagram.com/massh.afterdark/" },
 } as const;
 
-export const FULL_ADDRESS = `${EVENT.venue.street}, ${EVENT.venue.area}, ${EVENT.venue.city}`;
+export const FULL_ADDRESS = `${EVENT.venue.street}, ${EVENT.venue.city}`;
 
 export const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(FULL_ADDRESS)}`;
 
