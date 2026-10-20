@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bone: #efebe2;
+  --color-ink: #0d0c0b;
+  --color-pumpkin: #e4571f;
+  --color-ember: #f47c20;
+  --color-glow: #ffd84a;
+  --color-rust: #9e3815;
+  --color-parchment: #e6d8bb;
+
+  --font-display: var(--font-anton), "Impact", sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-type: var(--font-elite), var(--font-jetbrains), monospace;
+}
+
+html {
+  background: var(--color-ink);
+  scrollbar-color: var(--color-pumpkin) var(--color-ink);
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  background: var(--color-bone);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-feature-settings: "zero" 1;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-pumpkin);
+  color: var(--color-bone);
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Custom cursor hides the native one only on fine pointers */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
+/* Film grain over everything, like the risograph references */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.13;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.4 -0.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.9s steps(6) infinite;
+}
+
+@keyframes grain {
+  0% { background-position: 0 0; }
+  20% { background-position: -40px 30px; }
+  40% { background-position: 30px -50px; }
+  60% { background-position: -60px -20px; }
+  80% { background-position: 50px 40px; }
+  100% { background-position: 0 0; }
+}
+
+/* Newsprint texture for the collage */
+.newsprint {
+  background-color: var(--color-parchment);
+  background-image:
+    repeating-linear-gradient(0deg, rgb(13 12 11 / 0.09) 0 1px, transparent 1px 9px),
+    radial-gradient(circle at 30% 20%, rgb(158 56 21 / 0.18), transparent 60%);
+}
+
+.halftone {
+  background-image: radial-gradient(circle, var(--color-ink) 1.1px, transparent 1.6px);
+  background-size: 6px 6px;
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.digit-in {
+  animation: digit-in 0.45s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+@keyframes digit-in {
+  from { transform: translateY(-30%) rotateX(70deg); }
+  to { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain,
+  .digit-in {
+    animation: none;
+  }
+}
