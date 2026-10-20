@@ -1,18 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  /* Gothic palette: soot and plum shadows, wine and ember accents, candle highlights */
-  --color-void: #0b090a;
-  --color-soot: #141015;
-  --color-ash: #231c23;
-  --color-plum: #3b2140;
-  --color-amethyst: #7a5479;
-  --color-wine: #561220;
-  --color-blood: #8c1d27;
-  --color-ember: #a5531f;
-  --color-candle: #d6a45c;
-  --color-bone: #d9ccb4;
-  --color-parchment: #a69576;
+  /* Candlelit soirée: smoke-browned blacks, oxblood velvet, crimson light, taper-wax highlights */
+  --color-void: #0a0706;
+  --color-soot: #130c0a;
+  --color-ash: #1d1210;
+  --color-velvet: #3a0d14;
+  --color-wine: #4e0c16;
+  --color-blood: #9b1b24;
+  --color-ember: #b0602a;
+  --color-candle: #e6b56a;
+  --color-bone: #eadbc0;
+  --color-parchment: #a8916c;
 
   --font-display: var(--font-fell), "IM FELL English", var(--font-cormorant), Georgia, serif;
   --font-body: var(--font-cormorant), "Cormorant", Garamond, Georgia, serif;
@@ -100,11 +99,73 @@ html.has-custom-cursor * {
 
 /* Aged paper, darkened by candle smoke */
 .old-paper {
-  background-color: #2a2126;
+  background-color: #241815;
   background-image:
-    radial-gradient(ellipse at 25% 15%, rgb(214 164 92 / 0.12), transparent 55%),
-    radial-gradient(ellipse at 80% 90%, rgb(86 18 32 / 0.35), transparent 60%),
-    radial-gradient(ellipse at 50% 50%, transparent 40%, rgb(0 0 0 / 0.45) 100%);
+    radial-gradient(ellipse at 25% 15%, rgb(230 181 106 / 0.16), transparent 55%),
+    radial-gradient(ellipse at 80% 90%, rgb(78 12 22 / 0.4), transparent 60%),
+    radial-gradient(ellipse at 50% 50%, transparent 40%, rgb(0 0 0 / 0.5) 100%);
+}
+
+/* Crushed crimson velvet: vertical folds catching red light from above */
+.velvet {
+  background-color: #2b070c;
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgb(200 40 50 / 0.35), transparent 65%),
+    repeating-linear-gradient(
+      90deg,
+      rgb(0 0 0 / 0.6) 0,
+      rgb(0 0 0 / 0) 2.5%,
+      rgb(255 90 90 / 0.08) 4.5%,
+      rgb(0 0 0 / 0) 6.5%,
+      rgb(0 0 0 / 0.6) 9%
+    ),
+    linear-gradient(to bottom, transparent 60%, rgb(0 0 0 / 0.7));
+}
+
+.curtain-sway {
+  animation: curtain-sway 9s ease-in-out infinite alternate;
+}
+
+@keyframes curtain-sway {
+  from { transform: skewX(0.6deg); }
+  to { transform: skewX(-0.8deg); }
+}
+
+/* Warm pool of light thrown by a cluster of candles */
+.candle-glow {
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgb(230 181 106 / 0.2), rgb(176 96 42 / 0.08) 40%, transparent 70%);
+  animation: candle-glow 3.4s ease-in-out infinite alternate;
+}
+
+@keyframes candle-glow {
+  0% { opacity: 0.75; transform: scale(1); }
+  45% { opacity: 1; }
+  60% { opacity: 0.85; transform: scale(1.04); }
+  100% { opacity: 0.95; transform: scale(0.98); }
+}
+
+.candle-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: candle-flame 1.7s ease-in-out infinite alternate;
+}
+
+@keyframes candle-flame {
+  0% { transform: scale(1, 1) skewX(0); }
+  30% { transform: scale(0.92, 1.1) skewX(3deg); }
+  55% { transform: scale(1.05, 0.93) skewX(-4deg); }
+  80% { transform: scale(0.96, 1.05) skewX(2deg); }
+  100% { transform: scale(1, 0.98) skewX(-1deg); }
+}
+
+.candle-halo {
+  animation: candle-halo 2.3s ease-in-out infinite alternate;
+}
+
+@keyframes candle-halo {
+  from { opacity: 0.55; }
+  to { opacity: 0.95; }
 }
 
 /* Organic frames — clip paths are defined once in <OrganicDefs /> */
@@ -149,7 +210,11 @@ html.has-custom-cursor * {
 @media (prefers-reduced-motion: reduce) {
   .grain,
   .digit-in,
-  .flicker {
+  .flicker,
+  .curtain-sway,
+  .candle-glow,
+  .candle-flame,
+  .candle-halo {
     animation: none;
   }
 }

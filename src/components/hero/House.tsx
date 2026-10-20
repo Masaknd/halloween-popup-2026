@@ -5,14 +5,14 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { createShingleTexture, createWoodcutTexture } from "./textures";
 
-// Gothic engraving: plum-ash clapboard, soot shingles veined with wine, candlelit windows
+// Gothic engraving: smoke-browned clapboard, soot shingles veined with wine, candlelit windows
 const COLORS = {
-  wall: "#5a4250",
-  wallInk: "#120b10",
-  roof: "#1a1217",
+  wall: "#4f3a34",
+  wallInk: "#120a08",
+  roof: "#1a110e",
   roofInk: "#6b2433",
-  ink: "#0b090a",
-  shutter: "#561220",
+  ink: "#0a0706",
+  shutter: "#4e0c16",
   glowDim: new THREE.Color("#6a2410"),
   glowHot: new THREE.Color("#ffcf87"),
 } as const;

@@ -1,3 +1,4 @@
+import { Candles, Gauze } from "@/components/ui/Candlelight";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { FrameLine, OrnamentRule } from "@/components/ui/Ornaments";
 import { Reveal } from "@/components/ui/Reveal";
@@ -22,16 +23,20 @@ const CARDS = [
 export function Details() {
   return (
     <section id="details" className="relative bg-soot px-4 pb-20 pt-32 sm:px-6 md:pb-28 md:pt-40 lg:px-10 lg:pb-36">
-      <div aria-hidden className="pointer-events-none absolute -left-40 top-20 size-[38rem] rounded-full bg-plum/40 blur-[120px]" />
+      <div aria-hidden className="candle-glow pointer-events-none absolute -right-40 top-0 size-[44rem]" />
+      <Gauze className="pointer-events-none absolute inset-x-0 top-0 h-40 w-full md:h-56" />
       <SectionFade edge="bottom" color="void" />
       <div className="relative mb-14 flex flex-col gap-6 md:mb-20 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="label mb-4 text-candle/70">The Rites</p>
           <ChaosText as="h2" text="The details" className="font-display text-6xl font-light italic leading-[0.9] sm:text-8xl lg:text-[9rem]" />
         </div>
-        <p className="max-w-sm text-lg italic leading-relaxed text-bone/70 md:text-right">
-          A pop-up Halloween party after dark. Dress to haunt; leave before the sun.
-        </p>
+        <div className="flex items-end gap-6 md:flex-col md:items-end md:gap-4">
+          <Candles count={6} className="h-36 shrink-0 md:h-60" />
+          <p className="max-w-sm text-lg italic leading-relaxed text-bone/70 md:text-right">
+            A pop-up Halloween party after dark. Dress to haunt; leave before the sun.
+          </p>
+        </div>
       </div>
 
       <Reveal className="relative grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">

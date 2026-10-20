@@ -1,5 +1,6 @@
 "use client";
 
+import { Candles } from "@/components/ui/Candlelight";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { OrnamentRule } from "@/components/ui/Ornaments";
 import { EVENT } from "@/lib/event";
@@ -9,6 +10,7 @@ export function Footer() {
   return (
     <footer className="relative overflow-hidden bg-void px-4 pb-8 pt-28 text-bone sm:px-6 lg:px-10">
       <div aria-hidden className="pointer-events-none absolute -bottom-40 left-1/3 size-[36rem] rounded-full bg-wine/25 blur-[140px]" />
+      <Candles count={8} className="pointer-events-none absolute right-2 top-2 h-32 opacity-60 sm:right-10 md:top-16 md:h-96 md:opacity-90" />
       <h2 className="relative font-display font-light leading-[0.86]">
         <ChaosText text="See you" className="block text-[16vw] md:text-[11vw]" intensity={1.3} />
         <ChaosText text="in the dark" className="block pl-[10%] text-[16vw] italic text-blood md:text-[11vw]" intensity={1.3} />

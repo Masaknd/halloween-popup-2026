@@ -174,7 +174,7 @@ export default function GothicScene({ isMobile, isActive }: { isMobile: boolean;
       gl={{ antialias: true, alpha: false }}
       aria-label="A witch holding a black cat in candlelit fog. Move the cursor to carry the candle; click to release bats."
     >
-      <color attach="background" args={["#0b090a"]} />
+      <color attach="background" args={["#0a0706"]} />
       <Suspense fallback={null}>
         <Scene isMobile={isMobile} />
       </Suspense>

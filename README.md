@@ -11,7 +11,7 @@ An interactive, gothic pop-up event site for a one-night Halloween party hosted 
 | Section | Interaction |
 | --- | --- |
 | Loader | Hand-authored **Lottie** bat (path morph between two wing poses) |
-| Hero | The witch portrait rendered in **WebGL** (React Three Fiber + custom GLSL): burns in through an ember-rimmed noise front, sits in animated plum fog, edges waver like smoke, the cursor carries a flickering candle that lights her, and the cat's eyes catch the light. 3D bats scatter from the cursor; click to release more. |
+| Hero | The witch portrait rendered in **WebGL** (React Three Fiber + custom GLSL): burns in through an ember-rimmed noise front, sits in warm, smoke-browned fog, edges waver like smoke, the cursor carries a flickering candle that lights her, and the cat's eyes catch the light. 3D bats scatter from the cursor; click to release more. |
 | Chaos text | Headings arrive out of chaos — letters flash at random offsets before snapping home while an SVG goo + turbulence filter melts them into place (scroll-scrubbed) |
 | Marquee | Wine-red ticker that skews and races with **Lenis** scroll velocity; blood drips lengthen as you scroll |
 | Details | Weathered tombstones that tilt in 3D |

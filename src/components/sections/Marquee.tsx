@@ -14,8 +14,8 @@ const ITEMS = [
   EVENT.shortDate,
   EVENT.timeLabel,
   EVENT.venue.street,
-  `Advance CA$${EVENT.tickets[0].price}`,
-  `Door CA$${EVENT.tickets[1].price}`,
+  `Advance $${EVENT.tickets[0].price}`,
+  `Door $${EVENT.tickets[1].price}`,
   "Costumes encouraged",
 ];
 

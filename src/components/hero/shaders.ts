@@ -46,9 +46,9 @@ void main() {
   float drift = fbm(p * 2.2 + vec2(uTime * 0.035, uTime * 0.012));
   float drift2 = fbm(p * 4.5 - vec2(uTime * 0.05, 0.0) + drift);
   vec3 voidColor = vec3(0.012, 0.009, 0.012);
-  vec3 plum = vec3(0.095, 0.04, 0.1);
-  vec3 wine = vec3(0.16, 0.025, 0.05);
-  vec3 color = mix(voidColor, plum, smoothstep(0.4, 0.9, drift2) * 0.85);
+  vec3 smoke = vec3(0.1, 0.05, 0.035);
+  vec3 wine = vec3(0.19, 0.025, 0.04);
+  vec3 color = mix(voidColor, smoke, smoothstep(0.4, 0.9, drift2) * 0.85);
   color = mix(color, wine, smoothstep(0.55, 0.95, drift) * 0.35 * (1.0 - vUv.y));
   // pale moon haze high on the left
   vec2 moon = vec2(0.18 * uAspect, 0.82);
@@ -80,8 +80,8 @@ void main() {
   vec4 tex = texture2D(uMap, uv + warp);
 
   float lum = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
-  vec3 plumShadow = vec3(0.26, 0.15, 0.27) * lum * 1.7;
-  vec3 dim = mix(plumShadow, tex.rgb, 0.5) * 0.58;
+  vec3 sepiaShadow = vec3(0.3, 0.17, 0.12) * lum * 1.7;
+  vec3 dim = mix(sepiaShadow, tex.rgb, 0.5) * 0.6;
 
   // candle light: warm, flickering pool around the cursor
   float flick = 0.88 + 0.07 * sin(uTime * 11.0) + 0.05 * sin(uTime * 23.7 + 1.3);

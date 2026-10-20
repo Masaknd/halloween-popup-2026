@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Gauze } from "@/components/ui/Candlelight";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { FiligreeFrame, OrnamentRule, WaxSeal } from "@/components/ui/Ornaments";
@@ -68,7 +69,8 @@ export function Tickets() {
   return (
     <section id="tickets" className="relative overflow-hidden bg-void px-4 py-24 sm:px-6 md:py-32 lg:px-10">
       <SectionFade edge="top" color="soot" />
-      <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 size-[42rem] -translate-x-1/2 rounded-full bg-plum/30 blur-[140px]" />
+      <div aria-hidden className="candle-glow pointer-events-none absolute left-1/2 top-0 size-[46rem] -translate-x-1/2" />
+      <Gauze className="pointer-events-none absolute inset-x-0 top-0 h-36 w-full -scale-x-100 md:h-52" />
       <SectionFade edge="bottom" color="ash" />
       <Reveal className="relative mx-auto mb-24 max-w-5xl md:mb-32">
         <Countdown />

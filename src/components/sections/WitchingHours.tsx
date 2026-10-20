@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { Candles } from "@/components/ui/Candlelight";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { FrameLine, SpiderWeb } from "@/components/ui/Ornaments";
 import { EVENT } from "@/lib/event";
@@ -65,13 +66,14 @@ export function WitchingHours() {
       <div aria-hidden className="pointer-events-none absolute -right-40 bottom-0 size-[40rem] rounded-full bg-wine/30 blur-[140px]" />
       <div className="relative grid grid-cols-1 items-center gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
         <div ref={stageRef} className="relative mx-auto aspect-[3/4] w-full max-w-xl">
-          <div className="arch absolute inset-0 bg-gradient-to-b from-plum via-ash to-void">
+          <div className="arch absolute inset-0 bg-gradient-to-b from-velvet via-ash to-void">
             <div aria-hidden className="moon absolute left-1/2 top-[16%] size-[46%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_40%_40%,#e8dcc4,#a69576_60%,#5c4a52)] opacity-80 shadow-[0_0_120px_30px_rgb(232_220_196/0.18)]" />
             <SpiderWeb className="absolute right-0 top-[18%] w-1/3 -scale-x-100 text-bone/20" />
             <div className="absolute inset-0" data-cursor="Wake">
               <HouseScene scrollRef={scrollRef} isActive={isVisible} />
             </div>
           </div>
+          <Candles count={4} className="pointer-events-none absolute -bottom-6 -left-4 z-10 h-40 sm:-left-12 sm:h-56" />
           <FrameLine path={ARCH_PATH} className="-inset-3 text-candle/40" />
           <FrameLine path={ARCH_PATH} className="-inset-5 text-candle/15" />
           <p className="label pointer-events-none absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap text-bone/45">

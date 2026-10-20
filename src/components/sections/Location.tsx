@@ -1,3 +1,4 @@
+import { Curtains } from "@/components/ui/Candlelight";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { OrnamentRule } from "@/components/ui/Ornaments";
@@ -8,6 +9,7 @@ import { EVENT, MAPS_EMBED_URL, MAPS_URL } from "@/lib/event";
 export function Location() {
   return (
     <section id="location" className="relative overflow-hidden bg-ash px-4 py-24 sm:px-6 md:py-32 lg:px-10">
+      <Curtains className="opacity-80" />
       <SectionFade edge="bottom" color="void" />
       <div className="relative grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-16">
         <div>
@@ -43,7 +45,7 @@ export function Location() {
           <iframe
             title={`Map of ${EVENT.venue.street}`}
             src={MAPS_EMBED_URL}
-            className="blot relative size-full grayscale invert-[0.88] sepia-[0.4] hue-rotate-[230deg] contrast-[1.1]"
+            className="blot relative size-full grayscale invert-[0.88] sepia-[0.7] hue-rotate-[-12deg] contrast-[1.1]"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
