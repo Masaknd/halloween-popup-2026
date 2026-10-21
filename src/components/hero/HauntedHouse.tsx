@@ -11,15 +11,17 @@ export const HAUNTED_HOUSE_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/mod
 /** Width the model is fitted to, in scene units. */
 const TARGET_WIDTH = 9.5;
 /** Where the swamp ground sits, so the tall trees fit under the arch with the house near its centre. */
-const GROUND_Y = -3.4;
+const GROUND_Y = -5;
 /** Candle-warm light in front of the porch, flickering with the windows. */
 const PORCH_LIGHT = { position: [0.4, 1.2, 3.2] as const, intensity: 14, distance: 9, color: "#ffb45e" };
 /** Turns the model so its front porch faces the camera, as on the author's Sketchfab page. */
 const FIT_YAW = Math.PI / 2 + 0.55;
 /** Quarter turn to the left after fitting: the side-facing porch swings round to face the viewer. */
 const MODEL_TURN = -Math.PI / 2;
-/** Extra zoom on top of the width fit. */
-const MODEL_ZOOM = 1.2;
+/** Extra zoom on top of the width fit; the trees are allowed to overflow the arch. */
+const MODEL_ZOOM = 1.44;
+/** The building's own parts (walls, roofs, beams, windows, door, plinth): the model is centred on these, not on the trees. */
+const BUILDING_MATERIAL = /^(murs|toits|poutre_|fenetre|porte|base_bati)/i;
 /** Materials that read as lamplight; they flicker and flare when the house is woken. */
 const GLOW_MATERIAL = /lumiere|fenetre/i;
 const GLOW_COLOR = new THREE.Color("#ffb45e");
@@ -45,22 +47,23 @@ function prepareModel(scene: THREE.Object3D): PreparedModel {
   const root = new THREE.Group().add(model);
 
   // fit on the solid scenery only; the smoke cards hang below the ground and would lift it
-  const solidBounds = (): THREE.Box3 => {
+  const boundsOf = (include: (name: string) => boolean): THREE.Box3 => {
     root.updateMatrixWorld(true);
     const bounds = new THREE.Box3();
     root.traverse((object) => {
-      if (object instanceof THREE.Mesh && !SMOKE_MATERIAL.test(object.material.name)) bounds.expandByObject(object);
+      if (object instanceof THREE.Mesh && include(object.material.name)) bounds.expandByObject(object);
     });
     return bounds;
   };
+  const isSolid = (name: string) => !SMOKE_MATERIAL.test(name);
   model.rotation.y = FIT_YAW;
-  const fitWidth = solidBounds().getSize(new THREE.Vector3()).x;
+  const fitWidth = boundsOf(isSolid).getSize(new THREE.Vector3()).x;
   model.rotation.y = FIT_YAW + MODEL_TURN;
-  const box = solidBounds();
-  const center = box.getCenter(new THREE.Vector3());
+  const ground = boundsOf(isSolid).min.y;
+  const building = boundsOf((name) => BUILDING_MATERIAL.test(name)).getCenter(new THREE.Vector3());
   const scale = (TARGET_WIDTH / fitWidth) * MODEL_ZOOM;
   root.scale.setScalar(scale);
-  root.position.set(-center.x * scale, GROUND_Y - box.min.y * scale, -center.z * scale);
+  root.position.set(-building.x * scale, GROUND_Y - ground * scale, -building.z * scale);
 
   const glows = new Map<string, THREE.MeshStandardMaterial>();
   const smokes = new Map<string, THREE.MeshStandardMaterial>();
