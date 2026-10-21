@@ -11,15 +11,15 @@ export const HAUNTED_HOUSE_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/mod
 /** Width the model is fitted to, in scene units. */
 const TARGET_WIDTH = 9.5;
 /** Where the swamp ground sits, so the tall trees fit under the arch with the house near its centre. */
-const GROUND_Y = -5;
+const GROUND_Y = -7.6;
 /** Candle-warm light in front of the porch, flickering with the windows. */
 const PORCH_LIGHT = { position: [0.4, 1.2, 3.2] as const, intensity: 14, distance: 9, color: "#ffb45e" };
 /** Turns the model so its front porch faces the camera, as on the author's Sketchfab page. */
 const FIT_YAW = Math.PI / 2 + 0.55;
-/** Quarter turn to the left after fitting: the side-facing porch swings round to face the viewer. */
-const MODEL_TURN = -Math.PI / 2;
+/** Turn to the left after fitting (a quarter turn plus 10°): the side-facing porch swings round to face the viewer. */
+const MODEL_TURN = -Math.PI / 2 - THREE.MathUtils.degToRad(10);
 /** Extra zoom on top of the width fit; the trees are allowed to overflow the arch. */
-const MODEL_ZOOM = 1.44;
+const MODEL_ZOOM = 1.728;
 /** The building's own parts (walls, roofs, beams, windows, door, plinth): the model is centred on these, not on the trees. */
 const BUILDING_MATERIAL = /^(murs|toits|poutre_|fenetre|porte|base_bati)/i;
 /** Materials that read as lamplight; they flicker and flare when the house is woken. */
