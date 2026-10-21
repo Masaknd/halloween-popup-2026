@@ -6,6 +6,12 @@ import { OrnamentRule } from "@/components/ui/Ornaments";
 import { EVENT } from "@/lib/event";
 import { scrollToTarget } from "@/lib/scroll";
 
+const MODEL_CREDIT = {
+  url: "https://sketchfab.com/3d-models/haunted-house-c363402560a14535912508b72f2f6535",
+  authorUrl: "https://sketchfab.com/Raphael.Baget",
+  licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+} as const;
+
 export function Footer() {
   return (
     <footer className="relative overflow-hidden bg-void px-4 pb-8 pt-28 text-bone sm:px-6 lg:px-10">
@@ -32,6 +38,23 @@ export function Footer() {
           Return to the top ↑
         </button>
       </div>
+
+      {/* required attribution for the CC BY 4.0 haunted house model */}
+      <p className="relative mt-10 text-sm italic text-bone/40">
+        3D haunted house:{" "}
+        <a href={MODEL_CREDIT.url} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">
+          “Haunted House”
+        </a>{" "}
+        by{" "}
+        <a href={MODEL_CREDIT.authorUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">
+          Raphael Baget
+        </a>
+        , licensed under{" "}
+        <a href={MODEL_CREDIT.licenseUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">
+          CC BY 4.0
+        </a>
+        ; modified (simplified, recoloured).
+      </p>
     </footer>
   );
 }

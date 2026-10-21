@@ -1,10 +1,9 @@
 "use client";
 
-import { useCallback, useRef, useState, type RefObject } from "react";
+import { Suspense, useCallback, useRef, useState, type RefObject } from "react";
 import { Canvas, useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import * as THREE from "three";
-import { House } from "./House";
-import { Trees } from "./Trees";
+import { HauntedHouse } from "./HauntedHouse";
 import { BatBurst, OrbitingBats } from "./Bats";
 import { setCursorLabel } from "@/lib/scroll";
 
@@ -57,7 +56,7 @@ function SceneContents({ scrollRef }: SceneProps) {
 
   return (
     <>
-      <ambientLight intensity={0.55} color="#8a6656" />
+      <ambientLight intensity={1.2} color="#8a6656" />
       <directionalLight position={[-5, 6, 5]} intensity={1.6} color="#d8c2a8" />
       <directionalLight position={[4, 1, 4]} intensity={1.4} color="#e6b56a" />
       <directionalLight position={[5, 1, -4]} intensity={1.4} color="#9b1b24" />
@@ -75,9 +74,10 @@ function SceneContents({ scrollRef }: SceneProps) {
             setCursorLabel(null);
           }}
         >
-          <House hoveredRef={hoveredRef} flashRef={flashRef} />
+          <Suspense fallback={null}>
+            <HauntedHouse hoveredRef={hoveredRef} flashRef={flashRef} />
+          </Suspense>
         </group>
-        <Trees />
         <OrbitingBats count={12} />
         {bursts.map((burst) => (
           <BatBurst key={burst.id} id={burst.id} origin={burst.origin} onDone={removeBurst} />

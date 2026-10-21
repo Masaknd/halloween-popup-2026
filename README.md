@@ -16,7 +16,7 @@ An interactive, gothic pop-up event site for a one-night Halloween party hosted 
 | Marquee | Wine-red ticker that skews and races with **Lenis** scroll velocity; blood drips lengthen as you scroll |
 | Details | Weathered tombstones that tilt in 3D |
 | Swarm | Scroll-scrubbed canvas: a blood moon rises and bats scatter from the cursor |
-| Witching hours | Procedural **three.js** haunted house seen through a gothic arch window under a rising moon; click it to wake the bats |
+| Witching hours | Candlelit 3D haunted house (glTF, see credits) seen through a gothic arch window under a rising moon; its windows flicker and a click wakes the bats |
 | Tickets | Live countdown, wax-sealed tickets that turn over on click |
 | Location | Map seen through a slowly breathing ink blot (animated SVG clip path) |
 
@@ -43,3 +43,7 @@ Event details live in `src/lib/event.ts`. Set `ticketUrl` there once ticket sale
 ## Deploy
 
 Pushing to `main` builds and publishes to GitHub Pages via `.github/workflows/deploy.yml`.
+
+## Credits
+
+- 3D model: "Haunted House" (https://sketchfab.com/3d-models/haunted-house-c363402560a14535912508b72f2f6535) by Raphael Baget (https://sketchfab.com/Raphael.Baget), licensed under CC BY 4.0 (http://creativecommons.org/licenses/by/4.0/). Modified: moon, cloud, grass and white prop meshes removed, geometry and textures compressed (meshopt + WebP), materials recoloured at runtime. Served from `public/models/haunted-house.glb`.
