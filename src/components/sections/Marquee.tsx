@@ -59,7 +59,7 @@ export function Marquee({ tone = "wine" }: { tone?: "wine" | "soot" }) {
       <div className={`${isWine ? "bg-wine text-bone" : "bg-soot text-candle/80"} overflow-hidden py-3 sm:py-4`}>
         <div className="marquee-track flex w-max will-change-transform">
           {row.map((item, index) => (
-            <span key={index} className="flex items-center font-display text-3xl font-light italic sm:text-5xl lg:text-6xl">
+            <span key={index} className="flex items-center font-marquee text-3xl sm:text-5xl lg:text-6xl">
               <span className="px-6 sm:px-10">{item}</span>
               <span className="text-2xl not-italic text-candle/60 sm:text-4xl">❦</span>
             </span>

@@ -14,6 +14,7 @@
   --color-parchment: #a8916c;
 
   --font-display: var(--font-fell), "IM FELL English", var(--font-cormorant), Georgia, serif;
+  --font-marquee: var(--font-malkmus), var(--font-fell), Georgia, serif;
   --font-body: var(--font-cormorant), "Cormorant", Garamond, Georgia, serif;
   --font-label: var(--font-cinzel), "Trajan Pro", Georgia, serif;
   --font-blackletter: var(--font-fraktur), "Old English Text MT", serif;

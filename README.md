@@ -26,7 +26,7 @@ Custom candle cursor (fine pointers only), film grain + vignette, `prefers-reduc
 
 Next.js 16 (App Router, static export) · Tailwind CSS v4 · three.js / @react-three/fiber · GSAP + ScrollTrigger · Lenis · lottie-react · Vitest
 
-Type: IM Fell English (headings and titles), Cormorant Garamond (body), Cinzel (labels), UnifrakturMaguntia (accents).
+Type: IM Fell English (headings and titles), MalkmusEX (marquees; licensed, subset in `src/assets/fonts`), Cormorant Garamond (body), Cinzel (labels), UnifrakturMaguntia (accents).
 Breakpoints are Tailwind's defaults: `sm 640` · `md 768` · `lg 1024` · `xl 1280` · `2xl 1536`.
 
 ## Develop
