@@ -6,6 +6,8 @@ import { useGSAP } from "@gsap/react";
 
 /** A quick flash of flame; the ease follows the hero portrait's burn-in (GothicScene). */
 const BURN_SECONDS = 0.8;
+/** How long the block stays marked as burning after the flames finish, so lighting that keys off it can linger. */
+const LINGER_SECONDS = 1.2;
 /** Share of the block that must be on screen before it ignites. */
 const VISIBLE_SHARE = 0.35;
 /** Roughly how many noise blotches span the block, like the portrait's `fbm(uv * 5.0)`. */
@@ -35,6 +37,7 @@ function frontRows(reveal: number): { shown: string; rim: string } {
 /**
  * Burns its children into view with a noise front and an ember rim, like the hero portrait, the first time the block
  * comes into view; the burn then runs on a timer at the hero's speed. The filter is removed once the burn finishes so 3D tilts and hover effects inside work normally.
+ * While it burns (and briefly after), the box carries `data-burning`, so a darkness laid over it can lift to let the flames show.
  */
 export function BurnIn({ children, className = "" }: { children: ReactNode; className?: string }) {
   const filterId = `burn-${useId().replace(/[^a-zA-Z0-9-]/g, "")}`;
@@ -64,8 +67,12 @@ export function BurnIn({ children, className = "" }: { children: ReactNode; clas
         ease: "power2.inOut",
         paused: true,
         onUpdate: apply,
+        onStart: () => {
+          box.dataset.burning = "";
+        },
         onComplete: () => {
           box.style.filter = "none";
+          gsap.delayedCall(LINGER_SECONDS, () => delete box.dataset.burning);
         },
       });
       // ignite once when the block is in view, then burn on its own clock, independent of scrolling
