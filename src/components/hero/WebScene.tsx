@@ -12,8 +12,8 @@ export const SPIDERWEB_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/models/
 /** The thread lines; the instanced dew hangs under them. */
 const WEB_NODE = "Spiderweb";
 const THREAD_COLOR = "#eadbc0";
-/** Silk is barely there: the threads let half as much through as the first pass did. */
-const THREAD_OPACITY = 0.19;
+/** Silk is barely there against the dark: the threads only just catch the light. */
+const THREAD_OPACITY = 0.1;
 const DROP_COLOR = "#fff4de";
 const DROP_OPACITY = 0.5;
 /** The file's drop spheres have 552 vertices each; this low-poly sphere looks the same at dew size. */
