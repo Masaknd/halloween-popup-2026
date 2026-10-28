@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Drips } from "@/components/ui/Ornaments";
+import { AcanthusCrest, Drips, LiquidEdge } from "@/components/ui/Ornaments";
 import { EVENT } from "@/lib/event";
 import { onScrollVelocity } from "@/lib/scroll";
 
@@ -68,12 +68,17 @@ export function Marquee({ tone = "wine" }: { tone?: "wine" | "soot" }) {
           {row.map((item, index) => (
             <span key={index} className="flex items-center font-marquee text-3xl sm:text-5xl lg:text-6xl">
               <span className="px-6 sm:px-10">{item}</span>
-              <span className="text-2xl not-italic text-candle/60 sm:text-4xl">❦</span>
+              <AcanthusCrest className="h-6 w-auto shrink-0 text-candle/60 sm:h-10" />
             </span>
           ))}
         </div>
       </div>
+      {/* both edges of the band swell and sag like a pool of the paint that drips from it (each overlaps a pixel to hide the seam) */}
+      {isWine ? <LiquidEdge seed={1} className="pointer-events-none absolute inset-x-0 bottom-full h-7 w-full translate-y-px text-wine sm:h-12" /> : null}
       {isWine ? <Drips className="pointer-events-none absolute inset-x-0 top-full h-44 w-full text-wine sm:h-64" /> : null}
+      {isWine ? (
+        <LiquidEdge seed={2} className="pointer-events-none absolute inset-x-0 top-full h-6 w-full -translate-y-px -scale-y-100 text-wine sm:h-10" />
+      ) : null}
     </div>
   );
 }

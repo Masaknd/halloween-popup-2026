@@ -1,6 +1,7 @@
 import { BurnIn } from "@/components/ui/BurnIn";
 import { Candles3D } from "@/components/ui/Candles3D";
 import { ChaosText } from "@/components/ui/ChaosText";
+import { CursorLight } from "@/components/ui/CursorLight";
 import { AcanthusRule, FrameLine } from "@/components/ui/Ornaments";
 import { SectionFade } from "@/components/ui/SectionFade";
 import { StoneSurface } from "@/components/ui/StoneSurface";
@@ -20,16 +21,17 @@ const CARDS = [
   },
 ] as const;
 
-/** The small carved word under each numeral, twice the site-wide `.label` size so it reads on the stone. */
-const KICKER_SIZE = "1.36rem";
+/** The carved word under each numeral: 2.4 times the site-wide `.label` size, set tighter than its 0.32em tracking. */
+const KICKER_STYLE = { fontSize: "1.632rem", letterSpacing: "0.16em" } as const;
 
 /** Event facts carved into weathered tombstones. */
 export function Details() {
   return (
-    <section id="details" className="relative bg-soot px-4 pb-20 pt-32 sm:px-6 md:pb-28 md:pt-40 lg:px-10 lg:pb-36">
+    <section id="details" className="relative isolate bg-soot px-4 pb-20 pt-32 sm:px-6 md:pb-28 md:pt-40 lg:px-10 lg:pb-36">
       <div aria-hidden className="candle-glow pointer-events-none absolute -right-40 top-0 size-[44rem]" />
       <SectionFade edge="bottom" color="void" />
-      <div className="relative mb-14 flex flex-col gap-6 md:mb-20 md:flex-row md:items-end md:justify-between">
+      {/* the heading, candles and tagline stay lit above the cursor light; only the gravestones sit in its darkness */}
+      <div className="relative z-30 mb-14 flex flex-col gap-6 md:mb-20 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="label mb-4 text-candle/70">The Rites</p>
           <ChaosText as="h2" text="The details" className="font-display text-6xl font-light italic leading-[0.9] sm:text-8xl lg:text-[9rem]" />
@@ -51,8 +53,8 @@ export function Details() {
               <FrameLine path={TOMB_PATH} className="inset-3 translate-x-px translate-y-px text-stone-lit/10" />
               <FrameLine path={TOMB_PATH} className="inset-3 text-black/70" />
               <div className="relative" style={{ transform: "translateZ(30px)" }}>
-                <p className="engraved font-label text-6xl text-[#b8262f]">{card.numeral}</p>
-                <p className="engraved label mt-3 text-stone-lit/90" style={{ fontSize: KICKER_SIZE }}>
+                <p className="engraved font-label text-6xl font-bold text-[#b8262f]">{card.numeral}</p>
+                <p className="engraved label mt-3 font-bold text-stone-lit/90" style={KICKER_STYLE}>
                   {card.kicker}
                 </p>
               </div>
@@ -65,6 +67,7 @@ export function Details() {
           </TiltCard>
         ))}
       </BurnIn>
+      <CursorLight />
     </section>
   );
 }

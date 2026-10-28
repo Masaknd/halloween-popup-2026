@@ -182,6 +182,49 @@ svg.engraved {
   to { transform: none; filter: none; }
 }
 
+/* Candlelight carried by the cursor (<CursorLight />): the section sits in darkness except for a warm, flickering pool */
+.cursor-light {
+  --light-x: 80%;
+  --light-y: 12%;
+  --light-radius: 34rem;
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cursor-light {
+    display: block;
+  }
+}
+.cursor-light-veil {
+  background: rgb(6 4 3 / 0.86);
+  mask-image: radial-gradient(
+    circle var(--light-radius) at var(--light-x) var(--light-y),
+    transparent 0%,
+    rgb(0 0 0 / 0.12) 25%,
+    rgb(0 0 0 / 0.45) 52%,
+    rgb(0 0 0 / 0.8) 76%,
+    black 100%
+  );
+}
+.cursor-light-glow {
+  background: radial-gradient(
+    circle calc(var(--light-radius) * 0.7) at var(--light-x) var(--light-y),
+    rgb(240 170 90 / 0.2) 0%,
+    rgb(220 130 60 / 0.08) 45%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  animation: candle-flicker 2.6s ease-in-out infinite;
+}
+
+@keyframes candle-flicker {
+  0%, 100% { opacity: 0.9; }
+  18% { opacity: 1; }
+  31% { opacity: 0.75; }
+  47% { opacity: 0.95; }
+  63% { opacity: 0.82; }
+  79% { opacity: 1; }
+}
+
 @keyframes flicker {
   0%, 100% { opacity: 1; }
   41% { opacity: 1; }
@@ -201,7 +244,8 @@ svg.engraved {
   .digit-in,
   .flicker,
   .curtain-sway,
-  .candle-glow {
+  .candle-glow,
+  .cursor-light-glow {
     animation: none;
   }
 }

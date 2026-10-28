@@ -10,7 +10,7 @@ const cormorant = Cormorant_Garamond({
   style: ["normal", "italic"],
   subsets: ["latin"],
 });
-const cinzel = Cinzel({ variable: "--font-cinzel", weight: ["400", "600"], subsets: ["latin"] });
+const cinzel = Cinzel({ variable: "--font-cinzel", weight: ["400", "600", "700"], subsets: ["latin"] });
 const fraktur = UnifrakturMaguntia({ variable: "--font-fraktur", weight: "400", subsets: ["latin"] });
 // Headings and titles: IM Fell English (Igino Marini, SIL OFL), a revival of 17th-century Fell types
 const fell = IM_Fell_English({ variable: "--font-fell", weight: "400", style: ["normal", "italic"], subsets: ["latin"] });

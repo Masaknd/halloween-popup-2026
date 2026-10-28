@@ -4,6 +4,7 @@ import advanceSeal from "@/assets/seals/seal-advance.webp";
 import doorSeal from "@/assets/seals/seal-door.webp";
 import { ACANTHUS_BOUNDS, ACANTHUS_PATH } from "@/components/ui/acanthusCorner";
 import { DRIP_OUTLINE, DRIP_TILE } from "@/components/ui/dripOutline";
+import { buildLiquidEdge, LIQUID_EDGE } from "@/components/ui/liquidEdge";
 
 export { SpiderWeb } from "@/components/ui/SpiderWeb";
 
@@ -19,6 +20,12 @@ export function Filigree({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+
+/** Turns the corner art about its corner so the corner points down and both arms curl up and outward. */
+const CREST_TURN = `rotate(-45) translate(${-CORNER_X} ${-(CORNER_Y + CORNER_H)})`;
+
+const CREST_HALF_WIDTH = 107;
+const CREST_HEIGHT = 120;
 
 /** The divider's hairlines run out from a crest this many units either side of centre. */
 const RULE_GAP = 52;
@@ -43,7 +50,7 @@ export function AcanthusRule({ className = "" }: { className?: string }) {
       <circle cx="10" cy="56" r="1.6" fill="currentColor" />
       <circle cx="390" cy="56" r="1.6" fill="currentColor" />
       <g
-        transform={`translate(200 92) rotate(-45) scale(${CREST_SCALE}) translate(${-CORNER_X} ${-(CORNER_Y + CORNER_H)})`}
+        transform={`translate(200 92) scale(${CREST_SCALE}) ${CREST_TURN}`}
       >
         <path d={ACANTHUS_PATH} fill="currentColor" />
       </g>
@@ -69,6 +76,18 @@ const SEAL_IMAGES = { advance: advanceSeal, door: doorSeal } as const;
 export type SealVariant = keyof typeof SEAL_IMAGES;
 const BAT_PATH =
   "M50 44 L47 39 L46 44 C40 41 32 42 26 47 C31 47 33 50 33 53 C36 50 40 51 42 54 C44 51 47 51 50 56 C53 51 56 51 58 54 C60 51 64 50 67 53 C67 50 69 47 74 47 C68 42 60 41 54 44 L53 39 Z";
+
+/**
+ * The divider's crest on its own, as a separator glyph in currentColor. Turned, the art's arms reach out to the
+ * sides at mid-height, and the turned square's top corner is empty, so the view keeps only its lower half.
+ */
+export function AcanthusCrest({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox={`${-CREST_HALF_WIDTH} ${-CREST_HEIGHT} ${CREST_HALF_WIDTH * 2} ${CREST_HEIGHT}`} className={className} aria-hidden>
+      <path d={ACANTHUS_PATH} fill="currentColor" transform={CREST_TURN} />
+    </svg>
+  );
+}
 
 /** Real wax seal with a bat pressed into its face: a dark impression with light catching its lower lip. */
 export function WaxSeal({ variant, className = "" }: { variant: SealVariant; className?: string }) {
@@ -124,6 +143,15 @@ export function Drips({ className = "" }: { className?: string }) {
           ))}
         </g>
       </g>
+    </svg>
+  );
+}
+
+/** The uneven, pooling top of the paint the drips run from; stretched across its parent in currentColor. */
+export function LiquidEdge({ seed = 1, className = "" }: { seed?: number; className?: string }) {
+  return (
+    <svg viewBox={`0 0 ${LIQUID_EDGE.width} ${LIQUID_EDGE.height}`} preserveAspectRatio="none" className={className} aria-hidden>
+      <path d={buildLiquidEdge(seed)} fill="currentColor" />
     </svg>
   );
 }
