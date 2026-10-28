@@ -7,8 +7,8 @@ import { EVENT } from "@/lib/event";
 import { scrollToTarget } from "@/lib/scroll";
 
 const MODEL_CREDIT = {
-  url: "https://sketchfab.com/3d-models/haunted-house-c363402560a14535912508b72f2f6535",
-  authorUrl: "https://sketchfab.com/Raphael.Baget",
+  url: "https://sketchfab.com/3d-models/hauntedhouse009-6bf9eaa5ab8e4d14b2e4c0a1fafdd2b7",
+  authorUrl: "https://sketchfab.com/XX-XX",
   licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
 } as const;
 
@@ -49,17 +49,17 @@ export function Footer() {
       <p className="relative mt-10 text-sm italic text-bone/40">
         3D haunted house:{" "}
         <a href={MODEL_CREDIT.url} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">
-          “Haunted House”
+          “{"{(Hauntedhouse)}~✖~#009"}”
         </a>{" "}
         by{" "}
         <a href={MODEL_CREDIT.authorUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">
-          Raphael Baget
+          -X-ScornGames
         </a>
         , licensed under{" "}
         <a href={MODEL_CREDIT.licenseUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">
           CC BY 4.0
         </a>
-        ; modified (simplified, recoloured).
+        ; modified (simplified, compressed).
         <br />
         3D candles:{" "}
         <a href={CANDLES_CREDIT.url} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">

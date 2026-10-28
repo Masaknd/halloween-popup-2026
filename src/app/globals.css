@@ -195,7 +195,8 @@ svg.engraved {
   }
 }
 .cursor-light-veil {
-  background: rgb(6 4 3 / 0.86);
+  /* the void itself, so where the section already fades to void below, the veil changes nothing and the seam disappears */
+  background: color-mix(in srgb, var(--color-void) 86%, transparent);
   mask-image: radial-gradient(
     circle var(--light-radius) at var(--light-x) var(--light-y),
     transparent 0%,
