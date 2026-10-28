@@ -39,7 +39,8 @@ function saveSettings(settings: LightSettings) {
 export function LightPanel() {
   const isEnabled = useSyncExternalStore(subscribeNever, isPanelWanted, () => false);
   const [settings, setSettings] = useState<LightSettings>(loadSettings);
-  const [isOpen, setIsOpen] = useState(true);
+  // starts folded to its title bar so it doesn't cover the hero; click it to open the sliders
+  const [isOpen, setIsOpen] = useState(false);
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
 
   useEffect(() => {

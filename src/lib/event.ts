@@ -29,7 +29,7 @@ export const EVENT = {
   bookingNote: "Booking details coming soon",
   detailsNote: "Event details coming soon",
   // Placeholder handle — the account does not exist yet.
-  instagram: { handle: "@massh.afterdark", url: "https://www.instagram.com/massh.afterdark/" },
+  instagram: { handle: "@masaknd_dsgn", url: "https://www.instagram.com/masaknd_dsgn/" },
 } as const;
 
 export const FULL_ADDRESS = `${EVENT.venue.street}, ${EVENT.venue.city}`;
