@@ -1,47 +1,93 @@
-/** Candlelit-soirée set dressing: cobweb gauze and velvet drapes. All CSS-animated, so they render on the server. */
+/** Candlelit-soirée set dressing: cheesecloth gauze and velvet drapes. All CSS-animated, so they render on the server. */
 
-import { useId } from "react";
+import { useId, useMemo } from "react";
+import { buildGauze, GAUZE_BOX } from "@/components/ui/gauzeDrape";
 
-// Pinned at even intervals, sagging by a different depth between each pin
-const SAGS = [70, 120, 85, 140, 95, 125, 75, 110] as const;
-const GAUZE_WIDTH = 1200;
+/** Old, grimy cheesecloth: an ashen grey-brown rather than fresh linen. */
+const CLOTH = "#a89a84";
+/** Spacing of the loose weave, in drape units; the threads take a third of each cell. */
+const WEAVE = 3.2;
+const FOLD_TONES = { light: "#d8cbb2", dark: "#000" } as const;
 
-/** Torn cheesecloth draped across the top of a section, with a few loose threads. */
-export function Gauze({ className = "" }: { className?: string }) {
+/** Torn cheesecloth pinned across the top of a section: an open weave hanging in swags, frayed, holed and gently stirring. */
+export function Gauze({ seed = 9, className = "" }: { seed?: number; className?: string }) {
   const id = useId();
-  const span = GAUZE_WIDTH / SAGS.length;
-  const drape = SAGS.map((sag, index) => {
-    const x = index * span;
-    return `Q${x + span / 2} ${sag * 1.6} ${x + span} ${index % 2 === 0 ? 18 : 30}`;
-  }).join(" ");
+  const drape = useMemo(() => buildGauze(seed), [seed]);
+  const { width, height } = GAUZE_BOX;
+  const url = (name: string) => `url(#${id}-${name})`;
 
   return (
-    <svg viewBox={`0 0 ${GAUZE_WIDTH} 240`} preserveAspectRatio="none" className={`mix-blend-screen ${className}`} aria-hidden>
+    <svg
+      viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio="none"
+      className={`curtain-sway origin-top mix-blend-screen ${className}`}
+      aria-hidden
+    >
       <defs>
-        <linearGradient id={`${id}-cloth`} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#eadbc0" stopOpacity="0.11" />
-          <stop offset="100%" stopColor="#eadbc0" stopOpacity="0" />
+        {/* dimly lit where it bunches at the pins, sinking into the dark toward the hem */}
+        <linearGradient id={`${id}-cloth`} gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="0" y2={height}>
+          <stop offset="0%" stopColor={CLOTH} stopOpacity="0.24" />
+          <stop offset="45%" stopColor={CLOTH} stopOpacity="0.12" />
+          <stop offset="100%" stopColor={CLOTH} stopOpacity="0.05" />
         </linearGradient>
-        <filter id={`${id}-tatter`}>
-          <feTurbulence type="fractalNoise" baseFrequency="0.004 0.05" numOctaves="2" seed="4" />
-          <feDisplacementMap in="SourceGraphic" scale="16" />
+        {/* cheesecloth's loose plain weave: crossing threads with open gaps, faintly filled where the fibres fuzz */}
+        <pattern id={`${id}-weave`} patternUnits="userSpaceOnUse" width={WEAVE} height={WEAVE}>
+          <rect width={WEAVE} height={WEAVE} fill="#fff" fillOpacity="0.07" />
+          <rect width={WEAVE} height={WEAVE / 3} fill="#fff" fillOpacity="0.85" />
+          <rect width={WEAVE / 3} height={WEAVE} fill="#fff" />
+        </pattern>
+        {/* the weave never runs straight, and the torn edges fray into the gaps */}
+        <filter id={`${id}-fray`} x="-2%" y="-5%" width="104%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.035 0.06" numOctaves="3" seed={seed} />
+          <feDisplacementMap in="SourceGraphic" scale="6" />
         </filter>
+        <filter id={`${id}-soft`}>
+          <feGaussianBlur stdDeviation="3" />
+        </filter>
+        <mask id={`${id}-cloth-mask`} maskUnits="userSpaceOnUse" x="0" y="0" width={width} height={height}>
+          <g filter={url("fray")}>
+            <path d={drape.cloth} fill={url("weave")} />
+            {drape.holes.map((hole, index) => (
+              <ellipse
+                key={index}
+                cx={hole.cx}
+                cy={hole.cy}
+                rx={hole.rx}
+                ry={hole.ry}
+                transform={`rotate(${hole.angle} ${hole.cx} ${hole.cy})`}
+                fill="#000"
+              />
+            ))}
+          </g>
+        </mask>
       </defs>
-      <path d={`M0 0 V24 ${drape} V0 Z`} fill={`url(#${id}-cloth)`} filter={`url(#${id}-tatter)`} />
-      {SAGS.map((sag, index) => {
-        const x = index * span;
-        return (
-          <path
-            key={x}
-            d={`M${x + span * 0.3} 10 C${x + span * 0.4} ${sag} ${x + span * 0.55} ${sag * 1.2} ${x + span * 0.62} ${sag * 1.45}`}
-            stroke="#eadbc0"
-            strokeOpacity="0.16"
-            strokeWidth="0.8"
-            fill="none"
-            vectorEffect="non-scaling-stroke"
-          />
-        );
-      })}
+
+      <g mask={url("cloth-mask")}>
+        <rect width={width} height={height} fill={url("cloth")} />
+        {/* folds fanning from each pin: ridges catch the light, hollows fall into shadow */}
+        <g filter={url("soft")}>
+          {drape.folds.map((fold, index) => (
+            <path
+              key={index}
+              d={fold.d}
+              fill="none"
+              stroke={FOLD_TONES[fold.tone]}
+              strokeOpacity={fold.opacity}
+              strokeWidth={fold.width}
+              strokeLinecap="round"
+            />
+          ))}
+        </g>
+      </g>
+
+      <g fill="none" stroke={CLOTH} strokeLinecap="round">
+        {drape.fringe.map((d, index) => (
+          <path key={index} d={d} strokeOpacity="0.2" strokeWidth="0.6" vectorEffect="non-scaling-stroke" />
+        ))}
+        {drape.threads.map((d, index) => (
+          <path key={index} d={d} strokeOpacity="0.24" strokeWidth="0.7" vectorEffect="non-scaling-stroke" />
+        ))}
+      </g>
     </svg>
   );
 }
