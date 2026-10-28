@@ -7,6 +7,7 @@ import * as THREE from "three";
 import witchImage from "@/assets/witch.webp";
 import { onIntroDone } from "@/lib/scroll";
 import { BatBurst, BatField } from "./Bats";
+import { DEFAULT_LIGHT, lightStore, toFalloff } from "./lightSettings";
 import { pointerOnPlane } from "./pointerWorld";
 import { FOG_FRAGMENT, PLANE_VERTEX, PORTRAIT_FRAGMENT } from "./shaders";
 
@@ -59,6 +60,17 @@ function useCandle(layout: Layout) {
   return candle;
 }
 
+type Uniforms = Record<string, THREE.IUniform | undefined>;
+
+/** Copies the tunable light (from the hero light panel) into both shaders. */
+function applyLightSettings(portrait: Uniforms, fog: Uniforms) {
+  const settings = lightStore.current;
+  if (portrait.uLightPower) portrait.uLightPower.value = settings.portraitBrightness;
+  if (portrait.uLightFalloff) portrait.uLightFalloff.value = toFalloff(settings.portraitRadius);
+  if (fog.uLightFalloff) fog.uLightFalloff.value = toFalloff(settings.mistRadius);
+  if (fog.uLightStrength) fog.uLightStrength.value = settings.mistBrightness;
+}
+
 function Scene({ isMobile }: { isMobile: boolean }) {
   const texture = useLoader(THREE.TextureLoader, witchImage.src);
   const layout = usePortraitLayout();
@@ -78,7 +90,8 @@ function Scene({ isMobile }: { isMobile: boolean }) {
       uSway: { value: 1 },
       uReveal: { value: 0 },
       uLight: { value: new THREE.Vector2(0.45, 0.62) },
-      uLightPower: { value: 1 },
+      uLightPower: { value: DEFAULT_LIGHT.portraitBrightness },
+      uLightFalloff: { value: toFalloff(DEFAULT_LIGHT.portraitRadius) },
       uAspect: { value: new THREE.Vector2(1, 1 / IMAGE_ASPECT) },
       uEyes: { value: EYES },
     }),
@@ -90,6 +103,8 @@ function Scene({ isMobile }: { isMobile: boolean }) {
       uSway: { value: 0 },
       uLight: { value: new THREE.Vector2(0.5, 0.5) },
       uAspect: { value: 1 },
+      uLightFalloff: { value: toFalloff(DEFAULT_LIGHT.mistRadius) },
+      uLightStrength: { value: DEFAULT_LIGHT.mistBrightness },
     }),
     [],
   );
@@ -112,6 +127,7 @@ function Scene({ isMobile }: { isMobile: boolean }) {
     const fog = fogRef.current?.uniforms;
     if (!portrait?.uTime || !portrait.uLight || !portrait.uReveal || !fog?.uTime || !fog.uLight || !fog.uAspect) return;
     const time = clock.elapsedTime;
+    applyLightSettings(portrait, fog);
     const light = candle.current;
     portrait.uTime.value = time;
     portrait.uReveal.value = reveal.current.value;

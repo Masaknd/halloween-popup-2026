@@ -47,3 +47,4 @@ Pushing to `main` builds and publishes to GitHub Pages via `.github/workflows/de
 ## Credits
 
 - 3D model: "Haunted House" (https://sketchfab.com/3d-models/haunted-house-c363402560a14535912508b72f2f6535) by Raphael Baget (https://sketchfab.com/Raphael.Baget), licensed under CC BY 4.0 (http://creativecommons.org/licenses/by/4.0/). Modified: moon, cloud, grass and white prop meshes removed, geometry and textures compressed (meshopt + WebP), materials recoloured at runtime. Served from `public/models/haunted-house.glb`.
+- 3D model: "Candles set" (https://sketchfab.com/3d-models/candles-set-f09212756bc94764a8bcfcd3c7e38f8e) by shuvalov.di (https://sketchfab.com/shuvalov.di), licensed under CC BY-SA 4.0 (http://creativecommons.org/licenses/by-sa/4.0/). Modified: geometry and textures compressed (meshopt + WebP). The modified model, `public/models/candles.glb`, is shared under CC BY-SA 4.0. Used in the Details and Witching hours sections.

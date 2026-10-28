@@ -19,6 +19,9 @@ const ITEMS = [
   "Costumes encouraged",
 ];
 
+/** Share of each drip still inside the pool before you scroll past. */
+const DRIP_HIDDEN = 0.5;
+
 /** Ticker that skews and races with scroll velocity; wine bleeds down from it as you scroll. */
 export function Marquee({ tone = "wine" }: { tone?: "wine" | "soot" }) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -36,11 +39,14 @@ export function Marquee({ tone = "wine" }: { tone?: "wine" | "soot" }) {
         skew(gsap.utils.clamp(-14, 14, -velocity * 0.6));
       });
 
+      // each stream slides down out of the pool as you scroll, so its bulb stays round while it lengthens
+      const drips = gsap.utils.toArray<SVGGElement>(".drip", rootRef.current);
+      if (drips.length === 0) return unsubscribe; // the soot ticker has no drips
       gsap.fromTo(
-        gsap.utils.toArray<SVGGElement>(".drip", rootRef.current),
-        { scaleY: 0.15, transformOrigin: "50% 0%" },
+        drips,
+        { y: (_index: number, drip: SVGGElement) => -Number(drip.dataset.length ?? 0) * DRIP_HIDDEN },
         {
-          scaleY: 1,
+          y: 0,
           ease: "none",
           stagger: { each: 0.04, from: "random" },
           scrollTrigger: { trigger: rootRef.current, start: "top 80%", end: "bottom 10%", scrub: 1 },
@@ -66,7 +72,7 @@ export function Marquee({ tone = "wine" }: { tone?: "wine" | "soot" }) {
           ))}
         </div>
       </div>
-      {isWine ? <Drips className="pointer-events-none absolute inset-x-0 top-full h-16 w-full text-wine sm:h-24" /> : null}
+      {isWine ? <Drips className="pointer-events-none absolute inset-x-0 top-full h-44 w-full text-wine sm:h-64" /> : null}
     </div>
   );
 }

@@ -40,6 +40,8 @@ varying vec2 vUv;
 uniform float uTime;
 uniform vec2 uLight;
 uniform float uAspect;
+uniform float uLightFalloff;
+uniform float uLightStrength;
 ${NOISE}
 void main() {
   vec2 p = vec2(vUv.x * uAspect, vUv.y);
@@ -54,10 +56,10 @@ void main() {
   vec2 moon = vec2(0.18 * uAspect, 0.82);
   float moonGlow = exp(-pow(length(p - moon), 2.0) * 9.0);
   color += vec3(0.42, 0.36, 0.30) * moonGlow * 0.12;
-  // candle warms the mist around the cursor
+  // candle warms a wide pool of mist around the cursor, so the bats show up as silhouettes against it
   vec2 light = vec2(uLight.x * uAspect, uLight.y);
-  float candle = exp(-pow(length(p - light), 2.0) * 10.0);
-  color += vec3(0.5, 0.26, 0.08) * candle * 0.18 * (0.6 + drift2);
+  float candle = exp(-pow(length(p - light), 2.0) * uLightFalloff);
+  color += vec3(0.5, 0.26, 0.08) * candle * uLightStrength * (0.6 + drift2);
   gl_FragColor = vec4(color, 1.0);
 }
 `;
@@ -69,6 +71,7 @@ uniform float uTime;
 uniform float uReveal;
 uniform vec2 uLight;
 uniform float uLightPower;
+uniform float uLightFalloff;
 uniform vec2 uAspect;
 uniform vec2 uEyes[2];
 ${NOISE}
@@ -86,7 +89,7 @@ void main() {
   // candle light: warm, flickering pool around the cursor
   float flick = 0.88 + 0.07 * sin(uTime * 11.0) + 0.05 * sin(uTime * 23.7 + 1.3);
   float d = length((uv - uLight) * uAspect);
-  float light = exp(-d * d * 6.5) * uLightPower * flick;
+  float light = exp(-d * d * uLightFalloff) * uLightPower * flick;
   vec3 warm = tex.rgb * vec3(1.32, 1.06, 0.78);
   vec3 color = mix(dim, warm, clamp(light, 0.0, 1.0));
   color += vec3(0.6, 0.28, 0.08) * light * 0.07;

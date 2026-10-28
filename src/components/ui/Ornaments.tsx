@@ -1,6 +1,10 @@
 /** Hand-drawn gothic ornaments. Strokes use currentColor so they inherit the text colour. */
 
-import { blobPath, blobPoints } from "@/lib/blob";
+import advanceSeal from "@/assets/seals/seal-advance.webp";
+import doorSeal from "@/assets/seals/seal-door.webp";
+import { DRIP_OUTLINE, DRIP_TILE } from "@/components/ui/dripOutline";
+
+export { SpiderWeb } from "@/components/ui/SpiderWeb";
 
 /** Curling filigree for frame corners; mirror with CSS scale for the other corners. */
 export function Filigree({ className = "" }: { className?: string }) {
@@ -45,97 +49,66 @@ export function OrnamentRule({ className = "" }: { className?: string }) {
   );
 }
 
-const SEAL_EDGE = blobPath(
-  blobPoints({ count: 14, cx: 50, cy: 50, radius: 44, wobble: 0.08, phases: [0, 1.7, 3.1, 0.6, 2.4, 4.2, 5.5, 1.1, 3.6, 0.3, 2.8, 4.8, 5.9, 1.9] }, 0.7),
-);
+/** Seals cut from the user's wax-stamp sheet (rendered from their SVG, background keyed out). */
+const SEAL_IMAGES = { advance: advanceSeal, door: doorSeal } as const;
+export type SealVariant = keyof typeof SEAL_IMAGES;
+const BAT_PATH =
+  "M50 44 L47 39 L46 44 C40 41 32 42 26 47 C31 47 33 50 33 53 C36 50 40 51 42 54 C44 51 47 51 50 56 C53 51 56 51 58 54 C60 51 64 50 67 53 C67 50 69 47 74 47 C68 42 60 41 54 44 L53 39 Z";
 
-/** Wax seal with a bat pressed into it. */
-export function WaxSeal({ className = "" }: { className?: string }) {
+/** Real wax seal with a bat pressed into its face: a dark impression with light catching its lower lip. */
+export function WaxSeal({ variant, className = "" }: { variant: SealVariant; className?: string }) {
   return (
-    <svg viewBox="0 0 100 100" className={className} aria-hidden>
-      <defs>
-        <radialGradient id="wax" cx="38%" cy="32%" r="70%">
-          <stop offset="0%" stopColor="#b3303a" />
-          <stop offset="55%" stopColor="#7d1621" />
-          <stop offset="100%" stopColor="#3f0a12" />
-        </radialGradient>
-      </defs>
-      <path d={SEAL_EDGE} fill="url(#wax)" />
-      <circle cx="50" cy="50" r="30" fill="none" stroke="#2a060c" strokeOpacity="0.7" strokeWidth="2" />
-      <circle cx="50" cy="50" r="27" fill="none" stroke="#c4525b" strokeOpacity="0.35" strokeWidth="0.8" />
-      <path
-        d="M50 44 L47 39 L46 44 C40 41 32 42 26 47 C31 47 33 50 33 53 C36 50 40 51 42 54 C44 51 47 51 50 56 C53 51 56 51 58 54 C60 51 64 50 67 53 C67 50 69 47 74 47 C68 42 60 41 54 44 L53 39 Z"
-        fill="#2a060c"
-        fillOpacity="0.8"
+    <div aria-hidden className={`pointer-events-none ${className}`}>
+      <div
+        className="aspect-square w-full bg-contain bg-center bg-no-repeat drop-shadow-[0_3px_3px_rgb(0_0_0/0.55)]"
+        style={{ backgroundImage: `url(${SEAL_IMAGES[variant].src})` }}
       />
-      <ellipse cx="38" cy="30" rx="10" ry="5" fill="#fff" fillOpacity="0.12" transform="rotate(-25 38 30)" />
-    </svg>
+      <svg viewBox="0 0 100 100" className="absolute inset-0 size-full">
+        <path d={BAT_PATH} fill="#ffb3b3" fillOpacity="0.22" transform="translate(0 1.2)" />
+        <path d={BAT_PATH} fill="#2a0306" fillOpacity="0.62" />
+      </svg>
+    </div>
   );
 }
 
-const DRIPS = [
-  { x: 4, w: 3, h: 26 },
-  { x: 11, w: 2, h: 12 },
-  { x: 19, w: 4, h: 44 },
-  { x: 31, w: 2.5, h: 18 },
-  { x: 42, w: 3.5, h: 60 },
-  { x: 55, w: 2, h: 14 },
-  { x: 63, w: 3, h: 34 },
-  { x: 74, w: 4.5, h: 72 },
-  { x: 86, w: 2.5, h: 22 },
-  { x: 94, w: 3, h: 40 },
-] as const;
+/** Tiles across the view: plain, mirrored, plain. */
+const DRIP_TILES = 3;
+/** How far the drips slide out of the marquee as you scroll, in tile units. */
+const DRIP_TRAVEL = 240;
 
-/** Blood dripping from the top edge of a section; each drip is a scalable group. */
+/**
+ * Flat paint dripping from the marquee in its own colour (currentColor), traced from a real drip silhouette.
+ * The whole silhouette is one `.drip` group carrying its travel in `data-length`, so callers can pour it down on scroll.
+ */
 export function Drips({ className = "" }: { className?: string }) {
+  const viewWidth = DRIP_TILE.width * DRIP_TILES;
   return (
-    <svg viewBox="0 0 100 80" preserveAspectRatio="none" className={className} aria-hidden>
-      <path d="M0 0 H100 V5 C90 7 80 4 70 6 C60 8 50 4 40 6 C30 8 20 5 10 7 C6 7 3 6 0 7 Z" fill="currentColor" />
-      {DRIPS.map((drip) => (
-        <g key={drip.x} className="drip">
-          <path
-            d={`M${drip.x - drip.w / 2} 4 C${drip.x - drip.w / 2} ${drip.h * 0.6} ${drip.x - drip.w * 0.35} ${drip.h - drip.w} ${drip.x - drip.w * 0.7} ${drip.h - drip.w * 0.2} A${drip.w * 0.7} ${drip.w * 0.8} 0 1 0 ${drip.x + drip.w * 0.7} ${drip.h - drip.w * 0.2} C${drip.x + drip.w * 0.35} ${drip.h - drip.w} ${drip.x + drip.w / 2} ${drip.h * 0.6} ${drip.x + drip.w / 2} 4 Z`}
-            fill="currentColor"
-          />
+    <svg
+      viewBox={`0 0 ${viewWidth} ${DRIP_TILE.height}`}
+      preserveAspectRatio="xMidYMin slice"
+      className={`overflow-visible ${className}`}
+      aria-hidden
+    >
+      <defs>
+        <clipPath id="drip-clip">
+          <rect x="0" y="0" width={viewWidth} height={DRIP_TILE.height * 2} />
+        </clipPath>
+      </defs>
+      <g clipPath="url(#drip-clip)" fill="currentColor">
+        <g className="drip" data-length={DRIP_TRAVEL}>
+          {Array.from({ length: DRIP_TILES }, (_, index) => (
+            <path
+              key={index}
+              d={DRIP_OUTLINE}
+              transform={
+                index % 2 === 0
+                  ? `translate(${index * DRIP_TILE.width} 0)`
+                  : `translate(${(index + 1) * DRIP_TILE.width} 0) scale(-1 1)`
+              }
+            />
+          ))}
         </g>
-      ))}
-    </svg>
-  );
-}
-
-/** Irregular, sagging spider web anchored in a corner. */
-export function SpiderWeb({ className = "" }: { className?: string }) {
-  const spokes = [0, 13, 29, 44, 58, 73, 90];
-  const rings = [26, 52, 80, 112, 150, 192];
-  // rounded so server and client render identical markup
-  const point = (radius: number, degrees: number) => {
-    const radians = (degrees * Math.PI) / 180;
-    return [Math.round(radius * Math.cos(radians) * 100) / 100, Math.round(radius * Math.sin(radians) * 100) / 100] as const;
-  };
-
-  return (
-    <svg viewBox="0 0 200 200" className={className} aria-hidden fill="none" stroke="currentColor" strokeWidth="0.7">
-      {spokes.map((angle) => {
-        const [x, y] = point(220, angle);
-        return <line key={angle} x1="0" y1="0" x2={x} y2={y} />;
-      })}
-      {rings.map((radius, ringIndex) => (
-        <path
-          key={radius}
-          d={spokes
-            .slice(1)
-            .map((angle, index) => {
-              const previous = spokes[index] ?? 0;
-              const [sx, sy] = point(radius, previous);
-              const [ex, ey] = point(radius * (1 + ((index + ringIndex) % 3) * 0.04), angle);
-              const [cx, cy] = point(radius * 0.8, (angle + previous) / 2);
-              return `${index === 0 ? `M${sx} ${sy}` : ""} Q${cx} ${cy} ${ex} ${ey}`;
-            })
-            .join(" ")}
-        />
-      ))}
-      <path d="M150 0 V58" strokeWidth="0.5" />
-      <path d="M150 58 c-5 0 -7 6 -4 10 c-4 2 -4 9 4 10 c8 -1 8 -8 4 -10 c3 -4 1 -10 -4 -10 Z" fill="currentColor" stroke="none" />
+      </g>
     </svg>
   );
 }

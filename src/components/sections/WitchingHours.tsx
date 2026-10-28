@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Candles } from "@/components/ui/Candlelight";
+import { Candles3D } from "@/components/ui/Candles3D";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { FrameLine, SpiderWeb } from "@/components/ui/Ornaments";
 import { EVENT } from "@/lib/event";
@@ -73,7 +73,7 @@ export function WitchingHours() {
               <HouseScene scrollRef={scrollRef} isActive={isVisible} />
             </div>
           </div>
-          <Candles count={4} className="pointer-events-none absolute -bottom-6 -left-4 z-10 h-40 sm:-left-12 sm:h-56" />
+          <Candles3D className="pointer-events-none !absolute -bottom-6 -left-6 z-10 h-44 w-40 sm:-left-14 sm:h-60 sm:w-52" />
           <FrameLine path={ARCH_PATH} className="-inset-3 text-candle/40" />
           <FrameLine path={ARCH_PATH} className="-inset-5 text-candle/15" />
           <p className="label pointer-events-none absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap text-bone/45">

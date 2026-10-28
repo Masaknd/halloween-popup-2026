@@ -1,3 +1,4 @@
+import { BurnIn } from "@/components/ui/BurnIn";
 import { Curtains } from "@/components/ui/Candlelight";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { Magnetic } from "@/components/ui/Magnetic";
@@ -40,7 +41,7 @@ export function Location() {
         </div>
 
         {/* the map seen through a slowly breathing ink blot */}
-        <div className="relative mx-auto aspect-square w-full max-w-xl">
+        <BurnIn className="relative mx-auto aspect-square w-full max-w-xl">
           <div aria-hidden className="absolute inset-[6%] rounded-full bg-blood/30 blur-3xl" />
           <iframe
             title={`Map of ${EVENT.venue.street}`}
@@ -49,7 +50,7 @@ export function Location() {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
-        </div>
+        </BurnIn>
       </div>
     </section>
   );

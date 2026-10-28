@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { BurnIn } from "@/components/ui/BurnIn";
 import { Gauze } from "@/components/ui/Candlelight";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { FiligreeFrame, OrnamentRule, WaxSeal } from "@/components/ui/Ornaments";
-import { Reveal } from "@/components/ui/Reveal";
+import { PaperSurface } from "@/components/ui/PaperSurface";
 import { SectionFade } from "@/components/ui/SectionFade";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { EVENT, FULL_ADDRESS, type TicketTier } from "@/lib/event";
@@ -32,6 +33,7 @@ function Ticket({ tier, serial, featured }: { tier: TicketTier; serial: number; 
         >
           {/* front */}
           <div className={`${face} ${tone} flex text-bone`}>
+            <PaperSurface seed={serial} />
             <FiligreeFrame className="text-candle/35" />
             <div className="relative flex flex-1 flex-col justify-between p-6 sm:p-8">
               <p className="label text-bone/60">
@@ -43,21 +45,22 @@ function Ticket({ tier, serial, featured }: { tier: TicketTier; serial: number; 
               </div>
             </div>
             <div className="relative flex w-[36%] flex-col items-center justify-center gap-1 border-l border-dashed border-bone/30">
-              <WaxSeal className="absolute -top-2 right-3 w-14 rotate-12 sm:w-16" />
+              <WaxSeal variant={featured ? "advance" : "door"} className="absolute right-3 top-3 w-21 rotate-12 sm:right-4 sm:top-4 sm:w-24" />
               <span className="label text-bone/50">{EVENT.currency}</span>
               <span className="font-display text-6xl font-light leading-none sm:text-7xl">${tier.price}</span>
             </div>
           </div>
           {/* back */}
           <div className={`${face} ${tone} flex flex-col items-center justify-center gap-2 p-6 text-center text-bone [transform:rotateY(180deg)]`}>
+            <PaperSurface seed={serial + 50} />
             <FiligreeFrame className="text-candle/35" />
-            <p className="font-blackletter text-3xl text-blood sm:text-4xl">{EVENT.title}</p>
-            <OrnamentRule className="w-48 text-candle/40" />
-            <p className="text-lg italic">
+            <p className="relative font-blackletter text-3xl text-blood sm:text-4xl">{EVENT.title}</p>
+            <OrnamentRule className="relative w-48 text-candle/40" />
+            <p className="relative text-lg italic">
               {EVENT.dateLabel} · {EVENT.timeLabel}
             </p>
-            <p className="text-base italic text-bone/65">{FULL_ADDRESS}</p>
-            <p className="label mt-2 text-bone/50">Hosted by {EVENT.organizer}</p>
+            <p className="relative text-base italic text-bone/65">{FULL_ADDRESS}</p>
+            <p className="label relative mt-2 text-bone/50">Hosted by {EVENT.organizer}</p>
           </div>
         </div>
       </button>
@@ -72,9 +75,9 @@ export function Tickets() {
       <div aria-hidden className="candle-glow pointer-events-none absolute left-1/2 top-0 size-[46rem] -translate-x-1/2" />
       <Gauze className="pointer-events-none absolute inset-x-0 top-0 h-36 w-full -scale-x-100 md:h-52" />
       <SectionFade edge="bottom" color="ash" />
-      <Reveal className="relative mx-auto mb-24 max-w-5xl md:mb-32">
+      <BurnIn className="relative mx-auto mb-24 max-w-5xl md:mb-32">
         <Countdown />
-      </Reveal>
+      </BurnIn>
 
       <div className="relative mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
@@ -86,11 +89,11 @@ export function Tickets() {
         </p>
       </div>
 
-      <Reveal className="relative grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
+      <BurnIn className="relative grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
         {EVENT.tickets.map((tier, index) => (
           <Ticket key={tier.id} tier={tier} serial={1031 + index} featured={index === 0} />
         ))}
-      </Reveal>
+      </BurnIn>
 
       <div className="relative mt-16 flex justify-center">
         <Magnetic>

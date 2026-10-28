@@ -3,23 +3,88 @@
 import { forwardRef, useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { createRandom, range } from "@/lib/random";
 import { pointerOnPlane } from "./pointerWorld";
 
-let wingGeometry: THREE.ShapeGeometry | null = null;
+/**
+ * Right-wing landmarks (x out from the spine, y up), laid out like a real bat's skeleton: the forearm runs from the
+ * shoulder to the wrist, and the long fingers fan out from the wrist to hold the membrane.
+ */
+const SHOULDER = new THREE.Vector2(0.04, 0.06);
+const WRIST = new THREE.Vector2(0.38, 0.24);
+const FINGER_3 = new THREE.Vector2(1, 0.04);
+const FINGER_4 = new THREE.Vector2(0.8, -0.24);
+const FINGER_5 = new THREE.Vector2(0.52, -0.3);
+const ANKLE = new THREE.Vector2(0.07, -0.2);
+/** The hand folds about the line from the wrist to the fifth finger, so both wing pieces stay joined along it. */
+const HAND_AXIS = new THREE.Vector3(FINGER_5.x - WRIST.x, FINGER_5.y - WRIST.y, 0).normalize();
+/** How far the hand curls relative to the arm stroke; the lag makes the tips whip like a real wingbeat. */
+const HAND_CURL = 0.6;
+
+interface BatGeometry {
+  body: THREE.BufferGeometry;
+  arm: THREE.ShapeGeometry;
+  hand: THREE.ShapeGeometry;
+}
+
+let batGeometry: BatGeometry | null = null;
 let batMaterial: THREE.MeshBasicMaterial | null = null;
 
-function getWing(): THREE.ShapeGeometry {
-  if (wingGeometry) return wingGeometry;
+/** Membrane from the body to the wrist and back along the fifth finger, its trailing edge slack down to the ankle. */
+function armShape(): THREE.Shape {
   const shape = new THREE.Shape();
-  shape.moveTo(0, 0.08);
-  shape.quadraticCurveTo(0.45, 0.32, 1, 0.22);
-  shape.quadraticCurveTo(0.86, 0.02, 0.8, -0.12);
-  shape.quadraticCurveTo(0.66, -0.02, 0.54, -0.14);
-  shape.quadraticCurveTo(0.42, -0.04, 0.28, -0.16);
-  shape.quadraticCurveTo(0.16, -0.06, 0, -0.08);
-  wingGeometry = new THREE.ShapeGeometry(shape, 6);
-  return wingGeometry;
+  shape.moveTo(SHOULDER.x, SHOULDER.y);
+  shape.quadraticCurveTo(0.2, 0.24, WRIST.x, WRIST.y);
+  shape.lineTo(FINGER_5.x, FINGER_5.y);
+  shape.quadraticCurveTo(0.25, 0.03, ANKLE.x, ANKLE.y);
+  shape.lineTo(0, -0.1);
+  return shape;
+}
+
+/** The hand: a thumb claw at the wrist, then membrane scalloped between the finger tips. */
+function handShape(): THREE.Shape {
+  const shape = new THREE.Shape();
+  shape.moveTo(WRIST.x, WRIST.y);
+  shape.quadraticCurveTo(0.375, 0.32, 0.43, 0.31);
+  shape.quadraticCurveTo(0.41, 0.285, 0.425, 0.255);
+  shape.quadraticCurveTo(0.78, 0.3, FINGER_3.x, FINGER_3.y);
+  shape.quadraticCurveTo(0.62, 0.07, FINGER_4.x, FINGER_4.y);
+  shape.quadraticCurveTo(0.5, -0.03, FINGER_5.x, FINGER_5.y);
+  return shape;
+}
+
+/** Tail membrane stretched between the feet. */
+function tailShape(): THREE.Shape {
+  const shape = new THREE.Shape();
+  shape.moveTo(-ANKLE.x, ANKLE.y);
+  shape.lineTo(-0.04, -0.06);
+  shape.lineTo(0.04, -0.06);
+  shape.lineTo(ANKLE.x, ANKLE.y);
+  shape.quadraticCurveTo(0, -0.22, -ANKLE.x, ANKLE.y);
+  return shape;
+}
+
+/** Torso, head, pointed ears and tail merged into one mesh so each bat stays cheap to draw. */
+function bodyGeometry(): THREE.BufferGeometry {
+  const torso = new THREE.SphereGeometry(1, 10, 8).scale(0.07, 0.12, 0.065).translate(0, -0.03, 0);
+  const head = new THREE.SphereGeometry(0.055, 10, 8).translate(0, 0.12, 0.015);
+  const ear = (side: number) =>
+    new THREE.ConeGeometry(0.026, 0.09, 6).rotateZ(-side * 0.35).translate(side * 0.036, 0.19, 0);
+  const tail = new THREE.ShapeGeometry(tailShape(), 4);
+  const merged = mergeGeometries([torso, head, ear(-1), ear(1), tail]);
+  if (!merged) throw new Error("Bat body geometries could not be merged");
+  return merged;
+}
+
+function getGeometry(): BatGeometry {
+  batGeometry ??= {
+    body: bodyGeometry(),
+    arm: new THREE.ShapeGeometry(armShape(), 8),
+    // shifted so the wrist sits at the hand's pivot origin
+    hand: new THREE.ShapeGeometry(handShape(), 8).translate(-WRIST.x, -WRIST.y, 0),
+  };
+  return batGeometry;
 }
 
 function getMaterial(): THREE.MeshBasicMaterial {
@@ -27,29 +92,45 @@ function getMaterial(): THREE.MeshBasicMaterial {
   return batMaterial;
 }
 
+/** One wing; `side` -1 mirrors it to the left. children[0] is the mirror group, whose children[1] is the hand pivot. */
+function Wing({ side, geometry, material }: { side: 1 | -1; geometry: BatGeometry; material: THREE.Material }) {
+  return (
+    <group>
+      <group scale={[side, 1, 1]}>
+        <mesh geometry={geometry.arm} material={material} />
+        <group position={[WRIST.x, WRIST.y, 0]}>
+          <mesh geometry={geometry.hand} material={material} />
+        </group>
+      </group>
+    </group>
+  );
+}
+
 /** A bat is a body plus two wing pivots: children[1] is the left wing, children[2] the right. */
 export const Bat = forwardRef<THREE.Group>(function Bat(_, ref) {
-  const wing = getWing();
+  const geometry = getGeometry();
   const material = getMaterial();
   return (
     <group ref={ref}>
-      <mesh material={material} scale={[0.09, 0.14, 0.09]}>
-        <sphereGeometry args={[1, 8, 8]} />
-      </mesh>
-      <group>
-        <mesh geometry={wing} material={material} scale={[-1, 1, 1]} />
-      </group>
-      <group>
-        <mesh geometry={wing} material={material} />
-      </group>
+      <mesh geometry={geometry.body} material={material} />
+      <Wing side={-1} geometry={geometry} material={material} />
+      <Wing side={1} geometry={geometry} material={material} />
     </group>
   );
 });
 
+const curlHand = (wing: THREE.Object3D | undefined, angle: number): void => {
+  const hand = wing?.children[0]?.children[1];
+  hand?.quaternion.setFromAxisAngle(HAND_AXIS, -angle * HAND_CURL);
+};
+
+/** Beats both wings at the shoulder and curls each hand further at the wrist, as a real bat's wing bends mid-stroke. */
 export const flapWings = (bat: THREE.Group, angle: number): void => {
   const [, left, right] = bat.children;
   if (left) left.rotation.y = -angle;
   if (right) right.rotation.y = angle;
+  curlHand(left, angle);
+  curlHand(right, angle);
 };
 
 interface OrbitParams {

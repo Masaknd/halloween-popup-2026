@@ -1,8 +1,9 @@
-import { Candles, Gauze } from "@/components/ui/Candlelight";
+import { BurnIn } from "@/components/ui/BurnIn";
+import { Candles3D } from "@/components/ui/Candles3D";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { FrameLine, OrnamentRule } from "@/components/ui/Ornaments";
-import { Reveal } from "@/components/ui/Reveal";
 import { SectionFade } from "@/components/ui/SectionFade";
+import { StoneSurface } from "@/components/ui/StoneSurface";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { EVENT } from "@/lib/event";
 import { TOMB_PATH } from "@/lib/shapes";
@@ -19,12 +20,14 @@ const CARDS = [
   },
 ] as const;
 
+/** The small carved word under each numeral, twice the site-wide `.label` size so it reads on the stone. */
+const KICKER_SIZE = "1.36rem";
+
 /** Event facts carved into weathered tombstones. */
 export function Details() {
   return (
     <section id="details" className="relative bg-soot px-4 pb-20 pt-32 sm:px-6 md:pb-28 md:pt-40 lg:px-10 lg:pb-36">
       <div aria-hidden className="candle-glow pointer-events-none absolute -right-40 top-0 size-[44rem]" />
-      <Gauze className="pointer-events-none absolute inset-x-0 top-0 h-40 w-full md:h-56" />
       <SectionFade edge="bottom" color="void" />
       <div className="relative mb-14 flex flex-col gap-6 md:mb-20 md:flex-row md:items-end md:justify-between">
         <div>
@@ -32,31 +35,36 @@ export function Details() {
           <ChaosText as="h2" text="The details" className="font-display text-6xl font-light italic leading-[0.9] sm:text-8xl lg:text-[9rem]" />
         </div>
         <div className="flex items-end gap-6 md:flex-col md:items-end md:gap-4">
-          <Candles count={6} className="h-36 shrink-0 md:h-60" />
+          <Candles3D className="h-40 w-36 shrink-0 md:h-64 md:w-56" />
           <p className="max-w-sm text-lg italic leading-relaxed text-bone/70 md:text-right">
             A pop-up Halloween party after dark. Dress to haunt; leave before the sun.
           </p>
         </div>
       </div>
 
-      <Reveal className="relative grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+      <BurnIn className="relative grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
         {CARDS.map((card, index) => (
           <TiltCard key={card.kicker} className={index % 2 === 0 ? "lg:translate-y-6" : ""} glareClassName="tombstone">
-            <div className="tombstone old-paper relative flex min-h-80 flex-col items-center justify-between px-6 pb-8 pt-14 text-center lg:min-h-[26rem]">
-              <FrameLine path={TOMB_PATH} className="inset-3 text-candle/30" />
-              <div style={{ transform: "translateZ(30px)" }}>
-                <p className="font-label text-3xl text-blood">{card.numeral}</p>
-                <p className="label mt-2 text-bone/60">{card.kicker}</p>
+            <div className="tombstone relative flex min-h-80 flex-col items-center justify-between bg-[#4b4741] px-6 pb-8 pt-14 text-center lg:min-h-[26rem]">
+              <StoneSurface seed={index} />
+              {/* chiselled border: a dark groove with a sliver of light catching its lower lip */}
+              <FrameLine path={TOMB_PATH} className="inset-3 translate-x-px translate-y-px text-stone-lit/10" />
+              <FrameLine path={TOMB_PATH} className="inset-3 text-black/70" />
+              <div className="relative" style={{ transform: "translateZ(30px)" }}>
+                <p className="engraved font-label text-6xl text-[#b8262f]">{card.numeral}</p>
+                <p className="engraved label mt-3 text-stone-lit/90" style={{ fontSize: KICKER_SIZE }}>
+                  {card.kicker}
+                </p>
               </div>
-              <div style={{ transform: "translateZ(60px)" }}>
-                <p className="text-balance font-display text-4xl leading-none text-bone lg:text-[2.6rem]">{card.title}</p>
-                <OrnamentRule className="mx-auto my-4 w-40 text-candle/40" />
-                <p className="text-base italic leading-snug text-bone/65">{card.body}</p>
+              <div className="relative" style={{ transform: "translateZ(60px)" }}>
+                <p className="engraved text-balance font-display text-4xl leading-none text-stone-lit lg:text-[2.6rem]">{card.title}</p>
+                <OrnamentRule className="engraved mx-auto my-4 w-40 text-stone-lit/45" />
+                <p className="engraved text-base italic leading-snug text-stone-lit/90">{card.body}</p>
               </div>
             </div>
           </TiltCard>
         ))}
-      </Reveal>
+      </BurnIn>
     </section>
   );
 }

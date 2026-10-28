@@ -10,6 +10,7 @@ import { EVENT, FULL_ADDRESS } from "@/lib/event";
 import { onIntroDone } from "@/lib/scroll";
 import { useInView } from "@/lib/useInView";
 import { useMediaQuery } from "@/lib/useMediaQuery";
+import { LightPanel } from "./LightPanel";
 
 const GothicScene = dynamic(() => import("./GothicScene"), { ssr: false });
 const WebScene = dynamic(() => import("./WebScene"), { ssr: false });
@@ -45,6 +46,7 @@ export function Hero() {
       <div className="pointer-events-none absolute left-0 top-0 z-10 aspect-square w-[16.8rem] sm:w-96 lg:w-[31.2rem]">
         <WebScene isActive={isVisible} />
       </div>
+      <LightPanel />
       {/* keeps the title legible where it crosses the portrait on phones */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[45%] bg-gradient-to-t from-void via-void/80 to-transparent md:hidden" />
 
