@@ -18,6 +18,14 @@ const CANDLES_CREDIT = {
   licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
 } as const;
 
+// Magnific's free licence requires "Designed by Magnific" with a link to magnific.com
+const SEALS_CREDIT = {
+  url: "https://www.magnific.com/free-vector/red-wax-seals-set-letter-envelope_8631161.htm",
+  authorUrl: "https://www.magnific.com/author/upklyak",
+  siteUrl: "https://www.magnific.com",
+  licenseUrl: "https://www.magnific.com/ai/docs/licenses-attribution",
+} as const;
+
 export function Footer() {
   return (
     <footer className="relative overflow-hidden bg-void px-4 pb-8 pt-28 text-bone sm:px-6 lg:px-10">
@@ -45,7 +53,7 @@ export function Footer() {
         </button>
       </div>
 
-      {/* required attribution for the CC BY 4.0 haunted house and CC BY-SA 4.0 candle models, plus the stock wax seals */}
+      {/* required attribution for the CC BY 4.0 haunted house, the CC BY-SA 4.0 candles and the Magnific free-licence wax seals */}
       <p className="relative mt-10 text-sm italic text-bone/40">
         3D haunted house:{" "}
         <a href={MODEL_CREDIT.url} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">
@@ -75,8 +83,23 @@ export function Footer() {
         </a>
         ; modified (compressed), and the modified model is shared under the same licence.
         <br />
-        Wax seals on the tickets: licensed stock vector artwork (artist to be confirmed); recoloured and pressed with a bat
-        emblem.
+        Wax seals on the tickets:{" "}
+        <a href={SEALS_CREDIT.url} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">
+          “Red wax seals set for letter and envelope”
+        </a>{" "}
+        by{" "}
+        <a href={SEALS_CREDIT.authorUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">
+          upklyak
+        </a>
+        , designed by{" "}
+        <a href={SEALS_CREDIT.siteUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">
+          Magnific
+        </a>
+        , licensed under the{" "}
+        <a href={SEALS_CREDIT.licenseUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">
+          Magnific Free License
+        </a>
+        ; modified (cut out and pressed with a bat emblem).
       </p>
     </footer>
   );
