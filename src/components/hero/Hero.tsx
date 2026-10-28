@@ -5,13 +5,14 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ChaosText } from "@/components/ui/ChaosText";
-import { OrnamentRule, SpiderWeb } from "@/components/ui/Ornaments";
+import { OrnamentRule } from "@/components/ui/Ornaments";
 import { EVENT, FULL_ADDRESS } from "@/lib/event";
 import { onIntroDone } from "@/lib/scroll";
 import { useInView } from "@/lib/useInView";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 
 const GothicScene = dynamic(() => import("./GothicScene"), { ssr: false });
+const WebScene = dynamic(() => import("./WebScene"), { ssr: false });
 
 /** Candle-lit portrait in drifting fog, with the title tearing itself into place. */
 export function Hero() {
@@ -41,7 +42,9 @@ export function Hero() {
         <GothicScene isMobile={isMobile} isActive={isVisible} />
       </div>
 
-      <SpiderWeb className="pointer-events-none absolute left-0 top-0 z-10 w-40 text-bone/20 sm:w-56 lg:w-72" />
+      <div className="pointer-events-none absolute left-0 top-0 z-10 aspect-square w-[16.8rem] sm:w-96 lg:w-[31.2rem]">
+        <WebScene isActive={isVisible} />
+      </div>
       {/* keeps the title legible where it crosses the portrait on phones */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[45%] bg-gradient-to-t from-void via-void/80 to-transparent md:hidden" />
 
