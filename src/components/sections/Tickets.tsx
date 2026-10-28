@@ -5,7 +5,7 @@ import { BurnIn } from "@/components/ui/BurnIn";
 import { Gauze } from "@/components/ui/Candlelight";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { Magnetic } from "@/components/ui/Magnetic";
-import { FiligreeFrame, OrnamentRule, WaxSeal } from "@/components/ui/Ornaments";
+import { AcanthusRule, FiligreeFrame, WaxSeal } from "@/components/ui/Ornaments";
 import { PaperSurface } from "@/components/ui/PaperSurface";
 import { SectionFade } from "@/components/ui/SectionFade";
 import { TiltCard } from "@/components/ui/TiltCard";
@@ -35,8 +35,9 @@ function Ticket({ tier, serial, featured }: { tier: TicketTier; serial: number; 
           <div className={`${face} ${tone} flex text-bone`}>
             <PaperSurface seed={serial} />
             <FiligreeFrame className="text-candle/35" />
-            <div className="relative flex flex-1 flex-col justify-between p-6 sm:p-8">
-              <p className="label text-bone/60">
+            {/* inset past the dense heart of the acanthus corners */}
+            <div className="relative flex flex-1 flex-col justify-between py-6 pl-10 pr-4 sm:py-8 sm:pl-20 sm:pr-8">
+              <p className="label whitespace-nowrap text-bone/60">
                 Admit one · Nº {serial}
               </p>
               <div>
@@ -51,16 +52,16 @@ function Ticket({ tier, serial, featured }: { tier: TicketTier; serial: number; 
             </div>
           </div>
           {/* back */}
-          <div className={`${face} ${tone} flex flex-col items-center justify-center gap-2 p-6 text-center text-bone [transform:rotateY(180deg)]`}>
+          <div className={`${face} ${tone} flex flex-col items-center justify-center gap-1 p-6 text-center text-bone [transform:rotateY(180deg)] sm:gap-2`}>
             <PaperSurface seed={serial + 50} />
             <FiligreeFrame className="text-candle/35" />
             <p className="relative font-blackletter text-3xl text-blood sm:text-4xl">{EVENT.title}</p>
-            <OrnamentRule className="relative w-48 text-candle/40" />
+            <AcanthusRule className="relative w-40 shrink-0 text-candle/40 sm:w-56" />
             <p className="relative text-lg italic">
               {EVENT.dateLabel} · {EVENT.timeLabel}
             </p>
             <p className="relative text-base italic text-bone/65">{FULL_ADDRESS}</p>
-            <p className="label relative mt-2 text-bone/50">Hosted by {EVENT.organizer}</p>
+            <p className="label relative mt-1 text-bone/50 sm:mt-2">Hosted by {EVENT.organizer}</p>
           </div>
         </div>
       </button>

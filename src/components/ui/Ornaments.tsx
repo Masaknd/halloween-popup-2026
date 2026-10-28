@@ -2,29 +2,51 @@
 
 import advanceSeal from "@/assets/seals/seal-advance.webp";
 import doorSeal from "@/assets/seals/seal-door.webp";
+import { ACANTHUS_BOUNDS, ACANTHUS_PATH } from "@/components/ui/acanthusCorner";
 import { DRIP_OUTLINE, DRIP_TILE } from "@/components/ui/dripOutline";
 
 export { SpiderWeb } from "@/components/ui/SpiderWeb";
 
-/** Curling filigree for frame corners; mirror with CSS scale for the other corners. */
+const { x: CORNER_X, y: CORNER_Y, width: CORNER_W, height: CORNER_H } = ACANTHUS_BOUNDS;
+/** The art is drawn as a bottom-left corner; flipping it about its middle makes it a top-left one. */
+const TOP_LEFT = `matrix(1 0 0 -1 0 ${2 * CORNER_Y + CORNER_H})`;
+
+/** Baroque acanthus flourish for frame corners (top-left); mirror with CSS scale for the other corners. */
 export function Filigree({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 120 120" className={className} fill="none" stroke="currentColor" strokeLinecap="round" aria-hidden>
-      <path d="M4 116 V40 C4 18 18 4 40 4 H116" strokeWidth="1.2" />
-      <path d="M12 116 V46 C12 26 26 12 46 12 H116" strokeWidth="0.6" opacity="0.6" />
-      <path d="M22 60 C22 38 38 22 60 22 C48 26 40 34 38 46 C36 58 46 64 52 58 C57 53 53 45 46 47" strokeWidth="1" />
-      <path d="M60 22 C74 22 82 30 80 40 C78 48 68 48 67 41 C66 36 71 34 74 37" strokeWidth="0.9" />
-      <path d="M22 60 C22 74 30 82 40 80 C48 78 48 68 41 67 C36 66 34 71 37 74" strokeWidth="0.9" />
-      <path d="M30 30 L40 40 M36 26 C40 30 41 34 40 40 C34 41 30 40 26 36" strokeWidth="0.8" />
-      <circle cx="40" cy="40" r="2.2" fill="currentColor" stroke="none" />
-      <path d="M88 4 C92 10 96 10 100 4 M4 88 C10 92 10 96 4 100" strokeWidth="0.8" />
+    <svg viewBox={`${CORNER_X} ${CORNER_Y} ${CORNER_W} ${CORNER_H}`} className={className} aria-hidden>
+      <path d={ACANTHUS_PATH} fill="currentColor" transform={TOP_LEFT} />
     </svg>
   );
 }
 
-/** Four filigree corners around a parent with `relative`. */
+/** The divider's hairlines run out from a crest this many units either side of centre. */
+const RULE_GAP = 52;
+/** Size of the crest against the 400-unit-wide divider. */
+const CREST_SCALE = 0.42;
+
+/**
+ * Divider to sit with the acanthus corners: hairlines either side of a crest made from the same flourish, turned so its
+ * corner points down and both arms curl up and outward.
+ */
+export function AcanthusRule({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 400 96" className={className} aria-hidden>
+      <path d={`M10 56 H${200 - RULE_GAP} M${200 + RULE_GAP} 56 H390`} fill="none" stroke="currentColor" strokeWidth="0.8" />
+      <circle cx="10" cy="56" r="1.6" fill="currentColor" />
+      <circle cx="390" cy="56" r="1.6" fill="currentColor" />
+      <g
+        transform={`translate(200 92) rotate(-45) scale(${CREST_SCALE}) translate(${-CORNER_X} ${-(CORNER_Y + CORNER_H)})`}
+      >
+        <path d={ACANTHUS_PATH} fill="currentColor" />
+      </g>
+    </svg>
+  );
+}
+
+/** Four acanthus corners around a parent with `relative`. */
 export function FiligreeFrame({ className = "text-candle/60" }: { className?: string }) {
-  const corner = "pointer-events-none absolute size-14 sm:size-20";
+  const corner = "pointer-events-none absolute size-12 sm:size-20";
   return (
     <div aria-hidden className={className}>
       <Filigree className={`${corner} left-2 top-2`} />
