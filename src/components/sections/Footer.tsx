@@ -2,7 +2,7 @@
 
 import { Candles3D } from "@/components/ui/Candles3D";
 import { ChaosText } from "@/components/ui/ChaosText";
-import { OrnamentRule } from "@/components/ui/Ornaments";
+import { AcanthusRule } from "@/components/ui/Ornaments";
 import { EVENT } from "@/lib/event";
 import { scrollToTarget } from "@/lib/scroll";
 
@@ -27,7 +27,7 @@ export function Footer() {
         <ChaosText text="See you" className="block text-[16vw] md:text-[11vw]" intensity={1.3} />
         <ChaosText text="in the dark" className="block pl-[10%] text-[16vw] italic text-blood md:text-[11vw]" intensity={1.3} />
       </h2>
-      <OrnamentRule className="relative mx-auto mt-16 w-72 text-candle/40" />
+      <AcanthusRule className="relative mx-auto mt-12 w-72 text-candle/40" />
 
       <div className="label relative mt-10 grid grid-cols-1 gap-6 text-bone/60 sm:grid-cols-3">
         <p className="leading-loose">

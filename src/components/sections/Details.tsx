@@ -1,7 +1,7 @@
 import { BurnIn } from "@/components/ui/BurnIn";
 import { Candles3D } from "@/components/ui/Candles3D";
 import { ChaosText } from "@/components/ui/ChaosText";
-import { FrameLine, OrnamentRule } from "@/components/ui/Ornaments";
+import { AcanthusRule, FrameLine } from "@/components/ui/Ornaments";
 import { SectionFade } from "@/components/ui/SectionFade";
 import { StoneSurface } from "@/components/ui/StoneSurface";
 import { TiltCard } from "@/components/ui/TiltCard";
@@ -58,7 +58,7 @@ export function Details() {
               </div>
               <div className="relative" style={{ transform: "translateZ(60px)" }}>
                 <p className="engraved text-balance font-display text-4xl leading-none text-stone-lit lg:text-[2.6rem]">{card.title}</p>
-                <OrnamentRule className="engraved mx-auto my-4 w-40 text-stone-lit/45" />
+                <AcanthusRule className="engraved mx-auto my-1 w-40 text-stone-lit/45" />
                 <p className="engraved text-base italic leading-snug text-stone-lit/90">{card.body}</p>
               </div>
             </div>

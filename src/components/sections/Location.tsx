@@ -2,7 +2,7 @@ import { BurnIn } from "@/components/ui/BurnIn";
 import { Curtains } from "@/components/ui/Candlelight";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { Magnetic } from "@/components/ui/Magnetic";
-import { OrnamentRule } from "@/components/ui/Ornaments";
+import { AcanthusRule } from "@/components/ui/Ornaments";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionFade } from "@/components/ui/SectionFade";
 import { EVENT, MAPS_EMBED_URL, MAPS_URL } from "@/lib/event";
@@ -20,7 +20,7 @@ export function Location() {
             <ChaosText text="Street West" className="block pl-[12%] text-6xl sm:text-8xl xl:text-[8rem]" />
           </h2>
           <Reveal>
-            <OrnamentRule className="my-6 w-64 text-candle/40" />
+            <AcanthusRule className="my-3 w-64 text-candle/40" />
             <p className="text-2xl italic text-bone/75">
               Downtown Toronto, Ontario
             </p>

@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ChaosText } from "@/components/ui/ChaosText";
-import { OrnamentRule } from "@/components/ui/Ornaments";
+import { AcanthusRule } from "@/components/ui/Ornaments";
 import { EVENT, FULL_ADDRESS } from "@/lib/event";
 import { onIntroDone } from "@/lib/scroll";
 import { useInView } from "@/lib/useInView";
@@ -71,7 +71,7 @@ export function Hero() {
             className="-mt-[0.08em] block pl-[18%] font-blackletter text-[19vw] text-blood md:text-[9.5vw]"
           />
         </h1>
-        <OrnamentRule className="hero-fade my-5 w-64 text-candle/50 sm:w-80" />
+        <AcanthusRule className="hero-fade my-2 w-64 text-candle/50 sm:w-80" />
         <div className="hero-fade flex flex-col gap-1 text-lg italic text-bone/85 sm:text-xl">
           <p>
             {EVENT.dateLabel}, from ten until five

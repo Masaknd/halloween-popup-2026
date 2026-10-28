@@ -19,8 +19,8 @@ const ITEMS = [
   "Costumes encouraged",
 ];
 
-/** Share of each drip still inside the pool before you scroll past. */
-const DRIP_HIDDEN = 0.5;
+/** Share of each drip's travel still tucked inside the ticker before you scroll; most streams start out of sight. */
+const DRIP_HIDDEN = 1;
 
 /** Ticker that skews and races with scroll velocity; wine bleeds down from it as you scroll. */
 export function Marquee({ tone = "wine" }: { tone?: "wine" | "soot" }) {
@@ -49,7 +49,8 @@ export function Marquee({ tone = "wine" }: { tone?: "wine" | "soot" }) {
           y: 0,
           ease: "none",
           stagger: { each: 0.04, from: "random" },
-          scrollTrigger: { trigger: rootRef.current, start: "top 80%", end: "bottom 10%", scrub: 1 },
+          // clamp() keeps the start at scroll 0 when the ticker is already on screen, so the pour always begins retracted
+          scrollTrigger: { trigger: rootRef.current, start: "clamp(top bottom)", end: "top 15%", scrub: 0.6 },
         },
       );
       return unsubscribe;

@@ -32,7 +32,14 @@ const CREST_SCALE = 0.42;
 export function AcanthusRule({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 400 96" className={className} aria-hidden>
-      <path d={`M10 56 H${200 - RULE_GAP} M${200 + RULE_GAP} 56 H390`} fill="none" stroke="currentColor" strokeWidth="0.8" />
+      {/* hairlines stay one pixel wide at any divider size, so they don't vanish on the small gravestone dividers */}
+      <path
+        d={`M10 56 H${200 - RULE_GAP} M${200 + RULE_GAP} 56 H390`}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        vectorEffect="non-scaling-stroke"
+      />
       <circle cx="10" cy="56" r="1.6" fill="currentColor" />
       <circle cx="390" cy="56" r="1.6" fill="currentColor" />
       <g
@@ -54,20 +61,6 @@ export function FiligreeFrame({ className = "text-candle/60" }: { className?: st
       <Filigree className={`${corner} bottom-2 left-2 -scale-y-100`} />
       <Filigree className={`${corner} bottom-2 right-2 -scale-100`} />
     </div>
-  );
-}
-
-/** Divider: a fine rule that blooms into a thorned rose knot in the middle. */
-export function OrnamentRule({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 400 24" className={className} fill="none" stroke="currentColor" strokeLinecap="round" aria-hidden>
-      <path d="M0 12 H160 M240 12 H400" strokeWidth="0.8" />
-      <path d="M160 12 C170 4 178 4 184 10 C188 14 186 19 181 18 C177 17 178 12 182 12" strokeWidth="1" />
-      <path d="M240 12 C230 4 222 4 216 10 C212 14 214 19 219 18 C223 17 222 12 218 12" strokeWidth="1" />
-      <path d="M200 3 C206 8 206 16 200 21 C194 16 194 8 200 3 Z" strokeWidth="1" />
-      <circle cx="200" cy="12" r="2" fill="currentColor" stroke="none" />
-      <path d="M150 12 L146 8 M150 12 L146 16 M250 12 L254 8 M250 12 L254 16" strokeWidth="0.8" />
-    </svg>
   );
 }
 
@@ -95,8 +88,8 @@ export function WaxSeal({ variant, className = "" }: { variant: SealVariant; cla
 
 /** Tiles across the view: plain, mirrored, plain. */
 const DRIP_TILES = 3;
-/** How far the drips slide out of the marquee as you scroll, in tile units. */
-const DRIP_TRAVEL = 240;
+/** How far the drips slide out of the marquee as you scroll, in tile units (the tile is 712 tall). */
+const DRIP_TRAVEL = 520;
 
 /**
  * Flat paint dripping from the marquee in its own colour (currentColor), traced from a real drip silhouette.
