@@ -157,12 +157,9 @@ svg.engraved {
   filter: drop-shadow(0 -1px 0.5px rgb(0 0 0 / 0.85)) drop-shadow(0 1px 0 rgb(255 240 215 / 0.12));
 }
 
-/* Organic frames — clip paths are defined once in <OrganicDefs /> */
+/* Organic frames — the clip path is defined once in <OrganicDefs /> */
 .tombstone {
   clip-path: url(#clip-tomb);
-}
-.blot {
-  clip-path: url(#clip-blot);
 }
 
 .vertical-text {

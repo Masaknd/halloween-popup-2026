@@ -2,7 +2,7 @@ import { BurnIn } from "@/components/ui/BurnIn";
 import { Curtains } from "@/components/ui/Candlelight";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { Magnetic } from "@/components/ui/Magnetic";
-import { AcanthusRule } from "@/components/ui/Ornaments";
+import { AcanthusRule, ROUND_FRAME_OPENING, RoundFrameArt } from "@/components/ui/Ornaments";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionFade } from "@/components/ui/SectionFade";
 import { EVENT, MAPS_EMBED_URL, MAPS_URL } from "@/lib/event";
@@ -40,16 +40,22 @@ export function Location() {
           </Reveal>
         </div>
 
-        {/* the map seen through a slowly breathing ink blot */}
-        <BurnIn className="relative mx-auto aspect-square w-full max-w-xl">
+        {/* the map in a wreath of vines (the art's own proportions) that curl over its rim */}
+        <BurnIn className="relative mx-auto aspect-[601.33/604] w-full max-w-2xl">
           <div aria-hidden className="absolute inset-[6%] rounded-full bg-blood/30 blur-3xl" />
-          <iframe
-            title={`Map of ${EVENT.venue.street}`}
-            src={MAPS_EMBED_URL}
-            className="blot relative size-full grayscale invert-[0.88] sepia-[0.7] hue-rotate-[-12deg] contrast-[1.1]"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+          <div
+            className="absolute overflow-hidden rounded-[50%]"
+            style={{ inset: `${ROUND_FRAME_OPENING.y} ${ROUND_FRAME_OPENING.x}` }}
+          >
+            <iframe
+              title={`Map of ${EVENT.venue.street}`}
+              src={MAPS_EMBED_URL}
+              className="size-full grayscale invert-[0.88] sepia-[0.7] hue-rotate-[-12deg] contrast-[1.1]"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+          <RoundFrameArt className="inset-0 text-candle/60" />
         </BurnIn>
       </div>
     </section>

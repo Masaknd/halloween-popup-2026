@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 import filigreeFrame from "@/assets/frames/filigree-frame.svg";
+import roundFrame from "@/assets/frames/round-frame.svg";
 import advanceSeal from "@/assets/seals/seal-advance.webp";
 import doorSeal from "@/assets/seals/seal-door.webp";
 import { ACANTHUS_BOUNDS, ACANTHUS_PATH } from "@/components/ui/acanthusCorner";
@@ -192,6 +193,18 @@ export function FiligreeFrameArt({ className = "" }: { className?: string }) {
       ))}
     </div>
   );
+}
+
+/**
+ * The picture's circle inside the wreath (the art is 601.33 by 604), as insets from its box: at the vines' innermost
+ * reach, so only their inner curls cross the picture's rim.
+ */
+export const ROUND_FRAME_OPENING = { x: "7.6%", y: "7.8%" } as const;
+
+/** The site owner's round frame (a wreath of curling vines), painted in currentColor over its whole box. */
+export function RoundFrameArt({ className = "" }: { className?: string }) {
+  const mask = `url(${roundFrame.src}) center / 100% 100% no-repeat`;
+  return <div aria-hidden className={`pointer-events-none absolute bg-current ${className}`} style={{ mask, WebkitMask: mask }} />;
 }
 
 /** Inset engraved outline that follows an organic frame shape. */
