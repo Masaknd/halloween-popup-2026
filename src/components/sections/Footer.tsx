@@ -45,7 +45,7 @@ export function Footer() {
         </button>
       </div>
 
-      {/* required attribution for the CC BY 4.0 haunted house and CC BY-SA 4.0 candle models */}
+      {/* required attribution for the CC BY 4.0 haunted house and CC BY-SA 4.0 candle models, plus the stock wax seals */}
       <p className="relative mt-10 text-sm italic text-bone/40">
         3D haunted house:{" "}
         <a href={MODEL_CREDIT.url} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-candle hover:underline">
@@ -74,6 +74,9 @@ export function Footer() {
           CC BY-SA 4.0
         </a>
         ; modified (compressed), and the modified model is shared under the same licence.
+        <br />
+        Wax seals on the tickets: licensed stock vector artwork (artist to be confirmed); recoloured and pressed with a bat
+        emblem.
       </p>
     </footer>
   );
