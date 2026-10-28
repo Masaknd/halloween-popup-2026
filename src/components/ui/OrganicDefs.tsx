@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { blobPath, blobPoints } from "@/lib/blob";
-import { ARCH_PATH, TOMB_PATH } from "@/lib/shapes";
+import { TOMB_PATH } from "@/lib/shapes";
 
 const BLOT = { count: 9, cx: 0.5, cy: 0.5, radius: 0.47, wobble: 0.06, phases: [0, 2.1, 4.4, 1.3, 3.7, 5.2, 0.8, 2.9, 4.9] };
 const FRAME_MS = 1000 / 30;
@@ -29,10 +29,6 @@ export function OrganicDefs() {
   return (
     <svg width="0" height="0" aria-hidden className="absolute">
       <defs>
-        {/* pointed gothic arch */}
-        <clipPath id="clip-arch" clipPathUnits="objectBoundingBox">
-          <path d={ARCH_PATH} />
-        </clipPath>
         {/* weathered tombstone with chipped edges */}
         <clipPath id="clip-tomb" clipPathUnits="objectBoundingBox">
           <path d={TOMB_PATH} />

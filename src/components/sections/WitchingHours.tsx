@@ -1,15 +1,14 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useRef } from "react";
+import { useRef, type CSSProperties } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Candles3D } from "@/components/ui/Candles3D";
 import { ChaosText } from "@/components/ui/ChaosText";
-import { FrameLine, SpiderWeb } from "@/components/ui/Ornaments";
+import { FiligreeFrameArt, SpiderWeb } from "@/components/ui/Ornaments";
 import { EVENT } from "@/lib/event";
-import { ARCH_PATH } from "@/lib/shapes";
 import { useInView } from "@/lib/useInView";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -23,7 +22,7 @@ const AWAITS = [
   { title: "One night only", body: `A pop-up at ${EVENT.venue.street}, gone by morning.` },
 ] as const;
 
-/** The 3D haunted house seen through a gothic arch window, beside what to expect. */
+/** The 3D haunted house in a filigree picture frame, beside what to expect. */
 export function WitchingHours() {
   const rootRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -66,7 +65,8 @@ export function WitchingHours() {
       <div aria-hidden className="pointer-events-none absolute -right-40 bottom-0 size-[40rem] rounded-full bg-wine/30 blur-[140px]" />
       <div className="relative grid grid-cols-1 items-center gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
         <div ref={stageRef} className="relative mx-auto aspect-[3/4] w-full max-w-xl">
-          <div className="arch absolute inset-0 bg-gradient-to-b from-velvet via-ash to-void">
+          {/* the canvas sits just inside the frame's inner rules, so the filigree wraps its edges */}
+          <div className="absolute inset-x-2 inset-y-3 overflow-hidden bg-gradient-to-b from-velvet via-ash to-void">
             <div aria-hidden className="moon absolute left-1/2 top-[16%] size-[46%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_40%_40%,#e8dcc4,#a69576_60%,#5c4a52)] opacity-80 shadow-[0_0_120px_30px_rgb(232_220_196/0.18)]" />
             <SpiderWeb className="absolute right-0 top-[18%] w-1/3 -scale-x-100 text-bone/20" />
             <div className="absolute inset-0" data-cursor="Wake">
@@ -74,9 +74,8 @@ export function WitchingHours() {
             </div>
           </div>
           <Candles3D className="pointer-events-none !absolute -bottom-6 -left-6 z-10 h-44 w-40 sm:-left-14 sm:h-60 sm:w-52" />
-          <FrameLine path={ARCH_PATH} className="-inset-3 text-candle/40" />
-          <FrameLine path={ARCH_PATH} className="-inset-5 text-candle/15" />
-          <p className="label pointer-events-none absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap text-bone/45">
+          <FiligreeFrameArt className="-inset-5 text-candle/40" />
+          <p className="label pointer-events-none absolute -bottom-14 left-1/2 -translate-x-1/2 whitespace-nowrap text-bone/45">
             Click the house to wake the bats
           </p>
         </div>
@@ -92,8 +91,13 @@ export function WitchingHours() {
               <li key={item.title} className="awaits-item group flex gap-6 border-t border-bone/10 py-6 last:border-b" data-cursor="Boo">
                 <span className="w-12 shrink-0 pt-2 font-label text-xl text-blood/90">{["I", "II", "III", "IV"][index]}</span>
                 <div>
-                  <p className="font-display text-3xl transition-all duration-500 group-hover:translate-x-3 group-hover:italic group-hover:text-candle sm:text-4xl">
-                    {item.title}
+                  {/* each letter wobbles like jelly on hover, one after another; screen readers get the whole title */}
+                  <p aria-label={item.title} className="font-display text-3xl transition-colors duration-500 group-hover:text-candle sm:text-4xl">
+                    {Array.from(item.title).map((char, charIndex) => (
+                      <span key={charIndex} aria-hidden className="wobble-char" style={{ "--i": charIndex } as CSSProperties}>
+                        {char}
+                      </span>
+                    ))}
                   </p>
                   <p className="mt-1 text-lg italic text-bone/60">{item.body}</p>
                 </div>

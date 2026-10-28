@@ -10,12 +10,12 @@ export const HAUNTED_HOUSE_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/mod
 
 /**
  * The box the model is fitted into, in the scene group's units (HouseScene shrinks that group to fit narrow canvases,
- * to 0.625 in the arch), standing on y = 0. The house is taller than wide, so the width sets its size.
+ * to 0.625 in the frame), standing on y = 0. The house is taller than wide, so the width sets its size.
  */
 const FIT = { width: 8.11, height: 11.62 } as const;
 /** Turns the model so its front faces the camera (radians). */
 const MODEL_YAW = 0;
-/** Nudges the fitted model in the arch: x is sideways (negative = left), y is up; down so it stands near the arch's foot. */
+/** Nudges the fitted model in the frame: x is sideways (negative = left), y is up; down so it stands near the frame's foot. */
 const OFFSET = { x: 0, y: -1.75 } as const;
 /** Candle-warm light in front of the house, flickering like lamplight and flaring when the house is woken. */
 const PORCH_LIGHT = { position: [0.3, 1.4, 3] as const, intensity: 10, distance: 9, color: "#ffb45e" };

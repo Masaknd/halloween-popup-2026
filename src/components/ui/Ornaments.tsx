@@ -1,5 +1,7 @@
 /** Hand-drawn gothic ornaments. Strokes use currentColor so they inherit the text colour. */
 
+import type { CSSProperties } from "react";
+import filigreeFrame from "@/assets/frames/filigree-frame.svg";
 import advanceSeal from "@/assets/seals/seal-advance.webp";
 import doorSeal from "@/assets/seals/seal-door.webp";
 import { ACANTHUS_BOUNDS, ACANTHUS_PATH } from "@/components/ui/acanthusCorner";
@@ -153,6 +155,42 @@ export function LiquidEdge({ seed = 1, className = "" }: { seed?: number; classN
     <svg viewBox={`0 0 ${LIQUID_EDGE.width} ${LIQUID_EDGE.height}`} preserveAspectRatio="none" className={className} aria-hidden>
       <path d={buildLiquidEdge(seed)} fill="currentColor" />
     </svg>
+  );
+}
+
+/** The filigree frame art is square-ish: its height over its width. */
+const FRAME_RATIO = 618 / 616;
+/**
+ * Horizontal bands of the frame art, top to bottom, as fractions of its height. Fixed bands keep the art's own
+ * proportions; the two stretch bands sit where each side's bowed line runs parallel to its rule, so lengthening them
+ * fits the frame to a taller box without squashing the corners or the side crests.
+ */
+const FRAME_BANDS = [
+  { from: 0, to: 0.275, stretch: false },
+  { from: 0.275, to: 0.295, stretch: true },
+  { from: 0.295, to: 0.705, stretch: false },
+  { from: 0.705, to: 0.725, stretch: true },
+  { from: 0.725, to: 1, stretch: false },
+] as const;
+
+/** Masks one band of the frame art over a currentColor fill, scaled so the band exactly fills the element. */
+function frameBandStyle(from: number, to: number, stretch: boolean): CSSProperties {
+  const share = to - from;
+  const mask = `url(${filigreeFrame.src}) 0 ${(from / (1 - share)) * 100}% / 100% ${100 / share}% no-repeat`;
+  return { mask, WebkitMask: mask, ...(stretch ? {} : { aspectRatio: `1 / ${share * FRAME_RATIO}` }) };
+}
+
+/**
+ * The site owner's filigree frame (scrolled corners, crests mid-side), painted in currentColor and fitted to its box:
+ * the art is drawn in bands so a taller box only lengthens plain stretches of the side lines.
+ */
+export function FiligreeFrameArt({ className = "" }: { className?: string }) {
+  return (
+    <div aria-hidden className={`pointer-events-none absolute flex flex-col ${className}`}>
+      {FRAME_BANDS.map(({ from, to, stretch }) => (
+        <div key={from} className={`bg-current ${stretch ? "min-h-0 flex-1" : "shrink-0"}`} style={frameBandStyle(from, to, stretch)} />
+      ))}
+    </div>
   );
 }
 
