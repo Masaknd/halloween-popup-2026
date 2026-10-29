@@ -43,6 +43,9 @@ void main() {
   amount *= mix(0.25, 1.0, smoothstep(0.0, uClearing, reach));
 
   vec3 tint = mix(vec3(0.36, 0.33, 0.36), vec3(0.6, 0.55, 0.51), wisps) * uBrightness;
-  gl_FragColor = vec4(tint, min(amount, uMaxOpacity));
+  // the canvas holds premultiplied colour, the only kind iOS composites correctly, so the tint is scaled by alpha; the
+  // second alpha keeps the fog as faint as it was tuned, when a straight-alpha canvas darkened it twice on desktop
+  float alpha = min(amount, uMaxOpacity);
+  gl_FragColor = vec4(tint * alpha * alpha, alpha);
 }
 `;

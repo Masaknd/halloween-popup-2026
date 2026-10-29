@@ -46,7 +46,9 @@ function applySettings(uniforms: FogUniforms) {
 
 function createRenderer(canvas: HTMLCanvasElement): THREE.WebGLRenderer | null {
   try {
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, premultipliedAlpha: false, powerPreference: "low-power" });
+    // premultiplied (the default): WebKit composites a premultipliedAlpha:false canvas wrongly, so iPhones drew the fog
+    // about three times thicker than desktop and Android did (WebKit bug 200026)
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: "low-power" });
     renderer.setClearColor(0x000000, 0);
     renderer.setPixelRatio(RESOLUTION);
     return renderer;
@@ -63,7 +65,7 @@ export function startFog(canvas: HTMLCanvasElement): () => void {
 
   const uniforms = createUniforms();
   const geometry = new THREE.PlaneGeometry(2, 2);
-  const material = new THREE.ShaderMaterial({ vertexShader: FOG_VERTEX, fragmentShader: FOG_FRAGMENT, uniforms, transparent: true, depthTest: false, depthWrite: false });
+  const material = new THREE.ShaderMaterial({ vertexShader: FOG_VERTEX, fragmentShader: FOG_FRAGMENT, uniforms, transparent: true, premultipliedAlpha: true, depthTest: false, depthWrite: false });
   const scene = new THREE.Scene().add(new THREE.Mesh(geometry, material));
   const camera = new THREE.Camera();
   // for visitors who ask for less motion the fog still covers the page, but it holds still
