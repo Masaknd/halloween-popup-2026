@@ -2,6 +2,7 @@
 
 import { Suspense, useCallback, useRef, useState, type RefObject } from "react";
 import { Canvas, useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
+import { Preload } from "@react-three/drei";
 import * as THREE from "three";
 import { HauntedHouse } from "./HauntedHouse";
 import { BatBurst, OrbitingBats } from "./Bats";
@@ -76,6 +77,9 @@ function SceneContents({ scrollRef }: SceneProps) {
         >
           <Suspense fallback={null}>
             <HauntedHouse hoveredRef={hoveredRef} flashRef={flashRef} />
+            {/* compiles the shaders and uploads the textures as soon as the house loads, while it is still off screen,
+                so its first visible frame doesn't stall the scroll */}
+            <Preload all />
           </Suspense>
         </group>
         <OrbitingBats count={12} />

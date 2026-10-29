@@ -9,7 +9,7 @@ import { Candles3D } from "@/components/ui/Candles3D";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { FiligreeFrameArt } from "@/components/ui/Ornaments";
 import { EVENT } from "@/lib/event";
-import { useInView } from "@/lib/useInView";
+import { useInView, useNearView } from "@/lib/useInView";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,6 +28,7 @@ export function WitchingHours() {
   const stageRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef(0.5);
   const isVisible = useInView(stageRef);
+  const isNear = useNearView(stageRef);
 
   useGSAP(
     () => {
@@ -69,7 +70,8 @@ export function WitchingHours() {
           <div className="absolute inset-x-2 inset-y-3 overflow-hidden bg-gradient-to-b from-velvet via-ash to-void">
             <div aria-hidden className="moon absolute left-1/2 top-[16%] size-[46%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_40%_40%,#e8dcc4,#a69576_60%,#5c4a52)] opacity-80 shadow-[0_0_120px_30px_rgb(232_220_196/0.18)]" />
             <div className="absolute inset-0" data-cursor="Wake">
-              <HouseScene scrollRef={scrollRef} isActive={isVisible} />
+              {/* the house (its model is the site's heaviest download) is only fetched and built as the section nears */}
+              {isNear ? <HouseScene scrollRef={scrollRef} isActive={isVisible} /> : null}
             </div>
           </div>
           <Candles3D className="pointer-events-none !absolute -bottom-6 -left-6 z-10 h-44 w-40 sm:-left-14 sm:h-60 sm:w-52" />

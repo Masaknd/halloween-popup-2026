@@ -11,9 +11,9 @@ import { MeshoptDecoder, MeshoptEncoder, MeshoptSimplifier } from "meshoptimizer
 import sharp from "sharp";
 
 /** Share of triangles kept, and the largest shape error the simplifier may introduce (as a share of the mesh size). */
-const SIMPLIFY = { ratio: 0.3, error: 0.0008 };
-/** Largest texture edge in pixels; 2K is already sharper than the arch shows it. */
-const TEXTURE_SIZE = 2048;
+const SIMPLIFY = { ratio: 0.1, error: 0.002 };
+/** Largest texture edge in pixels; the arch is ~600px tall, so 1K holds its detail at a quarter of 2K's GPU memory. */
+const TEXTURE_SIZE = 1024;
 const WEBP_QUALITY = 82;
 
 const [source, output = "public/models/gothic-house.glb"] = process.argv.slice(2);

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, type ReactNode } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useAnimations, useGLTF } from "@react-three/drei";
+import { Preload, useAnimations, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 // "Candles set" by shuvalov.di, CC BY-SA 4.0 — optimized (meshopt + WebP); the modified file stays CC BY-SA 4.0
@@ -79,6 +79,8 @@ export default function CandleScene({ isActive }: { isActive: boolean }) {
       <Sway>
         <CandleCluster />
       </Sway>
+      {/* compiles the shaders and uploads the textures once the candles load, before they first come on screen */}
+      <Preload all />
     </Canvas>
   );
 }
