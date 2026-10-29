@@ -1,3 +1,4 @@
+import { Fog } from "@/components/fog/Fog";
 import { Hero } from "@/components/hero/Hero";
 import { BatSwarm } from "@/components/sections/BatSwarm";
 import { Details } from "@/components/sections/Details";
@@ -29,6 +30,7 @@ export default function Home() {
         <Location />
       </main>
       <Footer />
+      <Fog />
       <div className="vignette" aria-hidden />
       <div className="grain" aria-hidden />
     </>

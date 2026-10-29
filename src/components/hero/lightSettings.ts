@@ -1,4 +1,6 @@
 /** Tunable cursor light for the hero; the panel writes these and the WebGL scene reads them every frame. */
+
+import type { SettingControl } from "@/lib/tunedSettings";
 export interface LightSettings {
   /** Radius of the warm pool in the mist behind the bats, in fog UV units. */
   readonly mistRadius: number;
@@ -15,15 +17,7 @@ export const DEFAULT_LIGHT: LightSettings = {
   portraitBrightness: 1,
 };
 
-export interface LightControl {
-  readonly key: keyof LightSettings;
-  readonly label: string;
-  readonly min: number;
-  readonly max: number;
-  readonly step: number;
-}
-
-export const LIGHT_CONTROLS: readonly LightControl[] = [
+export const LIGHT_CONTROLS: readonly SettingControl<LightSettings>[] = [
   { key: "mistRadius", label: "Mist glow width", min: 0.15, max: 1.5, step: 0.01 },
   { key: "mistBrightness", label: "Mist glow brightness", min: 0, max: 1, step: 0.01 },
   { key: "portraitRadius", label: "Portrait light width", min: 0.15, max: 1.2, step: 0.01 },

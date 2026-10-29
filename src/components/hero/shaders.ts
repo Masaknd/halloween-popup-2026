@@ -1,6 +1,7 @@
 /** GLSL for the hero: fog backdrop and the candle-lit portrait. */
 
-const NOISE = /* glsl */ `
+/** Value noise and five-octave fbm, shared by the hero and the site-wide fog. */
+export const NOISE = /* glsl */ `
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float noise(vec2 p) {
   vec2 i = floor(p);
