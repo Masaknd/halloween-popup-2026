@@ -1,4 +1,5 @@
 import { BurnIn } from "@/components/ui/BurnIn";
+import { BurnReveal } from "@/components/ui/BurnReveal";
 import { Curtains } from "@/components/ui/Candlelight";
 import { ChaosText } from "@/components/ui/ChaosText";
 import { Magnetic } from "@/components/ui/Magnetic";
@@ -10,7 +11,8 @@ import { EVENT, MAPS_EMBED_URL, MAPS_URL } from "@/lib/event";
 export function Location() {
   return (
     <section id="location" className="relative overflow-hidden bg-ash px-4 py-24 sm:px-6 md:py-32 lg:px-10">
-      <Curtains className="opacity-80" />
+      {/* the drapes fade in below the top edge, so they don't start as a hard line under the tickets */}
+      <Curtains className="opacity-80 [mask-image:linear-gradient(to_bottom,transparent,black_18rem)]" />
       <SectionFade edge="bottom" color="void" />
       <div className="relative grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-16">
         <div>
@@ -41,9 +43,13 @@ export function Location() {
         </div>
 
         {/* the map in a wreath of vines (the art's own proportions) that curl over its rim */}
-        <BurnIn className="relative mx-auto aspect-[601.33/604] w-full max-w-2xl">
+        <div className="relative mx-auto aspect-[601.33/604] w-full max-w-2xl">
           <div aria-hidden className="absolute inset-[6%] rounded-full bg-blood/30 blur-3xl" />
-          <div
+          {/*
+            the map burns in through a mask rather than BurnIn's SVG filter: browsers composite a cross-origin iframe
+            apart from an ancestor's SVG filter, which also drops the iframe's own colour filter, so it would flash full colour
+          */}
+          <BurnReveal
             className="absolute overflow-hidden rounded-[50%]"
             style={{ inset: `${ROUND_FRAME_OPENING.y} ${ROUND_FRAME_OPENING.x}` }}
           >
@@ -54,9 +60,11 @@ export function Location() {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
-          </div>
-          <RoundFrameArt className="inset-0 text-candle/60" />
-        </BurnIn>
+          </BurnReveal>
+          <BurnIn className="pointer-events-none absolute inset-0">
+            <RoundFrameArt className="inset-0 text-candle/60" />
+          </BurnIn>
+        </div>
       </div>
     </section>
   );

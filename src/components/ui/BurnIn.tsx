@@ -3,34 +3,25 @@
 import { useId, useRef, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { BURN, burnFront } from "./burnField";
 
-/** A quick flash of flame; the ease follows the hero portrait's burn-in (GothicScene). */
-const BURN_SECONDS = 0.8;
 /** How long the block stays marked as burning after the flames finish, so lighting that keys off it can linger. */
 const LINGER_SECONDS = 1.2;
-/** Share of the block that must be on screen before it ignites. */
-const VISIBLE_SHARE = 0.35;
-/** Roughly how many noise blotches span the block, like the portrait's `fbm(uv * 5.0)`. */
-const NOISE_CELLS = 4;
-const EMBER_COLOR = "#ff5c14";
-/** Edge softness of the revealed area and width of the ember rim, in normalised noise units. */
-const EDGE = 0.04;
-const RIM = 0.15;
 /** feTurbulence's alpha channel (the one free of premultiplication) only spans about this range; rescale it to 0..1. */
 const NOISE_LOW = 0.25;
 const NOISE_SPAN = 0.3;
 
 /**
  * Reveal progress 0..1 → colour-matrix rows that threshold the noise alpha, as in the hero shader:
- * front = reveal * 1.25 - 0.12 - noise, shown where front > 0, ember rim where 0 < front < RIM.
+ * front = reveal * 1.25 - 0.12 - noise, shown where front > 0, ember rim where 0 < front < BURN.rim.
  */
 function frontRows(reveal: number): { shown: string; rim: string } {
   // n = (alpha - NOISE_LOW) / NOISE_SPAN, so front - n is linear in alpha
-  const front = reveal * 1.25 - 0.12 + NOISE_LOW / NOISE_SPAN;
+  const front = burnFront(reveal) + NOISE_LOW / NOISE_SPAN;
   const perAlpha = 1 / NOISE_SPAN;
   return {
-    shown: `0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 ${-perAlpha / EDGE} ${front / EDGE}`,
-    rim: `0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 ${perAlpha / RIM} ${1 - front / RIM}`,
+    shown: `0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 ${-perAlpha / BURN.edge} ${front / BURN.edge}`,
+    rim: `0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 ${perAlpha / BURN.rim} ${1 - front / BURN.rim}`,
   };
 }
 
@@ -54,7 +45,7 @@ export function BurnIn({ children, className = "" }: { children: ReactNode; clas
         box.style.filter = "none";
         return;
       }
-      noiseRef.current?.setAttribute("baseFrequency", String(NOISE_CELLS / Math.max(box.offsetWidth, 1)));
+      noiseRef.current?.setAttribute("baseFrequency", String(BURN.noiseCells / Math.max(box.offsetWidth, 1)));
       const progress = { value: 0 };
       const apply = () => {
         const rows = frontRows(progress.value);
@@ -63,8 +54,8 @@ export function BurnIn({ children, className = "" }: { children: ReactNode; clas
       };
       const burn = gsap.to(progress, {
         value: 1,
-        duration: BURN_SECONDS,
-        ease: "power2.inOut",
+        duration: BURN.seconds,
+        ease: BURN.ease,
         paused: true,
         onUpdate: apply,
         onStart: () => {
@@ -82,7 +73,7 @@ export function BurnIn({ children, className = "" }: { children: ReactNode; clas
           observer.disconnect();
           burn.play();
         },
-        { threshold: VISIBLE_SHARE },
+        { threshold: BURN.visibleShare },
       );
       observer.observe(box);
       return () => observer.disconnect();
@@ -100,7 +91,7 @@ export function BurnIn({ children, className = "" }: { children: ReactNode; clas
           <feColorMatrix ref={rimRef} in="noise" values={hidden.rim} result="near" />
           {/* the rim is the thin band just behind the front: revealed and still near it */}
           <feComposite in="shown" in2="near" operator="arithmetic" k1="1" result="rimBand" />
-          <feFlood floodColor={EMBER_COLOR} />
+          <feFlood floodColor={BURN.emberColor} />
           <feComposite in2="rimBand" operator="in" />
           <feComposite in2="SourceAlpha" operator="in" result="ember" />
           <feGaussianBlur in="ember" stdDeviation="4" result="glow" />

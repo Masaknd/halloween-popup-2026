@@ -1,0 +1,98 @@
+"use client";
+
+import { useRef, type CSSProperties, type ReactNode } from "react";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
+import { BURN, burnField, burnMasks } from "./burnField";
+
+/** Cells across the burn mask; the browser smooths it up to the block's size, which softens the front like flame. */
+const MASK_SIZE = 96;
+const SEED = 7;
+const HIDDEN = "linear-gradient(transparent, transparent)";
+const EMBER_RGB = [255, 92, 20] as const;
+
+function setMask(element: HTMLElement, image: string) {
+  element.style.maskImage = image;
+  element.style.setProperty("-webkit-mask-image", image);
+}
+
+/** Paints one moment of the burn: the mask that opens the block, and the glowing rim along the front. */
+function paintBurn(field: Float32Array, reveal: number, mask: HTMLCanvasElement, ember: HTMLCanvasElement, box: HTMLElement) {
+  const { shown, rim } = burnMasks(field, reveal);
+  const maskPixels = new ImageData(MASK_SIZE, MASK_SIZE);
+  const emberPixels = new ImageData(MASK_SIZE, MASK_SIZE);
+  shown.forEach((alpha, index) => {
+    maskPixels.data.set([255, 255, 255, alpha], index * 4);
+    emberPixels.data.set([...EMBER_RGB, rim[index]], index * 4);
+  });
+  mask.getContext("2d")?.putImageData(maskPixels, 0, 0);
+  ember.getContext("2d")?.putImageData(emberPixels, 0, 0);
+  setMask(box, `url(${mask.toDataURL()})`);
+}
+
+/**
+ * The burn-in for content an SVG filter can't reach, such as a cross-origin iframe, which browsers composite apart
+ * from any filter on its ancestors. It burns the block open through a CSS mask redrawn each frame from the same noise
+ * front as BurnIn, with the ember rim on a canvas laid over it. It ignites with its parent block, at the same moment
+ * and speed as a BurnIn filling that parent, so the two read as one fire.
+ */
+export function BurnReveal({ children, className = "", style }: { children: ReactNode; className?: string; style?: CSSProperties }) {
+  const boxRef = useRef<HTMLDivElement>(null);
+  const emberRef = useRef<HTMLCanvasElement>(null);
+
+  useGSAP(() => {
+    const box = boxRef.current;
+    const ember = emberRef.current;
+    const block = box?.parentElement;
+    if (!box || !ember || !block) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setMask(box, "none");
+      return;
+    }
+    const field = burnField(MASK_SIZE, SEED);
+    const mask = Object.assign(document.createElement("canvas"), { width: MASK_SIZE, height: MASK_SIZE });
+    const progress = { value: 0 };
+    const burn = gsap.to(progress, {
+      value: 1,
+      duration: BURN.seconds,
+      ease: BURN.ease,
+      paused: true,
+      onUpdate: () => paintBurn(field, progress.value, mask, ember, box),
+      onComplete: () => {
+        setMask(box, "none");
+        ember.getContext("2d")?.clearRect(0, 0, MASK_SIZE, MASK_SIZE);
+      },
+    });
+    // ignite once when the parent block is in view, like BurnIn, then burn on its own clock
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        observer.disconnect();
+        burn.play();
+      },
+      { threshold: BURN.visibleShare },
+    );
+    observer.observe(block);
+    return () => observer.disconnect();
+  });
+
+  // hidden from the first paint, so the content never shows before its burn
+  const hidden: CSSProperties = { maskImage: HIDDEN, WebkitMaskImage: HIDDEN, maskSize: "100% 100%", WebkitMaskSize: "100% 100%" };
+  return (
+    <>
+      <div ref={boxRef} className={className} style={{ ...style, ...hidden }}>
+        {children}
+      </div>
+      {/* a canvas keeps its own size when positioned, so a box of the same shape stretches it */}
+      <div aria-hidden className={`pointer-events-none ${className}`} style={style}>
+        <canvas
+          ref={emberRef}
+          width={MASK_SIZE}
+          height={MASK_SIZE}
+          className="size-full"
+          style={{ filter: `drop-shadow(0 0 6px ${BURN.emberColor})` }}
+        />
+      </div>
+    </>
+  );
+}
