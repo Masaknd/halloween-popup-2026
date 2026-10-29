@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Candles3D } from "@/components/ui/Candles3D";
 import { ChaosText } from "@/components/ui/ChaosText";
-import { FiligreeFrameArt, SpiderWeb } from "@/components/ui/Ornaments";
+import { FiligreeFrameArt } from "@/components/ui/Ornaments";
 import { EVENT } from "@/lib/event";
 import { useInView } from "@/lib/useInView";
 
@@ -68,7 +68,6 @@ export function WitchingHours() {
           {/* the canvas sits just inside the frame's inner rules, so the filigree wraps its edges */}
           <div className="absolute inset-x-2 inset-y-3 overflow-hidden bg-gradient-to-b from-velvet via-ash to-void">
             <div aria-hidden className="moon absolute left-1/2 top-[16%] size-[46%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_40%_40%,#e8dcc4,#a69576_60%,#5c4a52)] opacity-80 shadow-[0_0_120px_30px_rgb(232_220_196/0.18)]" />
-            <SpiderWeb className="absolute right-0 top-[18%] w-1/3 -scale-x-100 text-bone/20" />
             <div className="absolute inset-0" data-cursor="Wake">
               <HouseScene scrollRef={scrollRef} isActive={isVisible} />
             </div>
