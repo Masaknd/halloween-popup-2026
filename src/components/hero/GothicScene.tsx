@@ -184,7 +184,8 @@ export default function GothicScene({ isMobile, isActive }: { isMobile: boolean;
   return (
     <Canvas
       className="!absolute inset-0"
-      dpr={[1, isMobile ? 1.5 : 2]}
+      // phones draw at one pixel per CSS pixel: the portrait is soft and lit by fog, and the extra pixels cost more than they show
+      dpr={isMobile ? 1 : [1, 2]}
       frameloop={isActive ? "always" : "never"}
       camera={{ position: [0, 0, 10], fov: 40 }}
       gl={{ antialias: true, alpha: false }}

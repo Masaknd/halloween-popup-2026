@@ -1,11 +1,14 @@
 /** Draws the fog into a canvas with three.js: one full-screen quad, at low resolution and a capped frame rate. */
 
 import * as THREE from "three";
+import { FINE_POINTER_QUERY } from "@/lib/useMediaQuery";
 import { fogStore } from "./fogSettings";
 import { FOG_FRAGMENT, FOG_VERTEX } from "./fogShader";
 
 /** Fog is soft, so a quarter of the pixels (half each way) looks the same and costs far less. */
-const RESOLUTION = 0.5;
+const DESKTOP = { resolution: 0.5, octaves: 5 } as const;
+/** Phones have weaker GPUs and the whole screen to cover while scrolling: fewer pixels and fewer noise octaves. */
+const PHONE = { resolution: 0.35, octaves: 3 } as const;
 const FRAME_MS = 1000 / 30;
 /** How quickly the clearing follows the cursor, per frame. */
 const POINTER_EASE = 0.08;
@@ -44,13 +47,13 @@ function applySettings(uniforms: FogUniforms) {
   uniforms.uMaxOpacity.value = fog.maxOpacity;
 }
 
-function createRenderer(canvas: HTMLCanvasElement): THREE.WebGLRenderer | null {
+function createRenderer(canvas: HTMLCanvasElement, resolution: number): THREE.WebGLRenderer | null {
   try {
     // premultiplied (the default): WebKit composites a premultipliedAlpha:false canvas wrongly, so iPhones drew the fog
     // about three times thicker than desktop and Android did (WebKit bug 200026)
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: "low-power" });
     renderer.setClearColor(0x000000, 0);
-    renderer.setPixelRatio(RESOLUTION);
+    renderer.setPixelRatio(resolution);
     return renderer;
   } catch (error) {
     console.warn("Fog is off: WebGL is unavailable in this browser.", error);
@@ -60,12 +63,22 @@ function createRenderer(canvas: HTMLCanvasElement): THREE.WebGLRenderer | null {
 
 /** Starts the fog in `canvas`; returns a function that stops it and frees the GPU resources. */
 export function startFog(canvas: HTMLCanvasElement): () => void {
-  const renderer = createRenderer(canvas);
+  const quality = window.matchMedia(FINE_POINTER_QUERY).matches ? DESKTOP : PHONE;
+  const renderer = createRenderer(canvas, quality.resolution);
   if (!renderer) return () => {};
 
   const uniforms = createUniforms();
   const geometry = new THREE.PlaneGeometry(2, 2);
-  const material = new THREE.ShaderMaterial({ vertexShader: FOG_VERTEX, fragmentShader: FOG_FRAGMENT, uniforms, transparent: true, premultipliedAlpha: true, depthTest: false, depthWrite: false });
+  const material = new THREE.ShaderMaterial({
+    vertexShader: FOG_VERTEX,
+    fragmentShader: FOG_FRAGMENT,
+    defines: { FBM_OCTAVES: quality.octaves },
+    uniforms,
+    transparent: true,
+    premultipliedAlpha: true,
+    depthTest: false,
+    depthWrite: false,
+  });
   const scene = new THREE.Scene().add(new THREE.Mesh(geometry, material));
   const camera = new THREE.Camera();
   // for visitors who ask for less motion the fog still covers the page, but it holds still

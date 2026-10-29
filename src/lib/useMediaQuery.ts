@@ -15,4 +15,6 @@ export function useMediaQuery(query: string): boolean {
 }
 
 export const useReducedMotion = (): boolean => useMediaQuery("(prefers-reduced-motion: reduce)");
-export const useFinePointer = (): boolean => useMediaQuery("(hover: hover) and (pointer: fine)");
+/** A mouse or trackpad; anything else (phones, tablets) gets the lighter versions of the heavier effects. */
+export const FINE_POINTER_QUERY = "(hover: hover) and (pointer: fine)";
+export const useFinePointer = (): boolean => useMediaQuery(FINE_POINTER_QUERY);

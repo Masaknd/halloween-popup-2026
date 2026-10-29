@@ -50,7 +50,8 @@ export function BatSwarm() {
       let frame = 0;
 
       const resize = () => {
-        const dpr = Math.min(window.devicePixelRatio, 2);
+        // on phones the swarm redraws a full-width canvas every frame, so it stops at 1.5x rather than the screen's 3x
+        const dpr = Math.min(window.devicePixelRatio, isSmall ? 1.5 : 2);
         state.width = canvas.clientWidth;
         state.height = canvas.clientHeight;
         canvas.width = state.width * dpr;

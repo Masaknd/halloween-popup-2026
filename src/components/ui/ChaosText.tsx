@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { onIntroDone } from "@/lib/scroll";
+import { FINE_POINTER_QUERY } from "@/lib/useMediaQuery";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,6 +50,9 @@ export function ChaosText({ text, as = "span", className = "", mode = "scroll", 
       const fontSize = parseFloat(getComputedStyle(root).fontSize) || 16;
       const spread = fontSize * FLASH_SPREAD_EM;
       const state = { melt: 1 };
+      // phones skip the scroll-driven melt: re-filtering a big heading on every scroll frame makes them stutter, so
+      // their headings keep only the letter flash
+      const canMelt = mode === "intro" || window.matchMedia(FINE_POINTER_QUERY).matches;
 
       const applyMelt = () => {
         const melt = state.melt;
@@ -79,7 +83,7 @@ export function ChaosText({ text, as = "span", className = "", mode = "scroll", 
       };
 
       gsap.set(chars, { opacity: 0 });
-      applyMelt();
+      if (canMelt) applyMelt();
 
       if (mode === "intro") {
         return onIntroDone(() => {
@@ -94,6 +98,7 @@ export function ChaosText({ text, as = "span", className = "", mode = "scroll", 
         onEnter: () => flash(),
         onLeaveBack: () => gsap.set(chars, { opacity: 0 }),
       });
+      if (!canMelt) return;
       gsap.to(state, {
         melt: 0,
         ease: "none",
