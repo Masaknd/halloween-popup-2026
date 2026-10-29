@@ -17,7 +17,7 @@ const CARDS = [
     numeral: "IV",
     kicker: "Entry",
     title: `$${EVENT.tickets[0].price} / $${EVENT.tickets[1].price}`,
-    body: "Canadian dollars. Advance / at the door.",
+    body: "Canadian dollars, advance / at the door. A drink and a small bite included.",
   },
 ] as const;
 

@@ -23,7 +23,7 @@ function Ticket({ tier, serial, featured }: { tier: TicketTier; serial: number; 
         type="button"
         onClick={() => setIsFlipped((value) => !value)}
         aria-pressed={isFlipped}
-        aria-label={`${tier.label} ticket, CA$${tier.price}. ${isFlipped ? "Show front" : "Show details"}`}
+        aria-label={`${tier.label} ticket, CA$${tier.price}. ${EVENT.ticketPerk}. ${isFlipped ? "Show front" : "Show details"}`}
         className="block w-full text-left"
         data-cursor={isFlipped ? "Turn back" : "Turn"}
       >
@@ -43,6 +43,7 @@ function Ticket({ tier, serial, featured }: { tier: TicketTier; serial: number; 
               <div>
                 <p className="font-display text-4xl italic leading-none sm:text-5xl">{tier.label}</p>
                 <p className="mt-2 text-lg italic text-bone/65">{tier.note}</p>
+                <p className="label mt-2 text-candle/80">{EVENT.ticketPerk}</p>
               </div>
             </div>
             <div className="relative flex w-[36%] flex-col items-center justify-center gap-1 border-l border-dashed border-bone/30">
@@ -86,7 +87,8 @@ export function Tickets() {
           <ChaosText as="h2" text="Tickets" className="font-display text-6xl font-light italic leading-[0.9] sm:text-8xl lg:text-[9rem]" />
         </div>
         <p className="max-w-sm text-lg italic leading-relaxed text-bone/70 md:text-right">
-          Advance tickets save you CA${EVENT.tickets[1].price - EVENT.tickets[0].price}. Touch a ticket to turn it over.
+          Advance tickets save you CA${EVENT.tickets[1].price - EVENT.tickets[0].price}. Every ticket includes a drink and a small
+          bite. Touch a ticket to turn it over.
         </p>
       </div>
 

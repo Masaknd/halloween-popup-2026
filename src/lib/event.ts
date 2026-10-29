@@ -24,6 +24,8 @@ export const EVENT = {
     { id: "advance", label: "Advance", price: 25, note: "Buy before the night" },
     { id: "door", label: "At the door", price: 40, note: "Pay on arrival" },
   ] satisfies readonly TicketTier[],
+  // Comes with every ticket, advance or door
+  ticketPerk: "Includes a drink and a small bite",
   // Set to a ticketing link (Eventbrite, Tixr, etc.) once sales open.
   ticketUrl: null as string | null,
   bookingNote: "Booking details coming soon",
