@@ -17,7 +17,7 @@ export function LightPanel() {
       defaults={DEFAULT_LIGHT}
       controls={LIGHT_CONTROLS}
       onChange={applyLight}
-      className="absolute right-4 top-20 z-30 sm:right-8"
+      className="order-1"
     />
   );
 }

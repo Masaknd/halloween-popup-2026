@@ -7,6 +7,8 @@ export interface FogSettings {
   readonly density: number;
   /** How far up the screen the ground fog reaches, as a share of its height. */
   readonly height: number;
+  /** 0 keeps the fog rolling along the bottom; 1 floats it evenly over the whole screen. */
+  readonly spread: number;
   /** The thin haze left over the rest of the screen. */
   readonly haze: number;
   /** Noise frequency: higher gives smaller, busier wisps. */
@@ -20,19 +22,21 @@ export interface FogSettings {
 }
 
 export const DEFAULT_FOG: FogSettings = {
-  density: 1.1,
-  height: 0.55,
-  haze: 0.08,
-  detail: 2.2,
-  speed: 0.06,
-  clearing: 0.2,
-  brightness: 1.3,
-  maxOpacity: 0.45,
+  density: 0.7,
+  height: 0.1,
+  spread: 1,
+  haze: 0.205,
+  detail: 3.3,
+  speed: 0.3,
+  clearing: 0.42,
+  brightness: 1.48,
+  maxOpacity: 0.35,
 };
 
 export const FOG_CONTROLS: readonly SettingControl<FogSettings>[] = [
   { key: "density", label: "Ground fog thickness", min: 0, max: 1.5, step: 0.01 },
   { key: "height", label: "Ground fog height", min: 0.1, max: 1, step: 0.01 },
+  { key: "spread", label: "Fog spread (bottom → everywhere)", min: 0, max: 1, step: 0.01 },
   { key: "haze", label: "Haze over everything", min: 0, max: 0.3, step: 0.005 },
   { key: "detail", label: "Wisp detail", min: 0.5, max: 6, step: 0.05 },
   { key: "speed", label: "Drift speed", min: 0, max: 0.3, step: 0.005 },

@@ -31,7 +31,7 @@ export function Fog() {
         defaults={DEFAULT_FOG}
         controls={FOG_CONTROLS}
         onChange={applyFog}
-        className="fixed bottom-4 right-4 z-[65] sm:bottom-8 sm:right-8"
+        className="order-2"
       />
     </>
   );

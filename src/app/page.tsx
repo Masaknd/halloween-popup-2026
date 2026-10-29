@@ -11,6 +11,7 @@ import { Cursor } from "@/components/ui/Cursor";
 import { Header } from "@/components/ui/Header";
 import { Loader } from "@/components/ui/Loader";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
+import { TuningDock } from "@/components/ui/TuningPanel";
 
 export default function Home() {
   return (
@@ -31,6 +32,7 @@ export default function Home() {
       </main>
       <Footer />
       <Fog />
+      <TuningDock />
       <div className="vignette" aria-hidden />
       <div className="grain" aria-hidden />
     </>

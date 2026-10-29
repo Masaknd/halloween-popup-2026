@@ -20,6 +20,7 @@ function createUniforms() {
     uPointer: { value: new THREE.Vector2(POINTER_REST.x, POINTER_REST.y) },
     uDensity: { value: 0 },
     uHeight: { value: 0.5 },
+    uSpread: { value: 1 },
     uHaze: { value: 0 },
     uDetail: { value: 1 },
     uClearing: { value: 0.2 },
@@ -35,6 +36,7 @@ function applySettings(uniforms: FogUniforms) {
   const fog = fogStore.current;
   uniforms.uDensity.value = fog.density;
   uniforms.uHeight.value = fog.height;
+  uniforms.uSpread.value = fog.spread;
   uniforms.uHaze.value = fog.haze;
   uniforms.uDetail.value = fog.detail;
   uniforms.uClearing.value = fog.clearing;

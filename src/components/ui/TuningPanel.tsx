@@ -1,9 +1,25 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { restoreSettings, type NumericSettings, type SettingControl } from "@/lib/tunedSettings";
 
 const COPIED_MS = 1600;
+const DOCK_ID = "tuning-dock";
+
+/**
+ * Fixed top-right column the tuning panels gather in, wherever on the page their effects live; opening one pushes the
+ * ones below it down rather than overlapping them, and the column scrolls if they outgrow the screen.
+ */
+export function TuningDock() {
+  return (
+    <div
+      id={DOCK_ID}
+      data-lenis-prevent
+      className="pointer-events-none fixed right-4 top-20 z-[65] flex max-h-[calc(100svh-6rem)] flex-col gap-3 overflow-y-auto sm:right-8"
+    />
+  );
+}
 
 const subscribeNever = () => () => {};
 
@@ -37,7 +53,7 @@ export interface TuningPanelProps<T> {
   controls: readonly SettingControl<T>[];
   /** Receives every change, starting with the settings restored from storage; keep it stable (module-level). */
   onChange: (settings: T) => void;
-  /** Positions the panel. */
+  /** Orders the panel within the dock, e.g. `order-1` sits above `order-2`. */
   className: string;
 }
 
@@ -83,8 +99,8 @@ export function TuningPanel<T extends NumericSettings<T>>({
     }
   };
 
-  return (
-    <div className={`pointer-events-auto w-72 rounded-sm border border-candle/25 bg-void/80 text-bone shadow-2xl backdrop-blur-md ${className}`}>
+  const panel = (
+    <div className={`pointer-events-auto w-72 shrink-0 rounded-sm border border-candle/25 bg-void/80 text-bone shadow-2xl backdrop-blur-md ${className}`}>
       <button
         type="button"
         onClick={() => setIsOpen((open) => !open)}
@@ -135,4 +151,8 @@ export function TuningPanel<T extends NumericSettings<T>>({
       ) : null}
     </div>
   );
+
+  // the panel is only enabled after hydration, by which point the dock is in the document
+  const dock = document.getElementById(DOCK_ID);
+  return dock ? createPortal(panel, dock) : panel;
 }

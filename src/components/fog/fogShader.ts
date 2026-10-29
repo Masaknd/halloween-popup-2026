@@ -1,4 +1,4 @@
-/** GLSL for the site-wide fog: a full-screen quad of drifting, domain-warped noise, thickest along the bottom. */
+/** GLSL for the site-wide fog: a full-screen quad of drifting, domain-warped noise, spread from the bottom upward. */
 
 import { NOISE } from "@/components/hero/shaders";
 
@@ -18,6 +18,7 @@ uniform float uScroll;
 uniform vec2 uPointer;
 uniform float uDensity;
 uniform float uHeight;
+uniform float uSpread;
 uniform float uHaze;
 uniform float uDetail;
 uniform float uClearing;
@@ -32,9 +33,10 @@ void main() {
   float wisps = fbm(p * 1.4 + warp * 1.6 + vec2(uTime * 0.3, 0.0));
   float cloud = smoothstep(0.22, 0.72, wisps);
 
-  // ground fog rolls along the bottom of the screen and thins upward; the rest keeps only a faint haze
+  // banks of fog drift over the whole screen, gathering more thickly near the bottom as the spread is lowered
   float ground = 1.0 - smoothstep(0.0, uHeight, vUv.y);
-  float amount = cloud * (ground * ground * uDensity + uHaze);
+  float reachUp = mix(ground * ground, 1.0, uSpread);
+  float amount = cloud * (reachUp * uDensity + uHaze);
 
   // the cursor parts the fog around it
   float reach = length((vUv - uPointer) * vec2(uAspect, 1.0));
