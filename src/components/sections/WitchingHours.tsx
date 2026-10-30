@@ -1,25 +1,39 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
-import { useRef, type CSSProperties } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import { Candles3D } from "@/components/ui/Candles3D";
-import { ChaosText } from "@/components/ui/ChaosText";
-import { FiligreeFrameArt } from "@/components/ui/Ornaments";
-import { EVENT } from "@/lib/event";
-import { useBuildSoon, useInView } from "@/lib/useInView";
+import dynamic from 'next/dynamic';
+import { useRef, type CSSProperties } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+import { Candles3D } from '@/components/ui/Candles3D';
+import { ChaosText } from '@/components/ui/ChaosText';
+import { FiligreeFrameArt } from '@/components/ui/Ornaments';
+import { EVENT } from '@/lib/event';
+import { useBuildSoon, useInView } from '@/lib/useInView';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const HouseScene = dynamic(() => import("@/components/hero/HouseScene"), { ssr: false });
+const HouseScene = dynamic(() => import('@/components/hero/HouseScene'), {
+  ssr: false,
+});
 
 const AWAITS = [
-  { title: "Costumes encouraged", body: "Come as the thing that goes bump in the night." },
-  { title: "Dance 'til dawn", body: `${EVENT.timeLabel}. The party ends when the sun says so.` },
-  { title: "An extra hour of dark", body: "Daylight saving ends mid-party — clocks fall back at two." },
-  { title: "One night only", body: `A pop-up at ${EVENT.venue.street}, gone by morning.` },
+  {
+    title: 'Costumes encouraged',
+    body: 'Come as the thing that goes bump in the night.',
+  },
+  {
+    title: "Dance 'til dawn",
+    body: `${EVENT.timeLabel}. The party ends when the sun says so.`,
+  },
+  {
+    title: 'An extra hour of dark',
+    body: 'Daylight saving ends mid-party — clocks fall back at two.',
+  },
+  {
+    title: 'One night only',
+    body: `A pop-up at ${EVENT.venue.street}, gone by morning.`,
+  },
 ] as const;
 
 /** The 3D haunted house in a filigree picture frame, beside what to expect. */
@@ -34,79 +48,127 @@ export function WitchingHours() {
     () => {
       ScrollTrigger.create({
         trigger: stageRef.current,
-        start: "top bottom",
-        end: "bottom top",
+        start: 'top bottom',
+        end: 'bottom top',
         onUpdate: (self) => {
           scrollRef.current = self.progress;
         },
       });
 
       gsap.fromTo(
-        ".moon",
+        '.moon',
         { yPercent: 40 },
-        { yPercent: -30, ease: "none", scrollTrigger: { trigger: stageRef.current, start: "top bottom", end: "bottom top", scrub: true } },
+        {
+          yPercent: -30,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: stageRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        },
       );
 
-      gsap.from(".awaits-item", {
+      gsap.from('.awaits-item', {
         x: 80,
         opacity: 0,
-        filter: "blur(10px)",
+        filter: 'blur(10px)',
         stagger: 0.14,
         duration: 1.2,
-        ease: "power4.out",
-        scrollTrigger: { trigger: ".awaits-list", start: "top 80%" },
+        ease: 'power4.out',
+        scrollTrigger: { trigger: '.awaits-list', start: 'top 80%' },
       });
     },
     { scope: rootRef },
   );
 
   return (
-    <section id="awaits" ref={rootRef} className="relative overflow-hidden bg-soot px-4 py-24 sm:px-6 md:py-32 lg:px-10">
-      <div aria-hidden className="pointer-events-none absolute -left-20 -top-40 h-80 w-[120%] rounded-[50%] bg-wine/15 blur-[100px]" />
-      <div aria-hidden className="pointer-events-none absolute -right-40 bottom-0 size-[40rem] rounded-full bg-wine/30 blur-[140px]" />
-      <div className="relative grid grid-cols-1 items-center gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
-        <div ref={stageRef} className="relative mx-auto aspect-[3/4] w-full max-w-xl">
+    <section
+      id='awaits'
+      ref={rootRef}
+      className='relative overflow-hidden bg-soot px-4 py-24 sm:px-6 md:py-32 lg:px-10'
+    >
+      <div
+        aria-hidden
+        className='pointer-events-none absolute -left-20 -top-40 h-80 w-[120%] rounded-[50%] bg-wine/15 blur-[100px]'
+      />
+      <div
+        aria-hidden
+        className='pointer-events-none absolute -right-40 bottom-0 size-[40rem] rounded-full bg-wine/30 blur-[140px]'
+      />
+      <div className='relative grid grid-cols-1 items-center gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20'>
+        <div
+          ref={stageRef}
+          className='relative mx-auto aspect-[3/4] w-full max-w-xl'
+        >
           {/* the canvas sits just inside the frame's inner rules, so the filigree wraps its edges */}
-          <div className="absolute inset-x-2 inset-y-3 overflow-hidden bg-gradient-to-b from-velvet via-ash to-void">
-            <div aria-hidden className="moon absolute left-1/2 top-[16%] size-[46%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_40%_40%,#e8dcc4,#a69576_60%,#5c4a52)] opacity-80 shadow-[0_0_120px_30px_rgb(232_220_196/0.18)]" />
-            <div className="absolute inset-0" data-cursor="Wake">
+          <div className='absolute inset-x-2 inset-y-3 overflow-hidden bg-gradient-to-b from-velvet via-ash to-void'>
+            <div
+              aria-hidden
+              className='moon absolute left-1/2 top-[16%] size-[46%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_40%_40%,#e8dcc4,#a69576_60%,#5c4a52)] opacity-80 shadow-[0_0_120px_30px_rgb(232_220_196/0.18)]'
+            />
+            <div className='absolute inset-0' data-cursor='Wake'>
               {/* the house (its model is the site's heaviest download) is fetched and built after the intro, in an idle
                   moment or as the section nears, never during the first load */}
-              {isDue ? <HouseScene scrollRef={scrollRef} isActive={isVisible} /> : null}
+              {isDue ? (
+                <HouseScene scrollRef={scrollRef} isActive={isVisible} />
+              ) : null}
             </div>
           </div>
-          <Candles3D className="pointer-events-none !absolute -bottom-6 -left-6 z-10 h-44 w-40 sm:-left-14 sm:h-60 sm:w-52" />
-          <FiligreeFrameArt className="-inset-5 text-candle/40" />
-          <p className="label pointer-events-none absolute -bottom-14 left-1/2 -translate-x-1/2 whitespace-nowrap text-bone/45">
+          <Candles3D className='pointer-events-none !absolute -bottom-6 -left-6 z-10 h-44 w-40 sm:-left-14 sm:h-60 sm:w-52' />
+          <FiligreeFrameArt className='-inset-5 text-candle/40' />
+          <p className='label pointer-events-none absolute -bottom-14 left-1/2 -translate-x-1/2 whitespace-nowrap text-bone/45'>
             Click the house to wake the bats
           </p>
         </div>
 
-        <div className="relative">
-          <p className="label mb-4 text-candle/70">What awaits</p>
-          <h2 className="mb-12 font-display font-light leading-[0.88]">
-            <ChaosText text="Witching" className="block text-6xl sm:text-8xl" />
-            <ChaosText text="hours" className="block pl-[22%] font-blackletter text-6xl text-blood sm:text-8xl" />
+        <div className='relative'>
+          <p className='label mb-4 text-candle/70'>What awaits</p>
+          <h2 className='mb-12 font-display font-light leading-[0.88]'>
+            <ChaosText text='Witching' className='block text-6xl sm:text-8xl' />
+            <ChaosText
+              text='Hours'
+              className='block pl-[22%] font-blackletter text-6xl text-blood sm:text-8xl'
+            />
           </h2>
-          <ul className="awaits-list">
+          <ul className='awaits-list'>
             {AWAITS.map((item, index) => (
-              <li key={item.title} className="awaits-item group flex gap-6 border-t border-bone/10 py-6 last:border-b" data-cursor="Boo">
-                <span className="w-12 shrink-0 pt-2 font-label text-xl text-blood/90">{["I", "II", "III", "IV"][index]}</span>
+              <li
+                key={item.title}
+                className='awaits-item group flex gap-6 border-t border-bone/10 py-6 last:border-b'
+                data-cursor='Boo'
+              >
+                <span className='w-12 shrink-0 pt-2 font-label text-xl text-blood/90'>
+                  {['I', 'II', 'III', 'IV'][index]}
+                </span>
                 <div>
                   {/* each letter wobbles like jelly on hover, one after another; screen readers get the whole title */}
-                  <p aria-label={item.title} className="font-display text-3xl transition-colors duration-500 group-hover:text-candle sm:text-4xl">
+                  <p
+                    aria-label={item.title}
+                    className='font-display text-3xl transition-colors duration-500 group-hover:text-candle sm:text-4xl'
+                  >
                     {Array.from(item.title).map((char, charIndex) => (
-                      <span key={charIndex} aria-hidden className="wobble-char" style={{ "--i": charIndex } as CSSProperties}>
+                      <span
+                        key={charIndex}
+                        aria-hidden
+                        className='wobble-char'
+                        style={{ '--i': charIndex } as CSSProperties}
+                      >
                         {char}
                       </span>
                     ))}
                   </p>
-                  <p className="mt-1 text-lg italic text-bone/60">{item.body}</p>
+                  <p className='mt-1 text-lg italic text-bone/60'>
+                    {item.body}
+                  </p>
                 </div>
               </li>
             ))}
           </ul>
-          <p className="label mt-10 inline-block border border-blood/60 px-5 py-3 text-bone/80">{EVENT.detailsNote}</p>
+          <p className='label mt-10 inline-block border border-blood/60 px-5 py-3 text-bone/80'>
+            {EVENT.detailsNote}
+          </p>
         </div>
       </div>
     </section>
