@@ -12,8 +12,8 @@ import { pointerOnPlane } from "./pointerWorld";
 import { FOG_FRAGMENT, PLANE_VERTEX, PORTRAIT_FRAGMENT } from "./shaders";
 
 const IMAGE_ASPECT = witchImage.width / witchImage.height;
-// cat's eyes in texture UV space (origin bottom-left)
-const EYES = [new THREE.Vector2(0.317, 0.374), new THREE.Vector2(0.394, 0.377)];
+// cat's eyes in texture UV space (origin bottom-left), measured on a gridded crop of the image
+const EYES = [new THREE.Vector2(0.334, 0.375), new THREE.Vector2(0.392, 0.376)];
 const MAX_BURSTS = 4;
 const REVEAL_SECONDS = 2.8;
 
