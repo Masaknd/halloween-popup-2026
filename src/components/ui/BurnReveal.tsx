@@ -3,32 +3,12 @@
 import { useRef, type CSSProperties, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { BURN, burnField, burnMasks } from "./burnField";
+import { BURN, burnField } from "./burnField";
+import { HIDDEN_MASK, paintBurn, setMask } from "./burnMask";
 
-/** Cells across the burn mask; the browser smooths it up to the block's size, which softens the front like flame. */
+/** Cells across the (square) burn mask; the round map it opens is about as tall as it is wide. */
 const MASK_SIZE = 96;
 const SEED = 7;
-const HIDDEN = "linear-gradient(transparent, transparent)";
-const EMBER_RGB = [255, 92, 20] as const;
-
-function setMask(element: HTMLElement, image: string) {
-  element.style.maskImage = image;
-  element.style.setProperty("-webkit-mask-image", image);
-}
-
-/** Paints one moment of the burn: the mask that opens the block, and the glowing rim along the front. */
-function paintBurn(field: Float32Array, reveal: number, mask: HTMLCanvasElement, ember: HTMLCanvasElement, box: HTMLElement) {
-  const { shown, rim } = burnMasks(field, reveal);
-  const maskPixels = new ImageData(MASK_SIZE, MASK_SIZE);
-  const emberPixels = new ImageData(MASK_SIZE, MASK_SIZE);
-  shown.forEach((alpha, index) => {
-    maskPixels.data.set([255, 255, 255, alpha], index * 4);
-    emberPixels.data.set([...EMBER_RGB, rim[index]], index * 4);
-  });
-  mask.getContext("2d")?.putImageData(maskPixels, 0, 0);
-  ember.getContext("2d")?.putImageData(emberPixels, 0, 0);
-  setMask(box, `url(${mask.toDataURL()})`);
-}
 
 /**
  * The burn-in for content an SVG filter can't reach, such as a cross-origin iframe, which browsers composite apart
@@ -49,7 +29,7 @@ export function BurnReveal({ children, className = "", style }: { children: Reac
       setMask(box, "none");
       return;
     }
-    const field = burnField(MASK_SIZE, SEED);
+    const field = burnField(MASK_SIZE, MASK_SIZE, SEED);
     const mask = Object.assign(document.createElement("canvas"), { width: MASK_SIZE, height: MASK_SIZE });
     const progress = { value: 0 };
     const burn = gsap.to(progress, {
@@ -77,7 +57,7 @@ export function BurnReveal({ children, className = "", style }: { children: Reac
   });
 
   // hidden from the first paint, so the content never shows before its burn
-  const hidden: CSSProperties = { maskImage: HIDDEN, WebkitMaskImage: HIDDEN, maskSize: "100% 100%", WebkitMaskSize: "100% 100%" };
+  const hidden: CSSProperties = { maskImage: HIDDEN_MASK, WebkitMaskImage: HIDDEN_MASK, maskSize: "100% 100%", WebkitMaskSize: "100% 100%" };
   return (
     <>
       <div ref={boxRef} className={className} style={{ ...style, ...hidden }}>

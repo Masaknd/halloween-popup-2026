@@ -1,5 +1,38 @@
-import { useId, useMemo } from "react";
+"use client";
+
+import { useEffect, useId, useMemo, useRef, useState, type RefObject } from "react";
+import { afterIntroWhenIdle } from "@/lib/idle";
 import { buildCracks, CRACK_BOX } from "./stoneCracks";
+
+/** The painted stone keeps up to this many pixels per CSS pixel; its grain is too fine to gain from more. */
+const MAX_PIXEL_RATIO = 2;
+
+/**
+ * Paints the stone's SVG once into `canvas`, at the size its card has now. iPhones draw SVG filters in software and
+ * would redraw all of the stone's filters whenever the card repaints; a painted copy is just an image to them.
+ */
+async function paintOnce(svg: SVGSVGElement, canvas: HTMLCanvasElement): Promise<void> {
+  const width = svg.parentElement?.offsetWidth ?? 0;
+  const height = svg.parentElement?.offsetHeight ?? 0;
+  if (!width || !height) throw new Error("the stone has no size yet");
+  const copy = svg.cloneNode(true) as SVGSVGElement;
+  copy.removeAttribute("class");
+  copy.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  copy.setAttribute("width", String(width));
+  copy.setAttribute("height", String(height));
+  const url = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(copy)], { type: "image/svg+xml" }));
+  try {
+    const image = new Image();
+    image.src = url;
+    await image.decode();
+    const ratio = Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO);
+    canvas.width = Math.round(width * ratio);
+    canvas.height = Math.round(height * ratio);
+    canvas.getContext("2d")?.drawImage(image, 0, 0, canvas.width, canvas.height);
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
 
 /**
  * Noise is read from feTurbulence's alpha channel (it is not premultiplied, unlike the colour channels); it spans
@@ -30,9 +63,43 @@ export function StoneSurface({ seed }: { seed: number }) {
   const ref = (name: string) => `stone-${name}-${id}`;
   const cracks = useMemo(() => buildCracks(seed), [seed]);
   const noiseSeed = (offset: number) => seed * 9 + offset;
+  const svgRef = useRef<SVGSVGElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isPainted, setIsPainted] = useState(false);
+
+  // while the visitor is still above the cards, swap the live SVG for a painted copy of it
+  useEffect(
+    () =>
+      afterIntroWhenIdle(() => {
+        const svg = svgRef.current;
+        const canvas = canvasRef.current;
+        if (!svg || !canvas) return;
+        paintOnce(svg, canvas)
+          .then(() => setIsPainted(true))
+          .catch((error: unknown) => console.warn("The stone stays a live SVG: painting it failed.", error));
+      }),
+    [],
+  );
 
   return (
-    <svg aria-hidden className="pointer-events-none absolute inset-0 size-full">
+    <>
+      <canvas ref={canvasRef} aria-hidden className={`pointer-events-none absolute inset-0 size-full ${isPainted ? "" : "hidden"}`} />
+      {isPainted ? null : <StoneSvg svgRef={svgRef} id={ref} cracks={cracks} noiseSeed={noiseSeed} />}
+    </>
+  );
+}
+
+interface StoneSvgProps {
+  svgRef: RefObject<SVGSVGElement | null>;
+  id: (name: string) => string;
+  cracks: ReturnType<typeof buildCracks>;
+  noiseSeed: (offset: number) => number;
+}
+
+/** The live stone: layered SVG filters and gradients, shown until its painted copy is ready. */
+function StoneSvg({ svgRef, id: ref, cracks, noiseSeed }: StoneSvgProps) {
+  return (
+    <svg ref={svgRef} aria-hidden className="pointer-events-none absolute inset-0 size-full">
       <defs>
         {/* the stone's surface as a height map, lit so its pits and bumps throw soft shade and catch light */}
         <filter id={ref("relief")} x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">

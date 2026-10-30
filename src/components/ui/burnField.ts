@@ -22,15 +22,19 @@ export const burnFront = (reveal: number): number => reveal * 1.25 - 0.12;
 const OCTAVES = 4;
 const smooth = (t: number): number => t * t * (3 - 2 * t);
 
-/** One octave of value noise: a seeded lattice of `cells` × `cells` squares, smoothly interpolated. */
-function valueNoise(size: number, cells: number, seed: number): Float32Array {
+/**
+ * One octave of value noise over a `columns` × `rows` grid: a seeded lattice `cellsAcross` squares wide and as many
+ * squares tall as keep them square, smoothly interpolated.
+ */
+function valueNoise(columns: number, rows: number, cellsAcross: number, seed: number): Float32Array {
   const rand = createRandom(seed);
-  const side = cells + 1;
-  const lattice = Array.from({ length: side * side }, () => rand());
-  const at = (x: number, y: number) => lattice[y * side + x];
-  return Float32Array.from({ length: size * size }, (_, index) => {
-    const u = ((index % size) / size) * cells;
-    const v = (Math.floor(index / size) / size) * cells;
+  const cellsDown = Math.max(1, Math.round((cellsAcross * rows) / columns));
+  const width = cellsAcross + 1;
+  const lattice = Array.from({ length: width * (cellsDown + 1) }, () => rand());
+  const at = (x: number, y: number) => lattice[y * width + x];
+  return Float32Array.from({ length: columns * rows }, (_, index) => {
+    const u = ((index % columns) / columns) * cellsAcross;
+    const v = (Math.floor(index / columns) / rows) * cellsDown;
     const [x, y] = [Math.floor(u), Math.floor(v)];
     const [tx, ty] = [smooth(u - x), smooth(v - y)];
     const top = at(x, y) + (at(x + 1, y) - at(x, y)) * tx;
@@ -39,10 +43,15 @@ function valueNoise(size: number, cells: number, seed: number): Float32Array {
   });
 }
 
-/** A `size` × `size` fractal noise field rescaled to exactly 0..1, so the front sweeps the whole of it. */
-export function burnField(size: number, seed: number): Float32Array {
-  const layers = Array.from({ length: OCTAVES }, (_, octave) => valueNoise(size, BURN.noiseCells * 2 ** octave, seed * 31 + octave));
-  const summed = Float32Array.from({ length: size * size }, (_, index) =>
+/**
+ * A `columns` × `rows` fractal noise field rescaled to exactly 0..1, so the front sweeps the whole of it. Its blotches
+ * stay round whatever the shape, so a wide block burns like a square one.
+ */
+export function burnField(columns: number, rows: number, seed: number): Float32Array {
+  const layers = Array.from({ length: OCTAVES }, (_, octave) =>
+    valueNoise(columns, rows, BURN.noiseCells * 2 ** octave, seed * 31 + octave),
+  );
+  const summed = Float32Array.from({ length: columns * rows }, (_, index) =>
     layers.reduce((total, layer, octave) => total + layer[index] / 2 ** (octave + 1), 0),
   );
   const [low, high] = [Math.min(...summed), Math.max(...summed)];

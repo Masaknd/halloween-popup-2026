@@ -26,6 +26,13 @@ const FLASH_STEPS = 7;
 const FLASH_SPREAD_EM = 1.6;
 const FLASH_DURATION = 0.7;
 const MAX_BLUR = 10;
+/**
+ * The phone melt, drawn only with what the GPU moves and blurs on its own: each letter hangs below its place,
+ * stretched and blurred, and drips back up as the heading scrolls in. Values are at full melt, before each letter's
+ * own random share (DRIP_SPREAD) is applied.
+ */
+const DRIP = { fallPercent: 45, stretch: 0.7, blurShare: 0.5 } as const;
+const DRIP_SPREAD = { min: 0.4, max: 1.3 } as const;
 
 /**
  * Text that arrives out of chaos: each letter flashes at random offsets
@@ -50,17 +57,30 @@ export function ChaosText({ text, as = "span", className = "", mode = "scroll", 
       const fontSize = parseFloat(getComputedStyle(root).fontSize) || 16;
       const spread = fontSize * FLASH_SPREAD_EM;
       const state = { melt: 1 };
-      // phones skip the scroll-driven melt: re-filtering a big heading on every scroll frame makes them stutter, so
-      // their headings keep only the letter flash
-      const canMelt = mode === "intro" || window.matchMedia(FINE_POINTER_QUERY).matches;
 
-      const applyMelt = () => {
+      const meltWithFilter = () => {
         const melt = state.melt;
         blur?.setAttribute("stdDeviation", String(melt * MAX_BLUR * intensity));
         displace?.setAttribute("scale", String(melt * 140 * intensity));
         turbulence?.setAttribute("baseFrequency", `${0.01 + melt * 0.02} ${0.25 + melt * 0.5}`);
         root.style.filter = melt < 0.01 ? "none" : `url(#${filterId})`;
       };
+      const drips = chars.map(() => gsap.utils.random(DRIP_SPREAD.min, DRIP_SPREAD.max));
+      const meltWithDrip = () => {
+        const melt = state.melt;
+        chars.forEach((char, index) => {
+          const share = melt * drips[index];
+          gsap.set(char, {
+            yPercent: share * DRIP.fallPercent,
+            scaleY: 1 + share * DRIP.stretch,
+            transformOrigin: "50% 0%",
+            filter: melt < 0.01 ? "none" : `blur(${share * MAX_BLUR * intensity * DRIP.blurShare}px)`,
+          });
+        });
+      };
+      // phones scroll the headings in with the drip: re-running the SVG melt filter on a big heading every scroll frame
+      // is drawn in software on iPhones and made them stutter (the intro plays before any scrolling, so it keeps the filter)
+      const applyMelt = mode === "intro" || window.matchMedia(FINE_POINTER_QUERY).matches ? meltWithFilter : meltWithDrip;
 
       const flash = () => {
         const timeline = gsap.timeline({ delay });
@@ -83,7 +103,7 @@ export function ChaosText({ text, as = "span", className = "", mode = "scroll", 
       };
 
       gsap.set(chars, { opacity: 0 });
-      if (canMelt) applyMelt();
+      applyMelt();
 
       if (mode === "intro") {
         return onIntroDone(() => {
@@ -98,7 +118,6 @@ export function ChaosText({ text, as = "span", className = "", mode = "scroll", 
         onEnter: () => flash(),
         onLeaveBack: () => gsap.set(chars, { opacity: 0 }),
       });
-      if (!canMelt) return;
       gsap.to(state, {
         melt: 0,
         ease: "none",
