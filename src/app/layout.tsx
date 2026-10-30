@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cinzel, Cormorant_Garamond, IM_Fell_English, UnifrakturMaguntia } from "next/font/google";
+import { Cinzel, Cormorant_Garamond, IM_Fell_English } from "next/font/google";
 import localFont from "next/font/local";
 import { OrganicDefs } from "@/components/ui/OrganicDefs";
 import "./globals.css";
@@ -11,7 +11,15 @@ const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
 });
 const cinzel = Cinzel({ variable: "--font-cinzel", weight: ["400", "600", "700"], subsets: ["latin"] });
-const fraktur = UnifrakturMaguntia({ variable: "--font-fraktur", weight: "400", subsets: ["latin"] });
+// Blackletter accents: Zentenar Fraktur (Peter Wiegel, www.peter-wiegel.de), freeware including commercial use
+const fraktur = localFont({
+  src: [
+    { path: "../assets/fonts/ZentenarFraktur-Regular.ttf", weight: "400" },
+    { path: "../assets/fonts/ZentenarFraktur-Bold.ttf", weight: "700" },
+  ],
+  variable: "--font-fraktur",
+  display: "swap",
+});
 // Headings and titles: IM Fell English (Igino Marini, SIL OFL), a revival of 17th-century Fell types
 const fell = IM_Fell_English({ variable: "--font-fell", weight: "400", style: ["normal", "italic"], subsets: ["latin"] });
 // Marquees: MalkmusEX (Smile Studio / Tohru Fukushima), web licence held by the organizer; subset to Basic Latin + em dash
