@@ -21,11 +21,11 @@ export const EVENT = {
   },
   currency: "CAD",
   tickets: [
-    { id: "advance", label: "Advance", price: 25, note: "Buy before the night" },
-    { id: "door", label: "At the door", price: 40, note: "Pay on arrival" },
+    { id: "advance", label: "Advance", price: 0, note: "Book early, pay nothing" },
+    { id: "door", label: "At the door", price: 0, note: "Turn up late, still pay nothing" },
   ] satisfies readonly TicketTier[],
-  // Comes with every ticket, advance or door
-  ticketPerk: "Includes a drink and a small bite",
+  // Applies to every ticket, advance or door
+  ticketPerk: "BYOB · bring your own bottle & bites",
   // Set to a ticketing link (Eventbrite, Tixr, etc.) once sales open.
   ticketUrl: null as string | null,
   bookingNote: "Booking details coming soon",

@@ -29,7 +29,7 @@ function Ticket({ tier, serial, featured }: { tier: TicketTier; serial: number; 
         type="button"
         onClick={() => setIsFlipped((value) => !value)}
         aria-pressed={isFlipped}
-        aria-label={`${tier.label} ticket, CA$${tier.price}. ${EVENT.ticketPerk}. ${isFlipped ? "Show front" : "Show details"}`}
+        aria-label={`${tier.label} ticket, free. ${EVENT.ticketPerk}. ${isFlipped ? "Show front" : "Show details"}`}
         className="block w-full text-left"
         data-cursor={isFlipped ? "Turn back" : "Turn"}
       >
@@ -93,8 +93,8 @@ export function Tickets() {
           <ChaosText as="h2" text="Tickets" className="font-display text-6xl font-light italic leading-[0.9] sm:text-8xl lg:text-[9rem]" />
         </div>
         <p className="max-w-sm text-lg italic leading-relaxed text-bone/70 md:text-right">
-          Advance tickets save you CA${EVENT.tickets[1].price - EVENT.tickets[0].price}. Every ticket includes a drink and a small
-          bite. Touch a ticket to turn it over.
+          Entry costs nothing. Not a cent, not a coin, not even your soul (we checked; it doesn&apos;t fit in the till). It&apos;s
+          BYOB, so bring your own bottle and something to nibble. Touch a ticket to turn it over.
         </p>
       </div>
 

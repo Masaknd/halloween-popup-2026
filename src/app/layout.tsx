@@ -28,10 +28,10 @@ const malkmus = localFont({ src: "../assets/fonts/MalkmusEX.woff2", variable: "-
 export const metadata: Metadata = {
   title: "Halloween Party — Oct 31, 2026 · 100 Queen St W, Toronto",
   description:
-    "A one-night gothic Halloween party. Oct 31, 22:00–05:00 at 100 Queen St W, Toronto. Advance CA$25 · Door CA$40.",
+    "A one-night gothic Halloween party. Oct 31, 22:00–05:00 at 100 Queen St W, Toronto. Free entry · BYOB.",
   openGraph: {
     title: "Halloween Party — Oct 31, 2026",
-    description: "22:00–05:00 · 100 Queen St W, Toronto · Advance CA$25 · Door CA$40",
+    description: "22:00–05:00 · 100 Queen St W, Toronto · Free entry · BYOB",
     type: "website",
   },
 };
