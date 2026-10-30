@@ -4,6 +4,7 @@ import { useEffect, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import { useFinePointer } from "@/lib/useMediaQuery";
 
 // The user's own model ("spiderwebWithDew", exported from Blender), optimized by scripts/optimize-spiderweb.mjs:
 // thread centre lines plus ~2000 instanced dew drops, meshopt-compressed
@@ -153,10 +154,12 @@ function Web() {
 
 /** The dewy spider web hanging in the hero's top-left corner, billowing gently in a breeze. */
 export default function WebScene({ isActive }: { isActive: boolean }) {
+  const hasFinePointer = useFinePointer();
   return (
     <Canvas
       className="!absolute inset-0"
-      dpr={[1, 2]}
+      // phones stop at 1.5x: past that the extra pixels cost their GPU more than the eye can see
+      dpr={[1, hasFinePointer ? 2 : 1.5]}
       frameloop={isActive ? "always" : "never"}
       camera={{ position: [0, 0, 10], fov: 35 }}
       gl={{ antialias: true, alpha: true }}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type RefObject } from "react";
+import { whenIdle } from "./idle";
 import { onIntroDone } from "./scroll";
 
 /** How far ahead of the viewport heavy content starts mounting: a screen's height, so it is ready before it scrolls in. */
@@ -22,22 +23,24 @@ export function useInView(ref: RefObject<Element | null>): boolean {
 }
 
 /**
- * Turns true, and stays true, once the element comes within a screen of the viewport after the intro, so heavy 3D
- * scenes download and build just ahead of being seen rather than all at once during the first load.
+ * Turns true, and stays true, once it is time to build a heavy 3D scene: the first moment the browser is idle after the
+ * intro, or as soon as the element comes within a screen of the viewport, whichever is first. Scenes then build while
+ * the visitor is still reading above them, instead of all at once during the first load or in the middle of a scroll.
  */
-export function useNearView(ref: RefObject<Element | null>): boolean {
-  const [isNear, setIsNear] = useState(false);
+export function useBuildSoon(ref: RefObject<Element | null>): boolean {
+  const [isDue, setIsDue] = useState(false);
 
   useEffect(() => {
     const element = ref.current;
-    if (!element || isNear) return;
+    if (!element || isDue) return;
+    const due = () => setIsDue(true);
     let observer: IntersectionObserver | null = null;
+    let cancelIdle = () => {};
     const stopWaiting = onIntroDone(() => {
+      cancelIdle = whenIdle(due);
       observer = new IntersectionObserver(
         ([entry]) => {
-          if (!entry?.isIntersecting) return;
-          observer?.disconnect();
-          setIsNear(true);
+          if (entry?.isIntersecting) due();
         },
         { rootMargin: NEAR_MARGIN },
       );
@@ -45,9 +48,10 @@ export function useNearView(ref: RefObject<Element | null>): boolean {
     });
     return () => {
       stopWaiting();
+      cancelIdle();
       observer?.disconnect();
     };
-  }, [ref, isNear]);
+  }, [ref, isDue]);
 
-  return isNear;
+  return isDue;
 }

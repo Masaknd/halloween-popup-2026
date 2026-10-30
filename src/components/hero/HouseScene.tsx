@@ -7,6 +7,7 @@ import * as THREE from "three";
 import { HauntedHouse } from "./HauntedHouse";
 import { BatBurst, OrbitingBats } from "./Bats";
 import { setCursorLabel } from "@/lib/scroll";
+import { useFinePointer } from "@/lib/useMediaQuery";
 
 const MAX_BURSTS = 4;
 const FLASH_STRENGTH = 1;
@@ -92,10 +93,12 @@ function SceneContents({ scrollRef }: SceneProps) {
 }
 
 export default function HouseScene({ scrollRef, isActive }: SceneProps & { isActive: boolean }) {
+  const hasFinePointer = useFinePointer();
   return (
     <Canvas
       className="!absolute inset-0"
-      dpr={[1, 2]}
+      // phones stop at 1.5x: past that the extra pixels cost their GPU more than the eye can see
+      dpr={[1, hasFinePointer ? 2 : 1.5]}
       frameloop={isActive ? "always" : "never"}
       camera={{ position: [0, 2.6, 11], fov: 34 }}
       gl={{ antialias: true, alpha: true }}
