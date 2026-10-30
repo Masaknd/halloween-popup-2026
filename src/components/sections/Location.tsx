@@ -8,6 +8,9 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionFade } from "@/components/ui/SectionFade";
 import { EVENT, MAPS_EMBED_URL, MAPS_URL } from "@/lib/event";
 
+/** The wreath and the map in it ignite together, once their top rises to 90% of the way down the screen. */
+const IGNITE_LINE = 0.9;
+
 export function Location() {
   return (
     <section id="location" className="relative overflow-hidden bg-ash px-4 py-24 sm:px-6 md:py-32 lg:px-10">
@@ -52,6 +55,7 @@ export function Location() {
           <BurnReveal
             className="absolute overflow-hidden rounded-[50%]"
             style={{ inset: `${ROUND_FRAME_OPENING.y} ${ROUND_FRAME_OPENING.x}` }}
+            igniteLine={IGNITE_LINE}
           >
             <iframe
               title={`Map of ${EVENT.venue.street}`}
@@ -61,7 +65,7 @@ export function Location() {
               referrerPolicy="no-referrer-when-downgrade"
             />
           </BurnReveal>
-          <BurnIn className="pointer-events-none absolute inset-0">
+          <BurnIn className="pointer-events-none absolute inset-0" igniteLine={IGNITE_LINE}>
             <RoundFrameArt className="inset-0 text-candle/60" />
           </BurnIn>
         </div>

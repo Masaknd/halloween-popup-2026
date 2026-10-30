@@ -211,8 +211,8 @@ svg.engraved {
   /* after a burn-in, the darkness settles back slowly as the flames die down */
   transition: opacity 2.4s ease-in;
 }
-/* the flames of a burn-in under the veil light the stones: the darkness lifts at once while they burn */
-[data-burning] ~ .cursor-light .cursor-light-veil {
+/* the flames of a burn-in under the veil light the stones: the darkness lifts at once while any of them burn */
+section:has([data-burning]) .cursor-light .cursor-light-veil {
   opacity: 0;
   transition: opacity 0.25s ease-out;
 }

@@ -12,6 +12,12 @@ import { TiltCard } from "@/components/ui/TiltCard";
 import { EVENT, FULL_ADDRESS, type TicketTier } from "@/lib/event";
 import { Countdown } from "./Countdown";
 
+/**
+ * Where each block ignites, as a share of the screen's height from its top (see BURN.igniteLine): the countdown while it is
+ * still a fifth of a screen below view, so it scrolls in mid-burn, and each ticket as its top edge comes into view.
+ */
+const IGNITE_LINE = { countdown: 1.2, ticket: 1 } as const;
+
 function Ticket({ tier, serial, featured }: { tier: TicketTier; serial: number; featured: boolean }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const face = "absolute inset-0 overflow-hidden [backface-visibility:hidden]";
@@ -77,7 +83,7 @@ export function Tickets() {
       <div aria-hidden className="candle-glow pointer-events-none absolute left-1/2 top-0 size-[46rem] -translate-x-1/2" />
       <Gauze className="pointer-events-none absolute inset-x-0 top-0 h-36 w-full -scale-x-100 md:h-52" />
       <SectionFade edge="bottom" color="ash" />
-      <BurnIn className="relative mx-auto mb-24 max-w-5xl md:mb-32">
+      <BurnIn className="relative mx-auto mb-24 max-w-5xl md:mb-32" igniteLine={IGNITE_LINE.countdown}>
         <Countdown />
       </BurnIn>
 
@@ -92,11 +98,14 @@ export function Tickets() {
         </p>
       </div>
 
-      <BurnIn className="relative grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
+      {/* each ticket burns in on its own, so where they stack on a phone each one burns as it scrolls up into view */}
+      <div className="relative grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
         {EVENT.tickets.map((tier, index) => (
-          <Ticket key={tier.id} tier={tier} serial={1031 + index} featured={index === 0} />
+          <BurnIn key={tier.id} className="relative" igniteLine={IGNITE_LINE.ticket}>
+            <Ticket tier={tier} serial={1031 + index} featured={index === 0} />
+          </BurnIn>
         ))}
-      </BurnIn>
+      </div>
 
       <div className="relative mt-16 flex justify-center">
         <Magnetic>

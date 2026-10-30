@@ -23,6 +23,8 @@ const CARDS = [
 
 /** The carved word under each numeral: 2.4 times the site-wide `.label` size, set tighter than its 0.32em tracking. */
 const KICKER_STYLE = { fontSize: "1.632rem", letterSpacing: "0.16em" } as const;
+/** Each stone ignites once its top rises to 70% of the way down the screen (see BURN.igniteLine). */
+const IGNITE_LINE = 0.7;
 
 /** Event facts carved into weathered tombstones. */
 export function Details() {
@@ -44,29 +46,32 @@ export function Details() {
         </div>
       </div>
 
-      <BurnIn className="relative grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+      {/* each stone burns in on its own, so where they stack on a phone each one burns as it scrolls up into view */}
+      <div className="relative grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
         {CARDS.map((card, index) => (
-          <TiltCard key={card.kicker} className={index % 2 === 0 ? "lg:translate-y-6" : ""} glareClassName="tombstone">
-            <div className="tombstone relative flex min-h-80 flex-col items-center justify-between bg-[#4b4741] px-6 pb-8 pt-14 text-center lg:min-h-[26rem]">
-              <StoneSurface seed={index} />
-              {/* chiselled border: a dark groove with a sliver of light catching its lower lip */}
-              <FrameLine path={TOMB_PATH} className="inset-3 translate-x-px translate-y-px text-stone-lit/10" />
-              <FrameLine path={TOMB_PATH} className="inset-3 text-black/70" />
-              <div className="relative" style={{ transform: "translateZ(30px)" }}>
-                <p className="engraved font-label text-6xl font-bold text-[#b8262f]">{card.numeral}</p>
-                <p className="engraved label mt-3 font-bold text-stone-lit/90" style={KICKER_STYLE}>
-                  {card.kicker}
-                </p>
+          <BurnIn key={card.kicker} className={`relative ${index % 2 === 0 ? "lg:translate-y-6" : ""}`} igniteLine={IGNITE_LINE}>
+            <TiltCard glareClassName="tombstone">
+              <div className="tombstone relative flex min-h-80 flex-col items-center justify-between bg-[#4b4741] px-6 pb-8 pt-14 text-center lg:min-h-[26rem]">
+                <StoneSurface seed={index} />
+                {/* chiselled border: a dark groove with a sliver of light catching its lower lip */}
+                <FrameLine path={TOMB_PATH} className="inset-3 translate-x-px translate-y-px text-stone-lit/10" />
+                <FrameLine path={TOMB_PATH} className="inset-3 text-black/70" />
+                <div className="relative" style={{ transform: "translateZ(30px)" }}>
+                  <p className="engraved font-label text-6xl font-bold text-[#b8262f]">{card.numeral}</p>
+                  <p className="engraved label mt-3 font-bold text-stone-lit/90" style={KICKER_STYLE}>
+                    {card.kicker}
+                  </p>
+                </div>
+                <div className="relative" style={{ transform: "translateZ(60px)" }}>
+                  <p className="engraved text-balance font-display text-4xl leading-none text-stone-lit lg:text-[2.6rem]">{card.title}</p>
+                  <AcanthusRule className="engraved mx-auto my-1 w-40 text-stone-lit/45" />
+                  <p className="engraved text-base italic leading-snug text-stone-lit/90">{card.body}</p>
+                </div>
               </div>
-              <div className="relative" style={{ transform: "translateZ(60px)" }}>
-                <p className="engraved text-balance font-display text-4xl leading-none text-stone-lit lg:text-[2.6rem]">{card.title}</p>
-                <AcanthusRule className="engraved mx-auto my-1 w-40 text-stone-lit/45" />
-                <p className="engraved text-base italic leading-snug text-stone-lit/90">{card.body}</p>
-              </div>
-            </div>
-          </TiltCard>
+            </TiltCard>
+          </BurnIn>
         ))}
-      </BurnIn>
+      </div>
       <CursorLight />
     </section>
   );

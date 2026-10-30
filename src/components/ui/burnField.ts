@@ -3,11 +3,14 @@
 import { createRandom } from "../../lib/random";
 
 export const BURN = {
-  /** A quick flash of flame; the ease follows the hero portrait's burn-in (GothicScene). */
-  seconds: 0.8,
+  /** A quick flash of flame, slow enough to catch mid-scroll; the ease follows the hero portrait's burn-in (GothicScene). */
+  seconds: 1.2,
   ease: "power2.inOut",
-  /** Share of the block that must be on screen before it ignites. */
-  visibleShare: 0.35,
+  /**
+   * How far down the screen (0 = top, 1 = bottom, past 1 = below it) a block's top must rise before it ignites, unless
+   * the block sets its own: about where the eye rests while scrolling, so it burns where it is seen.
+   */
+  igniteLine: 0.65,
   /** Roughly how many noise blotches span the block, like the portrait's `fbm(uv * 5.0)`. */
   noiseCells: 4,
   emberColor: "#ff5c14",
@@ -15,6 +18,25 @@ export const BURN = {
   edge: 0.04,
   rim: 0.15,
 } as const;
+
+/**
+ * Calls `onIgnite` once, when the top of `element` first rises to `line` (a share of the screen's height from its top,
+ * see BURN.igniteLine), or is already above it; the burn then runs on its own clock, independent of scrolling. Returns a
+ * function that stops waiting.
+ */
+export function igniteWhenSeen(element: Element, onIgnite: () => void, line: number = BURN.igniteLine): () => void {
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (!entry?.isIntersecting) return;
+      observer.disconnect();
+      onIgnite();
+    },
+    // the viewport's bottom edge moved up (or, past 1, down) to the line
+    { rootMargin: `0px 0px ${Math.round((line - 1) * 100)}% 0px` },
+  );
+  observer.observe(element);
+  return () => observer.disconnect();
+}
 
 /** Reveal progress 0..1 → the noise level the front has burnt through, as in the hero shader. */
 export const burnFront = (reveal: number): number => reveal * 1.25 - 0.12;

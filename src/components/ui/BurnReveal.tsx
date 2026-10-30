@@ -3,7 +3,7 @@
 import { useRef, type CSSProperties, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { BURN, burnField } from "./burnField";
+import { BURN, burnField, igniteWhenSeen } from "./burnField";
 import { HIDDEN_MASK, paintBurn, setMask } from "./burnMask";
 
 /** Cells across the (square) burn mask; the round map it opens is about as tall as it is wide. */
@@ -16,7 +16,15 @@ const SEED = 7;
  * front as BurnIn, with the ember rim on a canvas laid over it. It ignites with its parent block, at the same moment
  * and speed as a BurnIn filling that parent, so the two read as one fire.
  */
-export function BurnReveal({ children, className = "", style }: { children: ReactNode; className?: string; style?: CSSProperties }) {
+interface BurnRevealProps {
+  children: ReactNode;
+  className?: string;
+  style?: CSSProperties;
+  /** Where on the screen the parent block ignites, if not at BURN.igniteLine; match the BurnIn that fills it. */
+  igniteLine?: number;
+}
+
+export function BurnReveal({ children, className = "", style, igniteLine }: BurnRevealProps) {
   const boxRef = useRef<HTMLDivElement>(null);
   const emberRef = useRef<HTMLCanvasElement>(null);
 
@@ -43,17 +51,8 @@ export function BurnReveal({ children, className = "", style }: { children: Reac
         ember.getContext("2d")?.clearRect(0, 0, MASK_SIZE, MASK_SIZE);
       },
     });
-    // ignite once when the parent block is in view, like BurnIn, then burn on its own clock
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-        observer.disconnect();
-        burn.play();
-      },
-      { threshold: BURN.visibleShare },
-    );
-    observer.observe(block);
-    return () => observer.disconnect();
+    // ignite with the parent block, like BurnIn, then burn on its own clock
+    return igniteWhenSeen(block, () => burn.play(), igniteLine);
   });
 
   // hidden from the first paint, so the content never shows before its burn

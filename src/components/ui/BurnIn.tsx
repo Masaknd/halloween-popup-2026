@@ -3,7 +3,7 @@
 import { useId, useRef, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { BURN, burnField, burnFront } from "./burnField";
+import { BURN, burnField, burnFront, igniteWhenSeen } from "./burnField";
 import { HIDDEN_MASK, paintBurn, setMask } from "./burnMask";
 
 /** How long the block stays marked as burning after the flames finish, so lighting that keys off it can linger. */
@@ -82,11 +82,18 @@ function maskPainter(box: HTMLElement, ember: HTMLCanvasElement): BurnPainter {
 
 /**
  * Burns its children into view with a noise front and an ember rim, like the hero portrait, the first time the block
- * comes into view; the burn then runs on a timer at the hero's speed. The filter (or mask) is removed once the burn
+ * rises to BURN.igniteLine; the burn then runs on its own timer (BURN.seconds). The filter (or mask) is removed once the burn
  * finishes so 3D tilts and hover effects inside work normally.
  * While it burns (and briefly after), the box carries `data-burning`, so a darkness laid over it can lift to let the flames show.
  */
-export function BurnIn({ children, className = "" }: { children: ReactNode; className?: string }) {
+interface BurnInProps {
+  children: ReactNode;
+  className?: string;
+  /** Where on the screen the block ignites, if not at BURN.igniteLine. */
+  igniteLine?: number;
+}
+
+export function BurnIn({ children, className = "", igniteLine }: BurnInProps) {
   const filterId = `burn-${useId().replace(/[^a-zA-Z0-9-]/g, "")}`;
   const boxRef = useRef<HTMLDivElement>(null);
   const filterRef = useRef<SVGFilterElement>(null);
@@ -117,17 +124,7 @@ export function BurnIn({ children, className = "" }: { children: ReactNode; clas
           gsap.delayedCall(LINGER_SECONDS, () => delete box.dataset.burning);
         },
       });
-      // ignite once when the block is in view, then burn on its own clock, independent of scrolling
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry?.isIntersecting) return;
-          observer.disconnect();
-          burn.play();
-        },
-        { threshold: BURN.visibleShare },
-      );
-      observer.observe(box);
-      return () => observer.disconnect();
+      return igniteWhenSeen(box, () => burn.play(), igniteLine);
     },
     { scope: boxRef },
   );
