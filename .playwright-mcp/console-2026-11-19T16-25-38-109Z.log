@@ -1,0 +1,6 @@
+[     616ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/1qaa_next_dist_1qlsb498phkj8._.js:719
+[     665ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/1qaa_next_dist_1qlsb498phkj8._.js:719
+[    2504ms] [WARNING] [lottie-react] this animation starts by itself and moves for more than five seconds, which needs a way to pause it whenever anything else shares the page (WCAG 2.2.2, level A). <LottieControls> is one; any pause affordance satisfies it. @ http://localhost:3000/_next/static/chunks/1qaa_next_dist_1qlsb498phkj8._.js:719
+[    2660ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3000/_next/static/chunks/1qaa_next_dist_1qlsb498phkj8._.js:719
+[    3003ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3000/_next/static/chunks/1qaa_next_dist_1qlsb498phkj8._.js:719
+[    3967ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3000/_next/static/chunks/1qaa_next_dist_1qlsb498phkj8._.js:719

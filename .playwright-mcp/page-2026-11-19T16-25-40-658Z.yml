@@ -1,0 +1,412 @@
+- generic [active] [ref=e1]:
+  - status [ref=e2]:
+    - generic [ref=e3]:
+      - paragraph [ref=e6]: 000%
+      - paragraph [ref=e7]: Summoning the night
+  - banner [ref=e8]:
+    - navigation "Main" [ref=e9]:
+      - list [ref=e10]:
+        - listitem [ref=e11]:
+          - link "Details" [ref=e12] [cursor=pointer]:
+            - /url: "#details"
+        - listitem [ref=e13]:
+          - link "The Night" [ref=e14] [cursor=pointer]:
+            - /url: "#awaits"
+        - listitem [ref=e15]:
+          - link "Location" [ref=e16] [cursor=pointer]:
+            - /url: "#location"
+      - link "Tickets" [ref=e18] [cursor=pointer]:
+        - /url: "#tickets"
+  - main [ref=e19]:
+    - generic [ref=e20]:
+      - paragraph: OCT 31 2026 · 22:00 — 05:00 · 100 Queen St W
+      - generic:
+        - paragraph: All Hallows' Eve · MMXXVI
+        - heading "Halloween Party" [level=1]:
+          - generic "Halloween":
+            - generic [aria-hidden]:
+              - generic: H
+              - generic: a
+              - generic: l
+              - generic: l
+              - generic: o
+              - generic: w
+              - generic: e
+              - generic: e
+              - generic: "n"
+          - generic "Party":
+            - generic [aria-hidden]:
+              - generic: P
+              - generic: a
+              - generic: r
+              - generic: t
+              - generic: "y"
+        - generic:
+          - paragraph: October 31, from ten until five
+          - paragraph: 100 Queen St W, Toronto, ON
+        - paragraph: Carry the candle · click to wake the bats
+      - generic: Descend
+    - generic [ref=e24]:
+      - generic [ref=e25]: OCT 31 2026
+      - generic [ref=e29]: 22:00 — 05:00
+      - generic [ref=e33]: 100 Queen St W
+      - generic [ref=e37]: Free entry
+      - generic [ref=e41]: BYOB
+      - generic [ref=e45]: Costumes encouraged
+      - generic [ref=e49]: OCT 31 2026
+      - generic [ref=e53]: 22:00 — 05:00
+      - generic [ref=e57]: 100 Queen St W
+      - generic [ref=e61]: Free entry
+      - generic [ref=e65]: BYOB
+      - generic [ref=e69]: Costumes encouraged
+    - generic [ref=e73]:
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - paragraph [ref=e76]: The Rites
+          - heading "The details" [level=2] [ref=e77]:
+            - generic [aria-hidden] [ref=e78]:
+              - generic [ref=e79]: T
+              - generic [ref=e80]: h
+              - generic [ref=e81]: e
+            - generic [aria-hidden] [ref=e83]:
+              - generic [ref=e84]: d
+              - generic [ref=e85]: e
+              - generic [ref=e86]: t
+              - generic [ref=e87]: a
+              - generic [ref=e88]: i
+              - generic [ref=e89]: l
+              - generic [ref=e90]: s
+        - paragraph [ref=e94]: A pop-up Halloween party after dark. Dress to haunt; leave before the sun.
+      - generic [ref=e95]:
+        - generic [ref=e99]:
+          - generic [ref=e100]:
+            - paragraph [ref=e101]: I
+            - paragraph [ref=e102]: When
+          - generic [ref=e103]:
+            - paragraph [ref=e104]: October 31
+            - paragraph [ref=e110]: Saturday, 2026. One night only.
+        - generic [ref=e114]:
+          - generic [ref=e115]:
+            - paragraph [ref=e116]: II
+            - paragraph [ref=e117]: Hours
+          - generic [ref=e118]:
+            - paragraph [ref=e119]: 22:00 — 05:00
+            - paragraph [ref=e125]: Clocks fall back at two — eight full hours of night.
+        - generic [ref=e129]:
+          - generic [ref=e130]:
+            - paragraph [ref=e131]: III
+            - paragraph [ref=e132]: Where
+          - generic [ref=e133]:
+            - paragraph [ref=e134]: 100 Queen St W
+            - paragraph [ref=e140]: Downtown Toronto, Ontario.
+        - generic [ref=e144]:
+          - generic [ref=e145]:
+            - paragraph [ref=e146]: IV
+            - paragraph [ref=e147]: Entry
+          - generic [ref=e148]:
+            - paragraph [ref=e149]: Free
+            - paragraph [ref=e155]: "No fee, no catch, only a faint smell of sulphur. BYOB: bring your own bottle and a bite to share."
+    - region "The night takes flight" [ref=e156]:
+      - generic [ref=e157]:
+        - generic:
+          - paragraph: Move your cursor through the swarm
+          - heading "The night takes flight" [level=2]:
+            - generic "The night":
+              - generic [aria-hidden]:
+                - generic: T
+                - generic: h
+                - generic: e
+              - generic [aria-hidden]:
+                - generic: "n"
+                - generic: i
+                - generic: g
+                - generic: h
+                - generic: t
+            - generic "takes flight":
+              - generic [aria-hidden]:
+                - generic: t
+                - generic: a
+                - generic: k
+                - generic: e
+                - generic: s
+              - generic [aria-hidden]:
+                - generic: f
+                - generic: l
+                - generic: i
+                - generic: g
+                - generic: h
+                - generic: t
+          - paragraph: Doors open at ten; the swarm leaves at dawn.
+    - generic [ref=e160]:
+      - generic [ref=e161]:
+        - paragraph: Click the house to wake the bats
+      - generic [ref=e165]:
+        - paragraph [ref=e166]: What awaits
+        - heading [level=2] [ref=e167]:
+          - generic "Witching" [ref=e168]:
+            - generic [aria-hidden] [ref=e169]:
+              - generic [ref=e170]: W
+              - generic [ref=e171]: i
+              - generic [ref=e172]: t
+              - generic [ref=e173]: c
+              - generic [ref=e174]: h
+              - generic [ref=e175]: i
+              - generic [ref=e176]: "n"
+              - generic [ref=e177]: g
+          - generic "Hours" [ref=e178]:
+            - generic [aria-hidden] [ref=e179]:
+              - generic [ref=e180]: H
+              - generic [ref=e181]: o
+              - generic [ref=e182]: u
+              - generic [ref=e183]: r
+              - generic [ref=e184]: s
+        - list [ref=e185]:
+          - listitem [ref=e186]:
+            - generic [ref=e187]: I
+            - generic [ref=e188]:
+              - paragraph [ref=e189]:
+                - generic [aria-hidden] [ref=e190]: C
+                - generic [aria-hidden] [ref=e191]: o
+                - generic [aria-hidden] [ref=e192]: s
+                - generic [aria-hidden] [ref=e193]: t
+                - generic [aria-hidden] [ref=e194]: u
+                - generic [aria-hidden] [ref=e195]: m
+                - generic [aria-hidden] [ref=e196]: e
+                - generic [aria-hidden] [ref=e197]: s
+                - generic [aria-hidden] [ref=e199]: e
+                - generic [aria-hidden] [ref=e200]: "n"
+                - generic [aria-hidden] [ref=e201]: c
+                - generic [aria-hidden] [ref=e202]: o
+                - generic [aria-hidden] [ref=e203]: u
+                - generic [aria-hidden] [ref=e204]: r
+                - generic [aria-hidden] [ref=e205]: a
+                - generic [aria-hidden] [ref=e206]: g
+                - generic [aria-hidden] [ref=e207]: e
+                - generic [aria-hidden] [ref=e208]: d
+              - paragraph [ref=e209]: Come as the thing that goes bump in the night.
+          - listitem [ref=e210]:
+            - generic [ref=e211]: II
+            - generic [ref=e212]:
+              - paragraph [ref=e213]:
+                - generic [aria-hidden] [ref=e214]: D
+                - generic [aria-hidden] [ref=e215]: a
+                - generic [aria-hidden] [ref=e216]: "n"
+                - generic [aria-hidden] [ref=e217]: c
+                - generic [aria-hidden] [ref=e218]: e
+                - generic [aria-hidden] [ref=e220]: "'"
+                - generic [aria-hidden] [ref=e221]: t
+                - generic [aria-hidden] [ref=e222]: i
+                - generic [aria-hidden] [ref=e223]: l
+                - generic [aria-hidden] [ref=e225]: d
+                - generic [aria-hidden] [ref=e226]: a
+                - generic [aria-hidden] [ref=e227]: w
+                - generic [aria-hidden] [ref=e228]: "n"
+              - paragraph [ref=e229]: 22:00 — 05:00. The party ends when the sun says so.
+          - listitem [ref=e230]:
+            - generic [ref=e231]: III
+            - generic [ref=e232]:
+              - paragraph [ref=e233]:
+                - generic [aria-hidden] [ref=e234]: A
+                - generic [aria-hidden] [ref=e235]: "n"
+                - generic [aria-hidden] [ref=e237]: e
+                - generic [aria-hidden] [ref=e238]: x
+                - generic [aria-hidden] [ref=e239]: t
+                - generic [aria-hidden] [ref=e240]: r
+                - generic [aria-hidden] [ref=e241]: a
+                - generic [aria-hidden] [ref=e243]: h
+                - generic [aria-hidden] [ref=e244]: o
+                - generic [aria-hidden] [ref=e245]: u
+                - generic [aria-hidden] [ref=e246]: r
+                - generic [aria-hidden] [ref=e248]: o
+                - generic [aria-hidden] [ref=e249]: f
+                - generic [aria-hidden] [ref=e251]: d
+                - generic [aria-hidden] [ref=e252]: a
+                - generic [aria-hidden] [ref=e253]: r
+                - generic [aria-hidden] [ref=e254]: k
+              - paragraph [ref=e255]: Daylight saving ends mid-party — clocks fall back at two.
+          - listitem [ref=e256]:
+            - generic [ref=e257]: IV
+            - generic [ref=e258]:
+              - paragraph [ref=e259]:
+                - generic [aria-hidden] [ref=e260]: O
+                - generic [aria-hidden] [ref=e261]: "n"
+                - generic [aria-hidden] [ref=e262]: e
+                - generic [aria-hidden] [ref=e264]: "n"
+                - generic [aria-hidden] [ref=e265]: i
+                - generic [aria-hidden] [ref=e266]: g
+                - generic [aria-hidden] [ref=e267]: h
+                - generic [aria-hidden] [ref=e268]: t
+                - generic [aria-hidden] [ref=e270]: o
+                - generic [aria-hidden] [ref=e271]: "n"
+                - generic [aria-hidden] [ref=e272]: l
+                - generic [aria-hidden] [ref=e273]: "y"
+              - paragraph [ref=e274]: A pop-up at 100 Queen St W, gone by morning.
+        - paragraph [ref=e275]: Event details coming soon
+    - generic [ref=e278]:
+      - generic [ref=e279]: OCT 31 2026
+      - generic [ref=e283]: 22:00 — 05:00
+      - generic [ref=e287]: 100 Queen St W
+      - generic [ref=e291]: Free entry
+      - generic [ref=e295]: BYOB
+      - generic [ref=e299]: Costumes encouraged
+      - generic [ref=e303]: OCT 31 2026
+      - generic [ref=e307]: 22:00 — 05:00
+      - generic [ref=e311]: 100 Queen St W
+      - generic [ref=e315]: Free entry
+      - generic [ref=e319]: BYOB
+      - generic [ref=e323]: Costumes encouraged
+    - generic [ref=e327]:
+      - generic [ref=e330]:
+        - generic [ref=e331]:
+          - paragraph [ref=e332]: Admission
+          - heading "Tickets" [level=2] [ref=e333]:
+            - generic [aria-hidden] [ref=e334]:
+              - generic [ref=e335]: T
+              - generic [ref=e336]: i
+              - generic [ref=e337]: c
+              - generic [ref=e338]: k
+              - generic [ref=e339]: e
+              - generic [ref=e340]: t
+              - generic [ref=e341]: s
+        - paragraph [ref=e342]: Entry costs nothing. Not a cent, not a coin, not even your soul (we checked; it doesn't fit in the till). It's BYOB, so bring your own bottle and something to nibble. Touch a ticket to turn it over.
+      - generic [ref=e343]:
+        - button "Advance ticket, free. BYOB · bring your own bottle & bites. Show details" [ref=e347]:
+          - generic [ref=e348]:
+            - generic [ref=e349]:
+              - generic [ref=e350]:
+                - paragraph [ref=e351]: Admit one · Nº 1031
+                - generic [ref=e352]:
+                  - paragraph [ref=e353]: Advance
+                  - paragraph [ref=e354]: Book early, pay nothing
+                  - paragraph [ref=e355]: BYOB · bring your own bottle & bites
+              - generic [ref=e356]:
+                - generic [ref=e357]: CAD
+                - generic [ref=e358]: $0
+            - generic [ref=e359]:
+              - paragraph [ref=e360]: Halloween Party
+              - paragraph [ref=e366]: October 31 · 22:00 — 05:00
+              - paragraph [ref=e367]: 100 Queen St W, Toronto, ON
+              - paragraph [ref=e368]: Hosted by Massh
+        - button "At the door ticket, free. BYOB · bring your own bottle & bites. Show details" [ref=e372]:
+          - generic [ref=e373]:
+            - generic [ref=e374]:
+              - generic [ref=e375]:
+                - paragraph [ref=e376]: Admit one · Nº 1032
+                - generic [ref=e377]:
+                  - paragraph [ref=e378]: At the door
+                  - paragraph [ref=e379]: Turn up late, still pay nothing
+                  - paragraph [ref=e380]: BYOB · bring your own bottle & bites
+              - generic [ref=e381]:
+                - generic [ref=e382]: CAD
+                - generic [ref=e383]: $0
+            - generic [ref=e384]:
+              - paragraph [ref=e385]: Halloween Party
+              - paragraph [ref=e391]: October 31 · 22:00 — 05:00
+              - paragraph [ref=e392]: 100 Queen St W, Toronto, ON
+              - paragraph [ref=e393]: Hosted by Massh
+      - paragraph [ref=e396]: Booking details coming soon
+    - generic [ref=e398]:
+      - generic [ref=e399]:
+        - paragraph [ref=e400]: Find the house
+        - heading [level=2] [ref=e401]:
+          - generic "100 Queen" [ref=e402]:
+            - generic [aria-hidden] [ref=e403]:
+              - generic [ref=e404]: "1"
+              - generic [ref=e405]: "0"
+              - generic [ref=e406]: "0"
+            - generic [aria-hidden] [ref=e408]:
+              - generic [ref=e409]: Q
+              - generic [ref=e410]: u
+              - generic [ref=e411]: e
+              - generic [ref=e412]: e
+              - generic [ref=e413]: "n"
+          - generic "Street West" [ref=e414]:
+            - generic [aria-hidden] [ref=e415]:
+              - generic [ref=e416]: S
+              - generic [ref=e417]: t
+              - generic [ref=e418]: r
+              - generic [ref=e419]: e
+              - generic [ref=e420]: e
+              - generic [ref=e421]: t
+            - generic [aria-hidden] [ref=e423]:
+              - generic [ref=e424]: W
+              - generic [ref=e425]: e
+              - generic [ref=e426]: s
+              - generic [ref=e427]: t
+        - generic [ref=e428]:
+          - paragraph [ref=e434]: Downtown Toronto, Ontario
+          - link "Open in maps ↗" [ref=e437] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=100%20Queen%20St%20W%2C%20Toronto%2C%20ON
+      - iframe [ref=e441]
+  - contentinfo [ref=e442]:
+    - heading [level=2] [ref=e443]:
+      - generic "See you" [ref=e444]:
+        - generic [aria-hidden] [ref=e445]:
+          - generic [ref=e446]: S
+          - generic [ref=e447]: e
+          - generic [ref=e448]: e
+        - generic [aria-hidden] [ref=e450]:
+          - generic [ref=e451]: "y"
+          - generic [ref=e452]: o
+          - generic [ref=e453]: u
+      - generic "in the dark" [ref=e454]:
+        - generic [aria-hidden] [ref=e455]:
+          - generic [ref=e456]: i
+          - generic [ref=e457]: "n"
+        - generic [aria-hidden] [ref=e459]:
+          - generic [ref=e460]: t
+          - generic [ref=e461]: h
+          - generic [ref=e462]: e
+        - generic [aria-hidden] [ref=e464]:
+          - generic [ref=e465]: d
+          - generic [ref=e466]: a
+          - generic [ref=e467]: r
+          - generic [ref=e468]: k
+    - generic [ref=e474]:
+      - paragraph [ref=e475]:
+        - text: Hosted by Massh
+        - link "Instagram @masaknd_dsgn" [ref=e476] [cursor=pointer]:
+          - /url: https://www.instagram.com/masaknd_dsgn/
+      - paragraph [ref=e477]: OCT 31 2026 · 22:00 — 05:00
+      - button "Return to the top ↑" [ref=e478]
+    - paragraph [ref=e479]:
+      - text: "3D haunted house:"
+      - 'link "“{(Hauntedhouse)}~✖~#009”" [ref=e480] [cursor=pointer]':
+        - /url: https://sketchfab.com/3d-models/hauntedhouse009-6bf9eaa5ab8e4d14b2e4c0a1fafdd2b7
+      - text: by
+      - link "-X-ScornGames" [ref=e481] [cursor=pointer]:
+        - /url: https://sketchfab.com/XX-XX
+      - text: ", licensed under"
+      - link "CC BY 4.0" [ref=e482] [cursor=pointer]:
+        - /url: https://creativecommons.org/licenses/by/4.0/
+      - text: "; modified (simplified, compressed).3D candles:"
+      - link "“Candles set”" [ref=e483] [cursor=pointer]:
+        - /url: https://sketchfab.com/3d-models/candles-set-f09212756bc94764a8bcfcd3c7e38f8e
+      - text: by
+      - link "shuvalov.di" [ref=e484] [cursor=pointer]:
+        - /url: https://sketchfab.com/shuvalov.di
+      - text: ", licensed under"
+      - link "CC BY-SA 4.0" [ref=e485] [cursor=pointer]:
+        - /url: https://creativecommons.org/licenses/by-sa/4.0/
+      - text: "; modified (compressed), and the modified model is shared under the same licence.Wax seals on the tickets:"
+      - link "“Red wax seals set for letter and envelope”" [ref=e486] [cursor=pointer]:
+        - /url: https://www.magnific.com/free-vector/red-wax-seals-set-letter-envelope_8631161.htm
+      - text: by
+      - link "upklyak" [ref=e487] [cursor=pointer]:
+        - /url: https://www.magnific.com/author/upklyak
+      - text: ", designed by"
+      - link "Magnific" [ref=e488] [cursor=pointer]:
+        - /url: https://www.magnific.com
+      - text: ", licensed under the"
+      - link "Magnific Free License" [ref=e489] [cursor=pointer]:
+        - /url: https://www.magnific.com/ai/docs/licenses-attribution
+      - text: ; modified (cut out and pressed with a bat emblem).
+  - generic [ref=e494] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e495]
+    - generic [ref=e499]:
+      - button "Open issues overlay" [ref=e500]:
+        - generic [ref=e501]:
+          - generic [aria-hidden] [ref=e502]: "0"
+          - generic [ref=e503]: "1"
+        - generic [ref=e504]: Insight
+      - button "Collapse issues badge" [ref=e505]
