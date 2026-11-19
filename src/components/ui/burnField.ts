@@ -3,9 +3,12 @@
 import { createRandom } from "../../lib/random";
 
 export const BURN = {
-  /** A quick flash of flame, slow enough to catch mid-scroll; the ease follows the hero portrait's burn-in (GothicScene). */
+  /**
+   * A quick burn, slow enough to catch mid-scroll. The gentle ease keeps flame on the block for nearly all of it: it
+   * catches within a fifth of a second, and its last embers die out just as the time runs out.
+   */
   seconds: 1.2,
-  ease: "power2.inOut",
+  ease: "sine.inOut",
   /**
    * How far down the screen (0 = top, 1 = bottom, past 1 = below it) a block's top must rise before it ignites, unless
    * the block sets its own: about where the eye rests while scrolling, so it burns where it is seen.
@@ -38,8 +41,11 @@ export function igniteWhenSeen(element: Element, onIgnite: () => void, line: num
   return () => observer.disconnect();
 }
 
-/** Reveal progress 0..1 → the noise level the front has burnt through, as in the hero shader. */
-export const burnFront = (reveal: number): number => reveal * 1.25 - 0.12;
+/**
+ * Reveal progress 0..1 → the noise level the front has burnt through. It starts just short of the first spark and ends
+ * a rim's width past the last, so the block burns right up to the end and its last embers go out as the burn finishes.
+ */
+export const burnFront = (reveal: number): number => reveal * (1 + BURN.rim + BURN.edge) - BURN.edge;
 
 const OCTAVES = 4;
 const smooth = (t: number): number => t * t * (3 - 2 * t);
@@ -66,8 +72,22 @@ function valueNoise(columns: number, rows: number, cellsAcross: number, seed: nu
 }
 
 /**
- * A `columns` × `rows` fractal noise field rescaled to exactly 0..1, so the front sweeps the whole of it. Its blotches
- * stay round whatever the shape, so a wide block burns like a square one.
+ * Fractal noise piles up around its middle, which made the whole block burn open in a flash halfway through. Ranking
+ * the cells spreads them evenly over 0..1 (keeping their order, so the blotches keep their shape), so the front burns
+ * as much new ground at every step, from the first spark at 0 to the last ember at 1.
+ */
+function spreadEvenly(values: Float32Array): Float32Array {
+  const order = Array.from(values.keys()).sort((a, b) => values[a] - values[b]);
+  const ranked = new Float32Array(values.length);
+  order.forEach((cell, rank) => {
+    ranked[cell] = rank / Math.max(values.length - 1, 1);
+  });
+  return ranked;
+}
+
+/**
+ * A `columns` × `rows` fractal noise field spread evenly over 0..1 (see spreadEvenly). Its blotches stay round whatever
+ * the shape, so a wide block burns like a square one.
  */
 export function burnField(columns: number, rows: number, seed: number): Float32Array {
   const layers = Array.from({ length: OCTAVES }, (_, octave) =>
@@ -76,8 +96,7 @@ export function burnField(columns: number, rows: number, seed: number): Float32A
   const summed = Float32Array.from({ length: columns * rows }, (_, index) =>
     layers.reduce((total, layer, octave) => total + layer[index] / 2 ** (octave + 1), 0),
   );
-  const [low, high] = [Math.min(...summed), Math.max(...summed)];
-  return summed.map((value) => (value - low) / Math.max(high - low, 1e-6));
+  return spreadEvenly(summed);
 }
 
 /**

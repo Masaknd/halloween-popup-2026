@@ -1,10 +1,10 @@
 "use client";
 
 import { useRef, type CSSProperties, type ReactNode } from "react";
-import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { BURN, burnField, igniteWhenSeen } from "./burnField";
 import { HIDDEN_MASK, paintBurn, setMask } from "./burnMask";
+import { burnTimeline } from "./burnTimeline";
 
 /** Cells across the (square) burn mask; the round map it opens is about as tall as it is wide. */
 const MASK_SIZE = 96;
@@ -39,13 +39,8 @@ export function BurnReveal({ children, className = "", style, igniteLine }: Burn
     }
     const field = burnField(MASK_SIZE, MASK_SIZE, SEED);
     const mask = Object.assign(document.createElement("canvas"), { width: MASK_SIZE, height: MASK_SIZE });
-    const progress = { value: 0 };
-    const burn = gsap.to(progress, {
-      value: 1,
-      duration: BURN.seconds,
-      ease: BURN.ease,
-      paused: true,
-      onUpdate: () => paintBurn(field, progress.value, mask, ember, box),
+    const burn = burnTimeline({
+      paint: (reveal) => paintBurn(field, reveal, mask, ember, box),
       onComplete: () => {
         setMask(box, "none");
         ember.getContext("2d")?.clearRect(0, 0, MASK_SIZE, MASK_SIZE);

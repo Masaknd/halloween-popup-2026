@@ -11,6 +11,14 @@ describe("burnField", () => {
     expect(burnField(SIZE, SIZE, 7)).not.toEqual(burnField(SIZE, SIZE, 8));
   });
 
+  test("spreads evenly over 0..1, so the front burns as much of the block at every step", () => {
+    const field = burnField(SIZE, SIZE, 7);
+    [0.1, 0.5, 0.9].forEach((level) => {
+      const below = field.filter((value) => value < level).length / field.length;
+      expect(Math.abs(below - level)).toBeLessThan(0.02);
+    });
+  });
+
   test("covers the whole 0..1 range so the front sweeps from first spark to last ember", () => {
     const field = burnField(SIZE, SIZE, 7);
     expect(field).toHaveLength(SIZE * SIZE);
@@ -37,6 +45,21 @@ describe("burnMasks", () => {
 
   test("shows everything once the burn is done", () => {
     expect(count(burnMasks(field, 1).shown, (value) => value < 255)).toBe(0);
+  });
+
+  test("burns open steadily, still taking new ground late in the burn rather than all at once midway", () => {
+    const burntAt = (reveal: number): number =>
+      burnMasks(field, reveal).shown.reduce((total, value) => total + value / 255, 0) / field.length;
+    expect(burntAt(0.25)).toBeGreaterThan(0.15);
+    expect(burntAt(0.25)).toBeLessThan(0.4);
+    expect(burntAt(0.5)).toBeGreaterThan(0.4);
+    expect(burntAt(0.5)).toBeLessThan(0.7);
+    expect(burntAt(0.75)).toBeLessThan(0.95);
+  });
+
+  test("the last embers go out exactly as the burn ends, not before", () => {
+    expect(count(burnMasks(field, 0.97).rim, (value) => value > 0)).toBeGreaterThan(0);
+    expect(count(burnMasks(field, 1).rim, (value) => value > 0)).toBe(0);
   });
 
   test("midway, part is shown and an ember rim glows only along the revealed edge", () => {
